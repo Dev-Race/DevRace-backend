@@ -17,7 +17,7 @@ jobs:
         with:
           payload: |
             {
-              "channel": ${{ secrets.SLACK_CHANNEL }},
+              "channel": "C06FGQEQ1CP",
               "attachments": [
                 {
                   "color": "#f6f703",

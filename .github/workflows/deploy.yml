@@ -72,7 +72,7 @@ jobs:
         with:
           payload: |
             {
-              "channel": ${{ secrets.SLACK_CHANNEL }},
+              "channel": "C06FGQEQ1CP",
               "attachments": [
                 {
                   "color": "#36a64f",
@@ -106,7 +106,7 @@ jobs:
         with:
           payload: |
             {
-              "channel": ${{ secrets.SLACK_CHANNEL }},
+              "channel": "C06FGQEQ1CP",
               "attachments": [
                 {
                   "color": "#ff0000",
