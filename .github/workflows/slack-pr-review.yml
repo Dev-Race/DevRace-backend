@@ -21,9 +21,9 @@ jobs:
               "channel": ${{ secrets.SLACK_CHANNEL }},
               "attachments": [
                 {
-                  "color": "#0e5fd5",  # blue color
+                  "color": "#0e5fd5",
                   "title": ":speech_balloon: Review Pull-Request",
-                  "title_link": "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}",  # 제목 클릭시 PR로 이동
+                  "title_link": "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}",
                   "text": "PR 리뷰 제출 or 코멘트 생성 및 편집",
                   "fields": [
                     {

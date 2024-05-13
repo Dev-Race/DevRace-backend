@@ -20,9 +20,9 @@ jobs:
               "channel": ${{ secrets.SLACK_CHANNEL }},
               "attachments": [
                 {
-                  "color": "#f6f703",  # yellow color
+                  "color": "#f6f703",
                   "title": ":bulb: New Pull-Request",
-                  "title_link": "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}",  # 제목 클릭시 PR로 이동
+                  "title_link": "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}",
                   "text": "새로운 PR 오픈",
                   "fields": [
                     {

@@ -75,9 +75,9 @@ jobs:
               "channel": ${{ secrets.SLACK_CHANNEL }},
               "attachments": [
                 {
-                  "color": "#36a64f",  # green color
+                  "color": "#36a64f",
                   "title": ":white_check_mark: Success CI/CD",
-                  "title_link": "https://github.com/${{github.repository}}",  # 제목 클릭시 레포지토리로 이동
+                  "title_link": "https://github.com/${{github.repository}}",
                   "text": "배포 성공",
                   "fields": [
                     {
@@ -109,9 +109,9 @@ jobs:
               "channel": ${{ secrets.SLACK_CHANNEL }},
               "attachments": [
                 {
-                  "color": "#ff0000",  # red color
+                  "color": "#ff0000",
                   "title": ":x: Fail CI/CD",
-                  "title_link": "https://github.com/${{github.repository}}",  # 제목 클릭시 레포지토리로 이동
+                  "title_link": "https://github.com/${{github.repository}}",
                   "text": "배포 실패",
                   "fields": [
                     {
