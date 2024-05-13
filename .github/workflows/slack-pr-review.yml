@@ -13,7 +13,40 @@ jobs:
 
       ### Slack Alarm for PR review ###
       - name: Notify Slack on PR review
-        id: slack-success
+        if: ${{ github.event_name == 'pull_request_review' }}
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "channel": "C06FGQEQ1CP",
+              "attachments": [
+                {
+                  "color": "#52c7d9",
+                  "title": ":memo:  PR Review",
+                  "title_link": "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}",
+                  "text": "'${{ github.event.pull_request.user.login }}'의 PR에 '${{ github.event.review.user.login }}'가 리뷰를 남겼습니다.",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}",
+                      "short": true
+                    },
+                    {
+                      "title": "PR Number",
+                      "value": "${{ github.event.pull_request.number }}",
+                      "short": true
+                    }
+                  ]      
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+      ### Slack Alarm for PR review comment ###
+      - name: Notify Slack on PR review comment
+        if: ${{ github.event_name == 'pull_request_review_comment' }}
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
@@ -22,9 +55,9 @@ jobs:
               "attachments": [
                 {
                   "color": "#0e5fd5",
-                  "title": ":speech_balloon: Review Pull-Request",
+                  "title": ":speech_balloon:  PR Review Comment",
                   "title_link": "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}",
-                  "text": "PR 리뷰 제출 or 코멘트 생성 및 편집",
+                  "text": "'${{ github.event.pull_request.user.login }}'의 PR에 '${{ github.event.comment.user.login }}'가 리뷰 코멘트를 남겼습니다.",
                   "fields": [
                     {
                       "title": "Repository",
@@ -32,8 +65,8 @@ jobs:
                       "short": true
                     },
                     {
-                      "title": "PR_Branch",
-                      "value": "${{ github.head_ref }}",
+                      "title": "PR Number",
+                      "value": "${{ github.event.pull_request.number }}",
                       "short": true
                     }
                   ]      
