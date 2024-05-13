@@ -1,0 +1,133 @@
+name: Project CI/CD
+
+on:
+  pull_request:
+    types: [ closed ]  # Pull Request가 닫힐 때만 트리거됨
+  workflow_dispatch:  # GitHub UI 수동 실행도 가능
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # 닫힌 Pull Request가 실제로 merge 되었을때 && Pull Request가 develop 브랜치로 merge 되는 방향일때
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'develop'
+    steps:
+
+      ### Set Up ###
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'adopt'
+
+      ### Gradle ###
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      ### Docker ###
+      - name: Docker build
+        run: |
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker build -t devrace-image .
+          docker tag devrace-image sahyunjin/devrace-image:latest
+          docker push sahyunjin/devrace-image:latest
+
+      ### Time ###
+      - name: Get Current Time
+        uses: 1466587594/get-current-time@v2
+        id: current-ksttime
+        with:
+          format: YYYY-MM-DDTHH:mm:ss
+          utcOffset: "+09:00"  # KST time = UTC time + 9hour
+
+      ### ZIP file ###
+      - name: Generate deployment package
+        run: |
+          mkdir -p deploy
+          cp -r .ebextensions deploy/.ebextensions
+          cp Dockerrun.aws.json deploy/Dockerrun.aws.json
+          cd deploy && zip -r deploy.zip .
+
+      ### AWS Elastic Beanstalk ###
+      - name: Beanstalk Deploy
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: devrace-app
+          environment_name: Devrace-env
+          version_label: "github-action--${{ steps.current-ksttime.outputs.formattedTime }}"
+          region: ap-northeast-2
+          deployment_package: deploy/deploy.zip
+          wait_for_deployment: false
+
+      ### Slack Alarm for success deploy ###
+      - name: Notify Slack on Success
+        if: success()
+        id: slack-success
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "channel": "C06FGQEQ1CP",
+              "attachments": [
+                {
+                  "color": "#36a64f",
+                  "title": ":white_check_mark:  Success CI/CD",
+                  "title_link": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "text": "'${{ github.event.pull_request.user.login }}'의 배포가 성공했습니다.",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.event.pull_request.head.ref }}",
+                      "short": true
+                    }
+                  ]      
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+      ### Slack Alarm for fail deploy ###
+      - name: Notify Slack on Failure
+        if: failure()
+        id: slack-failure
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "channel": "C06FGQEQ1CP",
+              "attachments": [
+                {
+                  "color": "#ff0000",
+                  "title": ":x:  Fail CI/CD",
+                  "title_link": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "text": "'${{ github.event.pull_request.user.login }}'의 배포가 실패했습니다.",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.event.pull_request.head.ref }}",
+                      "short": true
+                    }
+                  ]      
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

@@ -1,0 +1,44 @@
+name: Slack Alarm for PR open
+
+on:
+  pull_request:
+    types: [opened]  # Pull Request가 새로 열렸을때
+    branches: [ develop ]  # 다른 브랜치에서 develop 브랜치를 향하는 경우
+
+jobs:
+  notify-slack:
+    runs-on: ubuntu-latest
+    steps:
+
+      ### Slack Alarm for new PR ###
+      - name: Notify Slack on PR open
+        id: slack-success
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "channel": "C06FGQEQ1CP",
+              "attachments": [
+                {
+                  "color": "#f6f703",
+                  "title": ":bulb:  New Pull-Request",
+                  "title_link": "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}",
+                  "text": "'${{ github.event.pull_request.user.login }}'의 PR이 오픈되었습니다.",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}",
+                      "short": true
+                    },
+                    {
+                      "title": "PR_Branch",
+                      "value": "${{ github.event.pull_request.head.ref }}",
+                      "short": true
+                    }
+                  ]      
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
