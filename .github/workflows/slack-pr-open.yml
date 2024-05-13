@@ -21,9 +21,9 @@ jobs:
               "attachments": [
                 {
                   "color": "#f6f703",
-                  "title": ":bulb: New Pull-Request",
+                  "title": ":bulb:  New Pull-Request",
                   "title_link": "https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}",
-                  "text": "새로운 PR 오픈",
+                  "text": "'${{ github.event.pull_request.user.login }}'의 PR이 오픈되었습니다.",
                   "fields": [
                     {
                       "title": "Repository",
@@ -32,7 +32,7 @@ jobs:
                     },
                     {
                       "title": "PR_Branch",
-                      "value": "${{ github.head_ref }}",
+                      "value": "${{ github.event.pull_request.head.ref }}",
                       "short": true
                     }
                   ]      

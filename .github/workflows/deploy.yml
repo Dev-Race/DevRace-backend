@@ -76,9 +76,9 @@ jobs:
               "attachments": [
                 {
                   "color": "#36a64f",
-                  "title": ":white_check_mark: Success CI/CD",
-                  "title_link": "https://github.com/${{github.repository}}",
-                  "text": "배포 성공",
+                  "title": ":white_check_mark:  Success CI/CD",
+                  "title_link": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "text": "'${{ github.event.pull_request.user.login }}'의 배포가 성공했습니다.",
                   "fields": [
                     {
                       "title": "Repository",
@@ -87,7 +87,7 @@ jobs:
                     },
                     {
                       "title": "Branch",
-                      "value": "${{ github.ref_name }}",
+                      "value": "${{ github.event.pull_request.head.ref }}",
                       "short": true
                     }
                   ]      
@@ -110,9 +110,9 @@ jobs:
               "attachments": [
                 {
                   "color": "#ff0000",
-                  "title": ":x: Fail CI/CD",
-                  "title_link": "https://github.com/${{github.repository}}",
-                  "text": "배포 실패",
+                  "title": ":x:  Fail CI/CD",
+                  "title_link": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                  "text": "'${{ github.event.pull_request.user.login }}'의 배포가 실패했습니다.",
                   "fields": [
                     {
                       "title": "Repository",
@@ -121,7 +121,7 @@ jobs:
                     },
                     {
                       "title": "Branch",
-                      "value": "${{ github.ref_name }}",
+                      "value": "${{ github.event.pull_request.head.ref }}",
                       "short": true
                     }
                   ]      
