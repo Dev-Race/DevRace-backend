@@ -50,11 +50,11 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// WebSocket & Stomp
-//	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	// rabbitMQ
-//	implementation 'org.springframework.boot:spring-boot-starter-amqp'
-//	implementation 'org.springframework.boot:spring-boot-starter-reactor-netty:3.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-reactor-netty:3.0.0'
 
 	// AWS S3
 //	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
