@@ -1,5 +1,11 @@
 name: Project CI/CD
 
+# < CI/CD 이전에 먼저 호출해야만 하는 목록 - submodule 최신화 >
+# git submodule update --remote
+# git add .
+# git commit -m "[#이슈번호] Setting: Git Submodule 최신화"
+# git push
+
 on:
   pull_request:
     types: [ closed ]  # Pull Request가 닫힐 때만 트리거됨
@@ -15,6 +21,9 @@ jobs:
       ### Set Up ###
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.SUBMODULE_GITHUB_TOKEN }}
+          submodules: true
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
