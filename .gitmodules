@@ -1,0 +1,4 @@
+[submodule "submodule-backend"]
+	path = submodule-backend
+	url = https://github.com/Dev-Race/submodule-backend.git
+	branch = main
