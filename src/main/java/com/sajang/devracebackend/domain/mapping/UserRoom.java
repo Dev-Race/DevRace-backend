@@ -29,10 +29,10 @@ public class UserRoom extends BaseEntity implements Serializable {
 
     @Column(columnDefinition = "TEXT")
     private String code;
-    @Column(name = "is_pass",columnDefinition = "TINYINT default 0")
-    private boolean isPass;
-    @Column(name = "is_leave",columnDefinition = "TINYINT default 0")
-    private boolean isLeave;
+    @Column(name = "is_pass", columnDefinition = "TINYINT(1) default 0", length = 1)
+    private Integer isPass;
+    @Column(name = "is_leave", columnDefinition = "TINYINT(1) default 0", length = 1)
+    private Integer isLeave;
     @Column(name = "leave_time")
     private LocalDateTime leaveTime;
 
