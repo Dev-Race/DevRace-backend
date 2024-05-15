@@ -1,14 +1,14 @@
 package com.sajang.devracebackend.controller;
 
-import com.sajang.devracebackend.service.RoomService;
+import com.sajang.devracebackend.service.ChatService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Room")
+@Tag(name = "Chat")
 @RestController
 @RequiredArgsConstructor
-public class RoomController {
+public class ChatController {
 
-    private final RoomService chatService;
+    private final ChatService chatService;
 }

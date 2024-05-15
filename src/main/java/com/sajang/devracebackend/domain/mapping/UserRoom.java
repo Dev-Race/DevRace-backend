@@ -1,8 +1,9 @@
 package com.sajang.devracebackend.domain.mapping;
 
 import com.sajang.devracebackend.domain.common.BaseEntity;
-import com.sajang.devracebackend.domain.room.Room;
-import com.sajang.devracebackend.domain.user.User;
+import com.sajang.devracebackend.domain.enums.Language;
+import com.sajang.devracebackend.domain.Room;
+import com.sajang.devracebackend.domain.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,18 +27,17 @@ public class UserRoom extends BaseEntity implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Language language;
 
-
     @Column(columnDefinition = "TEXT")
     private String code;
+
     @Column(name = "is_pass", columnDefinition = "TINYINT(1) default 0", length = 1)
     private Integer isPass;
+
     @Column(name = "is_leave", columnDefinition = "TINYINT(1) default 0", length = 1)
     private Integer isLeave;
+
     @Column(name = "leave_time")
     private LocalDateTime leaveTime;
-
-
-
 
     @ManyToOne(fetch = FetchType.LAZY)  // User-UserRoom 양방향매핑
     @JoinColumn(name = "user_id")

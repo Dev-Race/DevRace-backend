@@ -1,6 +1,4 @@
-package com.sajang.devracebackend.domain.room;
-
-
+package com.sajang.devracebackend.domain.enums;
 
 public enum RoomState {
     WAIT, START, FINISH

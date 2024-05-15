@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
     @CreatedDate
-    @Column(name = "created_time", updatable = false)
+    @Column(name = "created_time", updatable = false)  // Role이 GUEST에서 USER로 변환되지않은 상태라도, GUEST로 접근을 한번이라도 했었다면, 그 기준으로 잡았음.
     private LocalDateTime createdTime;
 
     @LastModifiedDate
