@@ -5,8 +5,11 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Arrays;
 
 @Configuration
 public class SwaggerConfig {
@@ -28,10 +31,18 @@ public class SwaggerConfig {
                                 .description("'Bearer '을 제외한 Access Token 입력하세요.")
                 );
 
+        Server localServer = new Server();
+        localServer.description("Http local server")
+                .url("http://localhost:8080");
+        Server prodServer = new Server();
+        prodServer.description("Https prod server")
+                .url("https://www.dev-race.site");
+
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
                 .components(components)
-                .info(apiInfo());
+                .info(apiInfo())
+                .servers(Arrays.asList(prodServer, localServer));
     }
 
     private Info apiInfo() {
