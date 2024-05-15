@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import java.util.TimeZone;
 
 // @EnableJpaAuditing
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})  // 데이터베이스 사용시 해제할것.
+@SpringBootApplication//(exclude={DataSourceAutoConfiguration.class})  // 데이터베이스 사용시 해제할것.
 public class DevraceBackendApplication {
 
 	@PostConstruct
