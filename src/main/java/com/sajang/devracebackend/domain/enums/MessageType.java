@@ -1,4 +1,4 @@
-package com.sajang.devracebackend.domain.chat;
+package com.sajang.devracebackend.domain.enums;
 
 public enum MessageType {
     ENTER, TALK, LEAVE, RANK
