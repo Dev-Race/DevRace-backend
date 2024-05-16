@@ -19,6 +19,9 @@ public class Problem extends BaseEntity implements Serializable {
     @Column(name = "problem_id")
     private Long id;
 
+    @Column(name = "number", unique = true)
+    private Integer number;
+
     private String title;
 
     @Column(name = "content", columnDefinition = "TEXT")

@@ -22,9 +22,6 @@ public class Room extends BaseEntity implements Serializable{
     @Column(name = "room_id")
     private Long id;
 
-    @Column(name = "room_name")
-    private String roomName;
-
     @Column(name = "link", unique = true)
     private String link;
 
