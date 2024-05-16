@@ -4,7 +4,7 @@ import com.sajang.devracebackend.response.responseitem.StatusItem;
 import lombok.Getter;
 
 @Getter
-public class CustomException500 extends RuntimeException {
+public abstract class CustomException500 extends RuntimeException {
 
     private Integer errorStatus;
     private String errorMessage;
