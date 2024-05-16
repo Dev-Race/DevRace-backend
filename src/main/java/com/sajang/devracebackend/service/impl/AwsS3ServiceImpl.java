@@ -3,6 +3,7 @@ package com.sajang.devracebackend.service.impl;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.sajang.devracebackend.response.exception.exception500.AwsS3ServerException;
 import com.sajang.devracebackend.service.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class AwsS3ServiceImpl implements AwsS3Service {
 
     @Transactional
     @Override
-    public void deleteImage(String fileUrl) {
+    public void deleteImage(String fileUrl) {  // 차후 프로필 사진을 기본이미지로 변경시 사용 예정 메소드
         String fileName = fileUrl.split(".com/")[1];
 
         try {
@@ -53,15 +54,7 @@ public class AwsS3ServiceImpl implements AwsS3Service {
             log.info("Success File Delete - deleteFileName: {}, deleteFileUrl: {}", fileName, fileUrl);
         } catch (AmazonServiceException e) {
             log.info("Error File Delete - errorFileName: {}, errorFileUrl: {}", fileName, fileUrl);
+            throw new AwsS3ServerException();
         }
-    }
-
-    @Transactional
-    @Override
-    public void modifyImage(String deleteFileUrl, MultipartFile newfile) throws IOException {  // 삭제할 이미지url, 새로넣을 이미지파일
-        deleteImage(deleteFileUrl);
-        String fileUrl = uploadImage(newfile);
-
-        log.info("Success File modify - modifyFileUrl: {}", fileUrl);
     }
 }
