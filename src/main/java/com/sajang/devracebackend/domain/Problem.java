@@ -2,6 +2,7 @@ package com.sajang.devracebackend.domain;
 
 import com.sajang.devracebackend.domain.common.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +21,7 @@ public class Problem extends BaseEntity implements Serializable {
     private Long id;
 
     @Column(name = "number", unique = true)
-    private Integer number;
+    private Integer number; //백준 문제번호
 
     private String title;
 
@@ -45,4 +46,18 @@ public class Problem extends BaseEntity implements Serializable {
     @Column(name = "sample_output")
     private String sampleOutput;  // 예제 출력
 
+
+    @Builder
+    public Problem(Long id, Integer number, String title, String content, String imageUrl, String problemInput, String problemOutput, String problemLimit, String sampleInput, String sampleOutput) {
+        this.id = id;
+        this.number = number;
+        this.title = title;
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.problemInput = problemInput;
+        this.problemOutput = problemOutput;
+        this.problemLimit = problemLimit;
+        this.sampleInput = sampleInput;
+        this.sampleOutput = sampleOutput;
+    }
 }
