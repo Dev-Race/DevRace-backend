@@ -55,4 +55,13 @@ public class AwsS3ServiceImpl implements AwsS3Service {
             log.info("Error File Delete - errorFileName: {}, errorFileUrl: {}", fileName, fileUrl);
         }
     }
+
+    @Transactional
+    @Override
+    public void modifyImage(String deleteFileUrl, MultipartFile newfile) throws IOException {  // 삭제할 이미지url, 새로넣을 이미지파일
+        deleteImage(deleteFileUrl);
+        String fileUrl = uploadImage(newfile);
+
+        log.info("Success File modify - modifyFileUrl: {}", fileUrl);
+    }
 }
