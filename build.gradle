@@ -58,7 +58,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-reactor-netty:3.0.0'
 
 	// AWS S3
-//	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
 	implementation('org.slf4j:jcl-over-slf4j')
 	implementation('ch.qos.logback:logback-classic')
