@@ -1,5 +1,4 @@
-package com.sajang.devracebackend.dto.solvedcount;
-
+package com.sajang.devracebackend.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;

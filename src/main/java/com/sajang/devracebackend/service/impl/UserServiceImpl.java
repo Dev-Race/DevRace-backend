@@ -1,6 +1,6 @@
 package com.sajang.devracebackend.service.impl;
 
-import com.sajang.devracebackend.dto.solvedcount.SolvedResponseDto;
+import com.sajang.devracebackend.dto.user.SolvedResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchBojIdException;
 import com.sajang.devracebackend.service.UserService;
@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public SolvedResponseDto checkUserSolvedCount(String BojId){
+    public SolvedResponseDto checkUserSolvedCount(String bojId){
 
         try {
             WebClient webClient = WebClient.builder()
@@ -28,12 +28,12 @@ public class UserServiceImpl implements UserService {
                     .build();
 
             return webClient.get()
-                    .uri("/user/show?handle=" + BojId)
+                    .uri("/user/show?handle=" + bojId)
                     .retrieve()
                     .bodyToMono(SolvedResponseDto.class)
                     .block();
         }catch (Exception e){
-            throw new NoSuchBojIdException(BojId);
+            throw new NoSuchBojIdException(bojId);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.service;
 
-import com.sajang.devracebackend.dto.solvedcount.SolvedResponseDto;
+import com.sajang.devracebackend.dto.user.SolvedResponseDto;
 
 public interface UserService {
-    SolvedResponseDto checkUserSolvedCount(String userid);
+    SolvedResponseDto checkUserSolvedCount(String bojId);
 }
