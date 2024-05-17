@@ -5,6 +5,7 @@ import com.sajang.devracebackend.domain.common.BaseEntity;
 import com.sajang.devracebackend.domain.enums.Role;
 import com.sajang.devracebackend.domain.enums.SocialType;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
+import com.sajang.devracebackend.dto.auth.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -65,6 +66,18 @@ public class User extends BaseEntity implements Serializable {
         this.imageUrl = imageUrl;
     }
 
+
+    public void updateBojId(String bojId) {
+        this.bojId = bojId;
+    }
+
+    public void updateName(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateImage(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public void updateRole() {  // 추가정보 입력후, Role을 GUEST->USER로 업데이트. (헤더의 jwt 토큰에 등록해둔 권한도 수정해야하기에, Access 토큰도 따로 재발급해야함.)
         this.role = Role.ROLE_USER;
