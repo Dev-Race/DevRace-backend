@@ -2,6 +2,7 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.service.AuthService;
+import com.sajang.devracebackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,4 +11,5 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 }

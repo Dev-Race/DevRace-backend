@@ -1,9 +1,14 @@
 package com.sajang.devracebackend.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sajang.devracebackend.security.jwt.JwtExceptionFilter;
+import com.sajang.devracebackend.security.jwt.JwtFilter;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.security.jwt.handler.JwtAccessDeniedHandler;
 import com.sajang.devracebackend.security.jwt.handler.JwtAuthenticationEntryPoint;
+import com.sajang.devracebackend.security.oauth2.CustomOAuth2UserService;
+import com.sajang.devracebackend.security.oauth2.handler.OAuth2LoginFailureHandler;
+import com.sajang.devracebackend.security.oauth2.handler.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +36,9 @@ public class SecurityConfig {
     private final ObjectMapper objectMapper;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
 
 
     @Bean
@@ -61,7 +69,20 @@ public class SecurityConfig {
                     exceptionHandling
                             .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                             .accessDeniedHandler(jwtAccessDeniedHandler);
-                });
+                })
+
+                .oauth2Login(oauth2 -> {
+                    oauth2
+                            .successHandler(oAuth2LoginSuccessHandler)
+                            .failureHandler(oAuth2LoginFailureHandler)
+                            .userInfoEndpoint(userInfoEndpointConfig -> {
+                                userInfoEndpointConfig  // userInfoEndpoint란, oauth2 로그인 성공 후 설정을 시작한다는 말이다.
+                                        .userService(customOAuth2UserService);  // OAuth2 로그인시 사용자 정보를 가져오는 엔드포인트와 사용자 서비스를 설정.
+                            });
+                })
+
+                .addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(objectMapper), JwtFilter.class);
 
         return http.build();
     }
