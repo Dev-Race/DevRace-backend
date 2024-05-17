@@ -6,6 +6,8 @@ import com.sajang.devracebackend.dto.auth.SignupRequestDto;
 import com.sajang.devracebackend.dto.auth.SignupResponseDto;
 import com.sajang.devracebackend.dto.auth.TokenDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
+import com.sajang.devracebackend.repository.UserRepository;
+import com.sajang.devracebackend.response.exception.exception400.BojIdDuplicateException;
 import com.sajang.devracebackend.response.exception.exception400.UserBadRequestException;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.service.AuthService;
@@ -23,8 +25,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserService userService;
     private final AwsS3Service awsS3Service;
+    private final UserService userService;
+    private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
 
 
@@ -35,6 +38,11 @@ public class AuthServiceImpl implements AuthService {
         // - 사진 변경X : if 'imageFile == null' --> AWS S3 업로드X
         // - 사진 변경O : if 'imageFile != null && signupRequestDto.isImageChange() == true' --> AWS S3 업로드O
         // - 기본사진으로 변경O : if 'imageFile != null && signupRequestDto.isImageChange() == false' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
+
+        if(userRepository.existsByBojId(signupRequestDto.getBojId()) == true) {  // 이미 해당 백준id로 가입한 사용자가 존재하는경우, 예외 처리.
+            throw new BojIdDuplicateException(signupRequestDto.getBojId());
+        }
+        UserServiceImpl.getSolvedCount(signupRequestDto.getBojId());  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
 
         Long loginUserId = SecurityUtil.getCurrentMemberId();
         User user = userService.findUser(loginUserId);
