@@ -71,6 +71,12 @@ public class GlobalExceptionHandler {  // 참고로 Filter에서 throw된 에러
         return ResponseData.toResponseEntity(ResponseCode.BAD_REQUEST_ROOM);
     }
 
+    @ExceptionHandler(TokenBadRequestException.class)
+    public ResponseEntity handleTokenBadRequestException(TokenBadRequestException ex) {
+        log.error(ex.getErrorStatus() + " " + ex.getErrorMessage() + "\n" + "==> error_messege / " + ex.getMessage());
+        return ResponseData.toResponseEntity(ResponseCode.BAD_REQUEST_TOKEN);
+    }
+
     @ExceptionHandler(UserBadRequestException.class)
     public ResponseEntity handleUserBadRequestException(UserBadRequestException ex) {
         log.error(ex.getErrorStatus() + " " + ex.getErrorMessage() + "\n" + "==> error_messege / " + ex.getMessage());

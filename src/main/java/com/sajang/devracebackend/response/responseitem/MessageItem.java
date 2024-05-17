@@ -50,6 +50,7 @@ public class MessageItem {
 
     public static final String TOKEN_EXPIRED = "ERROR - JWT 토큰 만료 에러";
     public static final String TOKEN_ERROR = "ERROR - 잘못된 JWT 토큰 에러";
+    public static final String BAD_REQUEST_TOKEN = "ERROR - 잘못된 토큰 요청 에러";
 
     // < Etc >
     public static final String READ_DATA = "SUCCESS - 데이터 통합 조회 성공";  // 문제풀이 페이지 내 데이터들 조회 결과 응답시 사용할 예정.
