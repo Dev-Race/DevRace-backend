@@ -21,35 +21,36 @@ public class ProblemServiceImpl implements ProblemService {
 
     private final ProblemRepository problemRepository;
 
+
     @Transactional
-    //@Override
-    public ProblemDto crawlProblem(Integer problemNumber) throws IOException{
-        String Url = "https://www.acmicpc.net/problem/" + problemNumber;
-        Document doc = Jsoup.connect(Url).get();
+    @Override
+    public Problem crawlProblem(Integer problemNumber) throws IOException {  // Service 클래스 내에서만 이동하며 방 생성에 이용될 것이기에 Dto가 아닌, Entity를 반환받음.
+        String url = "https://www.acmicpc.net/problem/" + problemNumber;
+        Document doc = Jsoup.connect(url).get();
 
-        //#problem-body에 접근
-        Elements contents = doc.select("#problem-body");         //body에 접근
-        Elements contentHead = doc.select(".page-header h1");          //문제 title 추출을 위한 page-header에 접근
-        Elements sampleDataElement = doc.getElementsByClass("col-md-6");   //예제 문제쪽 요소에 따로 접근
-
-        int  Amount = sampleDataElement.size();        //예제 문제 개수 추출
+        // #problem-body에 접근
+        Elements contents = doc.select("#problem-body");  // body에 접근
+        Elements contentHead = doc.select(".page-header h1");  // 문제 title 추출을 위한 page-header에 접근
+        Elements sampleDataElement = doc.getElementsByClass("col-md-6");  // 예제 문제쪽 요소에 따로 접근
 
         JSONObject sampleInputJson = new JSONObject();
         JSONObject sampleOutputJson = new JSONObject();
-        for(int i =1;i<=Amount/2;i++){
-            sampleInputJson.put("sampleInput"+i,contents.select(".col-md-6 #sample-input-"+i).text()); //예제객체 담기
-            sampleOutputJson.put("sampleOutput"+i,contents.select(".col-md-6 #sample-output-"+i).text()); //예제객체 담기
+
+        int Amount = sampleDataElement.size();  // 예제 문제 개수 추출
+        for(int i=1; i<=Amount/2; i++) {
+            sampleInputJson.put("sampleInput"+i, contents.select(".col-md-6 #sample-input-"+i).text()); // 예제객체 담기
+            sampleOutputJson.put("sampleOutput"+i, contents.select(".col-md-6 #sample-output-"+i).text()); // 예제객체 담기
         }
 
-        String sampleInput = sampleInputJson.toString(); //Json -> String
-        String sampleOutput = sampleOutputJson.toString(); //Json -> String
+        String sampleInput = sampleInputJson.toString();  // Json -> String
+        String sampleOutput = sampleOutputJson.toString();  // Json -> String
+        String problemTitle = contentHead.select("#problem_title").text();  // title 은 따로 접근. body가 아닌 header 부분
 
-        String problemTitle = contentHead.select("#problem_title").text();      //title 은 따로 접근. body가 아닌 header 부분
-        ProblemDto data = ProblemDto.builder()                                        //Builder를 이용해 ProblemDto 값으로 저장
-                .imageUrl(contents.select("p img").attr("abs:src"))
+        Problem problem = Problem.builder()
                 .number(problemNumber)
                 .title(problemTitle)
                 .content(contents.select("#problem_description").toString())
+                .imageUrl(contents.select("p img").attr("abs:src"))
                 .problemInput(contents.select("#problem_input").toString())
                 .problemOutput(contents.select("#problem_output").toString())
                 .problemLimit(contents.select("#problem_limit").toString())
@@ -57,20 +58,6 @@ public class ProblemServiceImpl implements ProblemService {
                 .sampleOutput(sampleOutput)
                 .build();
 
-        ProblemDto problemDto = new ProblemDto(
-                data.getImageUrl(),
-                data.getTitle(),
-                data.getNumber(),
-                data.getContent(),
-                data.getProblemInput(),
-                data.getProblemOutput(),
-                data.getProblemLimit(),
-                data.getSampleInput(),
-                data.getSampleOutput()
-        );
-
-        Problem problemEntity = problemRepository.save(problemDto.toEntity());
-
-        return new ProblemDto(problemEntity);
+        return problemRepository.save(problem);
     }
 }

@@ -48,8 +48,7 @@ public class Problem extends BaseEntity implements Serializable {
 
 
     @Builder
-    public Problem(Long id, Integer number, String title, String content, String imageUrl, String problemInput, String problemOutput, String problemLimit, String sampleInput, String sampleOutput) {
-        this.id = id;
+    public Problem(Integer number, String title, String content, String imageUrl, String problemInput, String problemOutput, String problemLimit, String sampleInput, String sampleOutput) {
         this.number = number;
         this.title = title;
         this.content = content;
