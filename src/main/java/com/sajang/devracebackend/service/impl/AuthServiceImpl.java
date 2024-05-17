@@ -36,8 +36,8 @@ public class AuthServiceImpl implements AuthService {
     public SignupResponseDto signup(MultipartFile imageFile, SignupRequestDto signupRequestDto) throws IOException {
 
         // - 사진 변경X : if 'imageFile == null' --> AWS S3 업로드X
-        // - 사진 변경O : if 'imageFile != null && signupRequestDto.isImageChange() == true' --> AWS S3 업로드O
-        // - 기본사진으로 변경O : if 'imageFile != null && signupRequestDto.isImageChange() == false' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
+        // - 사진 변경O : if 'imageFile != null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드O
+        // - 기본사진으로 변경O : if 'imageFile != null && signupRequestDto.getIsImageChange() == 0' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
 
         if(userRepository.existsByBojId(signupRequestDto.getBojId()) == true) {  // 이미 해당 백준id로 가입한 사용자가 존재하는경우, 예외 처리.
             throw new BojIdDuplicateException(signupRequestDto.getBojId());
@@ -55,11 +55,11 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 새 프로필 사진을 AWS S3에 업로드 후, 이미지 url 반환.
-        if(imageFile != null && signupRequestDto.isImageChange() == true) {  // 사진 변경O 경우
+        if(imageFile != null && signupRequestDto.getIsImageChange() == 1) {  // 사진 변경O 경우
             String uploadImageUrl = awsS3Service.uploadImage(imageFile);
             user.updateImage(uploadImageUrl);  // 새로운 사진 url로 imageUrl 업데이트.
         }
-        else if(imageFile != null && signupRequestDto.isImageChange() == true) {  // 기본사진으로 변경O
+        else if(imageFile != null && signupRequestDto.getIsImageChange() == 0) {  // 기본사진으로 변경O
             user.updateImage(null);  // 기본사진임을 명시하고자 null값으로 imageUrl 업데이트.
         }
 

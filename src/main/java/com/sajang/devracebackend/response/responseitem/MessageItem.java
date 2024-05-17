@@ -9,7 +9,7 @@ public class MessageItem {
     public static final String DELETE_USER = "SUCCESS - 회원 탈퇴 성공";
 
     public static final String NOT_FOUND_USER = "ERROR - 존재하지 않는 회원 조회 에러";
-    public static final String NOT_FOUND_BOJID = "ERROR - 존재하지 않는 백준id 조회 에러";  // 404 에러 처리.
+    public static final String NOT_FOUND_BOJID = "ERROR - solvedac에 존재하지 않는 백준id 에러";  // 404 에러 처리.
     public static final String BAD_REQUEST_USER = "ERROR - 잘못된 회원 요청 에러";
     public static final String DUPLICATE_BOJID = "ERROR - 백준id 중복 에러";  // 400 에러 처리.
 

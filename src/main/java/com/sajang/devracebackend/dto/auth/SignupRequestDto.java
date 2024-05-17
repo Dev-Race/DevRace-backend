@@ -9,5 +9,5 @@ public class SignupRequestDto {
 
     private String nickname;
     private String bojId;
-    private boolean isImageChange;  // true : 새 사진으로 변경하는 경우. false : 기본사진으로 변경하는 경우.
+    private Integer isImageChange;  // 1 : 새 사진으로 변경하는 경우. 0 : 기본사진으로 변경하는 경우.
 }

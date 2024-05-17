@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
                     .bodyToMono(SolvedResponseDto.class)
                     .block();
         }catch (Exception e){
-            throw new NoSuchBojIdException(bojId);  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
+            throw new NoSuchBojIdException("bojId = " + bojId);  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
         }
     }
 }
