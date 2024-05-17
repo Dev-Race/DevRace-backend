@@ -11,7 +11,6 @@ public class ProblemResponseDto {
     private Integer number;
     private String title;
     private String content;
-    private String imageUrl;
     private String problemInput;
     private String problemOutput;
     private String problemLimit;
@@ -22,7 +21,6 @@ public class ProblemResponseDto {
         this.number = entity.getNumber();
         this.title = entity.getTitle();
         this.content = entity.getContent();
-        this.imageUrl = entity.getImageUrl();
         this.problemInput = entity.getProblemInput();
         this.problemOutput = entity.getProblemOutput();
         this.problemLimit = entity.getProblemLimit();

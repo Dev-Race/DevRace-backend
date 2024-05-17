@@ -28,9 +28,6 @@ public class Problem extends BaseEntity implements Serializable {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "image_url")
-    private String imageUrl;
-
     @Column(name = "problem_input", columnDefinition = "TEXT")
     private String problemInput;
 
@@ -48,11 +45,10 @@ public class Problem extends BaseEntity implements Serializable {
 
 
     @Builder
-    public Problem(Integer number, String title, String content, String imageUrl, String problemInput, String problemOutput, String problemLimit, String sampleInput, String sampleOutput) {
+    public Problem(Integer number, String title, String content, String problemInput, String problemOutput, String problemLimit, String sampleInput, String sampleOutput) {
         this.number = number;
         this.title = title;
         this.content = content;
-        this.imageUrl = imageUrl;
         this.problemInput = problemInput;
         this.problemOutput = problemOutput;
         this.problemLimit = problemLimit;

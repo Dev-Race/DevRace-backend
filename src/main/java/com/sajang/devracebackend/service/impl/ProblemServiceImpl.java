@@ -5,13 +5,13 @@ import com.sajang.devracebackend.repository.ProblemRepository;
 import com.sajang.devracebackend.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import org.jsoup.select.Elements;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
@@ -28,8 +28,7 @@ public class ProblemServiceImpl implements ProblemService {
         String url = "https://www.acmicpc.net/problem/" + problemNumber;
         Document doc = Jsoup.connect(url).get();
 
-        // #problem-body에 접근
-        Elements contents = doc.select("#problem-body");  // body에 접근
+        Elements contents = doc.select("#problem-body");  // #problem-body에 접근
         Elements contentHead = doc.select(".page-header h1");  // 문제 title 추출을 위한 page-header에 접근
         Elements sampleDataElement = doc.getElementsByClass("col-md-6");  // 예제 문제쪽 요소에 따로 접근
 
@@ -41,22 +40,29 @@ public class ProblemServiceImpl implements ProblemService {
             sampleOutputJson.put("sampleOutput"+i, contents.select(".col-md-6 #sample-output-"+i).text()); // 예제객체 담기
         }
 
+        String problemTitle = contentHead.select("#problem_title").text();  // title은 따로 접근. body가 아닌 header 부분
+        String problemInput = contents.select("#problem_input").toString();
+        String problemOutput = contents.select("#problem_output").toString();
         String sampleInput = sampleInputJson.toString();  // Json -> String
         String sampleOutput = sampleOutputJson.toString();  // Json -> String
-        String problemTitle = contentHead.select("#problem_title").text();  // title은 따로 접근. body가 아닌 header 부분
 
-        String imageUrl = contents.select("p img").attr("abs:src");
-        if(!StringUtils.hasText(imageUrl)) imageUrl = null;  // imageUrl이 빈문자열일 경우, null로 저장.
         String problemLimit = contents.select("#problem_limit").toString();
         if(problemLimit.equals("<div id=\"problem_limit\" class=\"problem-text\">\n</div>")) problemLimit = null;  // 제한사항이 없는 경우, null로 저장.
+
+        Elements problemDescription = contents.select("#problem_description");
+        Elements images = problemDescription.select("img");  // 모든 img 태그를 찾음.
+        for (Element img : images) {  // 각 이미지의 상대 경로를 절대 경로로 변경.
+            String imageUrl = img.absUrl("src");
+            img.attr("src", imageUrl);
+        }
+        String content = problemDescription.toString();
 
         Problem problem = Problem.builder()
                 .number(problemNumber)
                 .title(problemTitle)
-                .content(contents.select("#problem_description").toString())
-                .imageUrl(imageUrl)
-                .problemInput(contents.select("#problem_input").toString())
-                .problemOutput(contents.select("#problem_output").toString())
+                .content(content)
+                .problemInput(problemInput)
+                .problemOutput(problemOutput)
                 .problemLimit(problemLimit)
                 .sampleInput(sampleInput)
                 .sampleOutput(sampleOutput)
