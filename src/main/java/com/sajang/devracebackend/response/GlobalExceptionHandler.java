@@ -1,6 +1,7 @@
 package com.sajang.devracebackend.response;
 
-import com.sajang.devracebackend.response.exception.CrawlingServerException;
+import com.sajang.devracebackend.response.exception.exception500.AwsS3ServerException;
+import com.sajang.devracebackend.response.exception.exception500.CrawlingServerException;
 import com.sajang.devracebackend.response.exception.exception400.*;
 import com.sajang.devracebackend.response.exception.exception404.*;
 import com.sajang.devracebackend.response.responseitem.MessageItem;
@@ -42,13 +43,7 @@ public class GlobalExceptionHandler {  // 참고로 Filter에서 throw된 에러
         // 하지만 이는 postman 프로그램에서 출력받아 확인할 수 있다.
     }
 
-    @ExceptionHandler(CrawlingServerException.class)
-    public ResponseEntity handleCrawlingServerException(CrawlingServerException ex) {
-        log.error(ex.getErrorStatus() + " " + ex.getErrorMessage());
-        return ResponseData.toResponseEntity(ResponseCode.CRAWLING_ERROR);
-    }
-
-    @ExceptionHandler(BojIdDuplicateException.class)
+    @ExceptionHandler(BojIdDuplicateException.class)  // 404 Error
     public ResponseEntity handleBojIdDuplicateException(BojIdDuplicateException ex) {
         log.error(ex.getErrorStatus() + " " + ex.getErrorMessage() + "\n" + "==> error_data by duplicate / " + "bojId = " + ex.getBojId());
         return ResponseData.toResponseEntity(ResponseCode.DUPLICATE_BOJID);
@@ -126,5 +121,21 @@ public class GlobalExceptionHandler {  // 참고로 Filter에서 throw된 에러
     public ResponseEntity handleNoSuchUserException(NoSuchUserException ex) {
         log.error(ex.getErrorStatus() + " " + ex.getErrorMessage() + "\n" + "==> error_data / " + ex.getMessage());
         return ResponseData.toResponseEntity(ResponseCode.NOT_FOUND_USER);
+    }
+
+    // ===================== //
+
+    // < 500 Exception >
+
+    @ExceptionHandler(CrawlingServerException.class)
+    public ResponseEntity handleCrawlingServerException(CrawlingServerException ex) {
+        log.error(ex.getErrorStatus() + " " + ex.getErrorMessage());
+        return ResponseData.toResponseEntity(ResponseCode.CRAWLING_ERROR);
+    }
+
+    @ExceptionHandler(AwsS3ServerException.class)
+    public ResponseEntity handleAwsS3ServerException(AwsS3ServerException ex) {
+        log.error(ex.getErrorStatus() + " " + ex.getErrorMessage());
+        return ResponseData.toResponseEntity(ResponseCode.AWS_S3_ERROR);
     }
 }

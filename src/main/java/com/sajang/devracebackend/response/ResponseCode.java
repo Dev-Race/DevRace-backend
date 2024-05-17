@@ -92,6 +92,7 @@ public enum ResponseCode {
     // 기타 실패 응답
     INTERNAL_SERVER_ERROR(StatusItem.INTERNAL_SERVER_ERROR, MessageItem.INTERNAL_SERVER_ERROR),
     anonymousUser_ERROR(StatusItem.INTERNAL_SERVER_ERROR, MessageItem.anonymousUser_ERROR),
+    AWS_S3_ERROR(StatusItem.INTERNAL_SERVER_ERROR, MessageItem.AWS_S3_ERROR),
 
     // ===================== //
     ;
