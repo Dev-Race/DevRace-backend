@@ -24,7 +24,7 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Transactional
     @Override
-    public Problem crawlAndSaveProblem(Integer problemNumber) throws IOException {  // Service 클래스 내에서만 이동하며 방 생성에 이용될 것이기에 Dto가 아닌, Entity를 반환받음.
+    public Problem crawlAndSaveProblem(Integer problemNumber) throws IOException {  // Service 클래스 내에서만 호출되며 방 생성에 이용될 것이기에 Dto가 아닌, Entity를 반환받음.
         String url = "https://www.acmicpc.net/problem/" + problemNumber;
         Document doc = Jsoup.connect(url).get();
 
