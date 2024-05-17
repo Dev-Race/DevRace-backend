@@ -1,7 +1,9 @@
 package com.sajang.devracebackend.service;
 
-import com.sajang.devracebackend.dto.problem.ProblemDto;
+import com.sajang.devracebackend.domain.Problem;
+
+import java.io.IOException;
 
 public interface ProblemService {
-    //ProblemDto crawlProblem(Integer problemNumber);
+    Problem crawlAndSaveProblem(Integer problemNumber) throws IOException;
 }

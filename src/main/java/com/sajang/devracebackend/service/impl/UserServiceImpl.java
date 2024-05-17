@@ -28,9 +28,21 @@ public class UserServiceImpl implements UserService {
                 ()->new NoSuchUserException(String.format("userId = %d", userId)));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public SolvedResponseDto getSolvedCount(String bojId){
+    public SolvedResponseDto checkUserSolvedCount() {
+        Long loginUserId = SecurityUtil.getCurrentMemberId();
+        User user = findUser(loginUserId);
+        SolvedResponseDto solvedResponseDto = getSolvedCount(user.getBojId());
+
+        return solvedResponseDto;
+    }
+
+
+    // ========== 유틸성 메소드 ========== //
+
+    @Transactional
+    public static SolvedResponseDto getSolvedCount(String bojId){  // WebClient로 외부 solved API 호출 메소드
         try {
             WebClient webClient = WebClient.builder()
                     .baseUrl("https://solved.ac/api/v3")
@@ -45,15 +57,5 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             throw new NoSuchBojIdException(bojId);
         }
-    }
-
-    @Transactional
-    @Override
-    public SolvedResponseDto checkUserSolvedCount() {
-        Long loginUserId = SecurityUtil.getCurrentMemberId();
-        User user = findUser(loginUserId);
-        SolvedResponseDto solvedResponseDto = getSolvedCount(user.getBojId());
-
-        return solvedResponseDto;
     }
 }
