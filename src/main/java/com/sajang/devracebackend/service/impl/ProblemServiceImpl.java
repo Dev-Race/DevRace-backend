@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 
 import org.jsoup.select.Elements;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
@@ -34,7 +35,6 @@ public class ProblemServiceImpl implements ProblemService {
 
         JSONObject sampleInputJson = new JSONObject();
         JSONObject sampleOutputJson = new JSONObject();
-
         int Amount = sampleDataElement.size();  // 예제 문제 개수 추출
         for(int i=1; i<=Amount/2; i++) {
             sampleInputJson.put("sampleInput"+i, contents.select(".col-md-6 #sample-input-"+i).text()); // 예제객체 담기
@@ -43,16 +43,21 @@ public class ProblemServiceImpl implements ProblemService {
 
         String sampleInput = sampleInputJson.toString();  // Json -> String
         String sampleOutput = sampleOutputJson.toString();  // Json -> String
-        String problemTitle = contentHead.select("#problem_title").text();  // title 은 따로 접근. body가 아닌 header 부분
+        String problemTitle = contentHead.select("#problem_title").text();  // title은 따로 접근. body가 아닌 header 부분
+
+        String imageUrl = contents.select("p img").attr("abs:src");
+        if(!StringUtils.hasText(imageUrl)) imageUrl = null;  // imageUrl이 빈문자열일 경우, null로 저장.
+        String problemLimit = contents.select("#problem_limit").toString();
+        if(problemLimit.equals("<div id=\"problem_limit\" class=\"problem-text\">\n</div>")) problemLimit = null;  // 제한사항이 없는 경우, null로 저장.
 
         Problem problem = Problem.builder()
                 .number(problemNumber)
                 .title(problemTitle)
                 .content(contents.select("#problem_description").toString())
-                .imageUrl(contents.select("p img").attr("abs:src"))
+                .imageUrl(imageUrl)
                 .problemInput(contents.select("#problem_input").toString())
                 .problemOutput(contents.select("#problem_output").toString())
-                .problemLimit(contents.select("#problem_limit").toString())
+                .problemLimit(problemLimit)
                 .sampleInput(sampleInput)
                 .sampleOutput(sampleOutput)
                 .build();

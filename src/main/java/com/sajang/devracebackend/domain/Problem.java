@@ -31,7 +31,7 @@ public class Problem extends BaseEntity implements Serializable {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "problem_input")
+    @Column(name = "problem_input", columnDefinition = "TEXT")
     private String problemInput;
 
     @Column(name = "problem_output")
