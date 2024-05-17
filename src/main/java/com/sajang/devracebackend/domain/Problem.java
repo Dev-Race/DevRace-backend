@@ -21,7 +21,7 @@ public class Problem extends BaseEntity implements Serializable {
     private Long id;
 
     @Column(name = "number", unique = true)
-    private Integer number; //백준 문제번호
+    private Integer number;  // 백준 문제번호
 
     private String title;
 
@@ -34,16 +34,16 @@ public class Problem extends BaseEntity implements Serializable {
     @Column(name = "problem_input", columnDefinition = "TEXT")
     private String problemInput;
 
-    @Column(name = "problem_output")
+    @Column(name = "problem_output", columnDefinition = "TEXT")
     private String problemOutput;
 
-    @Column(name = "problem_limit")
+    @Column(name = "problem_limit", columnDefinition = "TEXT")
     private String problemLimit;
 
-    @Column(name = "sample_input")
+    @Column(name = "sample_input", columnDefinition = "TEXT")
     private String sampleInput;  // 예제 입력
 
-    @Column(name = "sample_output")
+    @Column(name = "sample_output", columnDefinition = "TEXT")
     private String sampleOutput;  // 예제 출력
 
 
