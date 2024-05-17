@@ -32,7 +32,7 @@ public class TestController {
     }
 
 
-    // Test 임시 용도
+    // ========== Test 임시 용도 ========== //
 //    @PostMapping(value = "/image/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //    public ResponseEntity uploadImage(@RequestPart(value="imageFile", required = false) MultipartFile imageFile) throws IOException {
 //        String fileUrl = awsS3Service.uploadImage(imageFile);
@@ -44,10 +44,10 @@ public class TestController {
 //        awsS3Service.deleteImage("Test imagefile Url");
 //        return ResponseData.toResponseEntity(ResponseCode.TEST_SUCCESS);
 //    }
-
-    @PostMapping("/crawling/{number}")
-    public ResponseEntity crawlingAndSaveProblem(@PathVariable Integer number) throws IOException {
-        Problem problem = problemService.crawlProblem(number);
-        return ResponseData.toResponseEntity(ResponseCode.TEST_SUCCESS, problem.getProblemLimit());
-    }
+//
+//    @PostMapping("/crawling/{number}")
+//    public ResponseEntity crawlAndSaveProblem(@PathVariable Integer number) throws IOException {
+//        Problem problem = problemService.crawlAndSaveProblem(number);
+//        return ResponseData.toResponseEntity(ResponseCode.TEST_SUCCESS, problem.getProblemLimit());
+//    }
 }
