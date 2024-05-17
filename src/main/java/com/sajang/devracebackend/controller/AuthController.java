@@ -1,10 +1,13 @@
 package com.sajang.devracebackend.controller;
 
+import com.sajang.devracebackend.dto.auth.ReissueRequestDto;
 import com.sajang.devracebackend.dto.auth.SignupRequestDto;
 import com.sajang.devracebackend.dto.auth.SignupResponseDto;
+import com.sajang.devracebackend.dto.auth.TokenDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.AuthService;
+import com.sajang.devracebackend.service.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import java.io.IOException;
 public class AuthController {
 
     private final AuthService authService;
+    private final TokenService tokenService;
 
 
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,5 +38,12 @@ public class AuthController {
 
         SignupResponseDto signupResponseDto = authService.signup(imageFile, signupRequestDto);
         return ResponseData.toResponseEntity(ResponseCode.CREATED_USER, signupResponseDto);  // 이 reponseDto 내에 새로운 JWT Access 토큰이 들어있음. 이후 앞으로는 이걸로 헤더에 장착해야함.
+    }
+
+    @PostMapping("/reissue")
+    @Operation(summary = "JWT Access Token 재발급(로그인 유지) [jwt X]")
+    public ResponseEntity<ResponseData<TokenDto>> reissue(@RequestBody ReissueRequestDto reissueRequestDto) {
+        TokenDto tokenDto = tokenService.reissue(reissueRequestDto);
+        return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenDto);
     }
 }

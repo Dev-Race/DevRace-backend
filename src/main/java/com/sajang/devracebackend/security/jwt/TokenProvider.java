@@ -99,7 +99,7 @@ public class TokenProvider {
         Claims claims = parseClaims(accessToken);  // Access Token의 Payload에 저장된 Claim을 꺼내옴. (JWT 토큰에서 사용자의 아이디와 권한 정보를 획득할 목적)
 
         if (claims.get(AUTHORITIES_KEY) == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");  // 500 Error가 적절함.
+            throw new RuntimeException("권한 정보가 없는 토큰입니다.");  // 클라이언트가 잘못된 요청을 한 것이 아니라, 서버에서 처리 중에 예기치 않은 에러가 발생한 것이기에, 403이 아닌 500 Error가 적절함.
         }
 
         // 해당 계정이 갖고있는 권한 목록들을 리턴하는 역할
