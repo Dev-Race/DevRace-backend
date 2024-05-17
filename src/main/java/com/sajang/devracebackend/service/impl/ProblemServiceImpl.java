@@ -1,7 +1,6 @@
 package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.Problem;
-import com.sajang.devracebackend.dto.problem.ProblemDto;
 import com.sajang.devracebackend.repository.ProblemRepository;
 import com.sajang.devracebackend.service.ProblemService;
 import lombok.RequiredArgsConstructor;
