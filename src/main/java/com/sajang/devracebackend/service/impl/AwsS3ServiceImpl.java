@@ -46,7 +46,7 @@ public class AwsS3ServiceImpl implements AwsS3Service {
 
     @Transactional
     @Override
-    public void deleteImage(String fileUrl) {  // 차후 프로필 사진을 기본이미지로 변경시 사용 예정 메소드
+    public void deleteImage(String fileUrl) {  // 사진 업로드를 위해 이전 사진을 제거하는 용도 및 차후 기본이미지로 변경시 사용 예정 메소드
         String fileName = fileUrl.split(".com/")[1];
 
         try {
