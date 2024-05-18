@@ -14,6 +14,8 @@ import org.jsoup.select.Elements;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,17 +36,18 @@ public class ProblemServiceImpl implements ProblemService {
 
         JSONObject sampleInputJson = new JSONObject();
         JSONObject sampleOutputJson = new JSONObject();
+
         int Amount = sampleDataElement.size();  // 예제 문제 개수 추출
+        List<String> sampleInput = new ArrayList<>();
+        List<String> sampleOutput = new ArrayList<>();
         for(int i=1; i<=Amount/2; i++) {
-            sampleInputJson.put("sampleInput"+i, contents.select(".col-md-6 #sample-input-"+i).text()); // 예제객체 담기
-            sampleOutputJson.put("sampleOutput"+i, contents.select(".col-md-6 #sample-output-"+i).text()); // 예제객체 담기
+            sampleInput.add(contents.select(".col-md-6 #sample-input-"+i).text());  // 예제입력 객체 담기
+            sampleOutput.add(contents.select(".col-md-6 #sample-output-"+i).text());  // 예제출력 객체 담기
         }
 
         String problemTitle = contentHead.select("#problem_title").text();  // title은 따로 접근. body가 아닌 header 부분
         String problemInput = contents.select("#problem_input").toString();
         String problemOutput = contents.select("#problem_output").toString();
-        String sampleInput = sampleInputJson.toString();  // Json -> String
-        String sampleOutput = sampleOutputJson.toString();  // Json -> String
 
         String problemLimit = contents.select("#problem_limit").toString();
         if(problemLimit.equals("<div id=\"problem_limit\" class=\"problem-text\">\n</div>")) problemLimit = null;  // 제한사항이 없는 경우, null로 저장.
@@ -57,7 +60,7 @@ public class ProblemServiceImpl implements ProblemService {
         }
         String content = problemDescription.toString();
 
-        Problem problem = Problem.builder()
+        Problem problem = Problem.ProblemSaveBuilder()
                 .number(problemNumber)
                 .title(problemTitle)
                 .content(content)

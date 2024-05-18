@@ -4,6 +4,8 @@ import com.sajang.devracebackend.domain.Problem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 public class ProblemResponseDto {
@@ -14,8 +16,8 @@ public class ProblemResponseDto {
     private String problemInput;
     private String problemOutput;
     private String problemLimit;
-    private String sampleInput;
-    private String sampleOutput;
+    private List<String> sampleInput;
+    private List<String> sampleOutput;
 
     public ProblemResponseDto(Problem entity){
         this.number = entity.getNumber();
