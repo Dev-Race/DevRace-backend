@@ -1,12 +1,15 @@
 package com.sajang.devracebackend.domain;
 
 import com.sajang.devracebackend.domain.common.BaseEntity;
+import com.sajang.devracebackend.util.StringListConverter;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -37,15 +40,18 @@ public class Problem extends BaseEntity implements Serializable {
     @Column(name = "problem_limit", columnDefinition = "TEXT")
     private String problemLimit;
 
+    @Convert(converter = StringListConverter.class)  // DB에는 String으로 저장됨.
     @Column(name = "sample_input", columnDefinition = "TEXT")
-    private String sampleInput;  // 예제 입력
+    private List<String> sampleInput = new ArrayList<>();  // 예제 입력
 
+    @Convert(converter = StringListConverter.class)  // DB에는 String으로 저장됨.
     @Column(name = "sample_output", columnDefinition = "TEXT")
-    private String sampleOutput;  // 예제 출력
+    private List<String> sampleOutput = new ArrayList<>();  // 예제 출력
 
 
-    @Builder
-    public Problem(Integer number, String title, String content, String problemInput, String problemOutput, String problemLimit, String sampleInput, String sampleOutput) {
+    @Builder(builderClassName = "ProblemSaveBuilder", builderMethodName = "ProblemSaveBuilder")
+    public Problem(Integer number, String title, String content, String problemInput, String problemOutput, String problemLimit, List<String> sampleInput, List<String> sampleOutput) {
+        // 이 빌더는 Problem 생성때만 사용할 용도
         this.number = number;
         this.title = title;
         this.content = content;
