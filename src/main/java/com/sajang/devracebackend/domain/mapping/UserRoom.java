@@ -51,6 +51,10 @@ public class UserRoom extends BaseEntity implements Serializable {
     @Builder(builderClassName = "UserRoomSaveBuilder", builderMethodName = "UserRoomSaveBuilder")
     public UserRoom(User user, Room room) {
         // 이 빌더는 UserRoom 생성때만 사용할 용도
+        // code, leaveTime 초기값은 null
+        this.language = Language.CPP;  // 초기값 CPP
+        this.isPass = 0;
+        this.isLeave = 0;  // 차후 내 코드 페이지에서 조회시, 'isLeave == 1'인 데이터를 기준으로 조회해야함.
         this.user = user;
         this.room = room;
     }
