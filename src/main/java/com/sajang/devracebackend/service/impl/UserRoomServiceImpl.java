@@ -5,7 +5,7 @@ import com.sajang.devracebackend.domain.Room;
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.MessageType;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.user.UserEnterRequestDto;
+import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
 import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
@@ -43,10 +43,10 @@ public class UserRoomServiceImpl implements UserRoomService {
 
     @Transactional
     @Override
-    public void usersEnterRoom(Long roomId, UserEnterRequestDto userEnterRequestDto) {
+    public void usersEnterRoom(Long roomId, RoomEnterRequestDto roomEnterRequestDto) {
         User managerUser = userService.findLoginUser();  // 방장 = 로그인된 사용자
         Room room = roomService.findRoom(roomId);
-        List<Long> userIdList = userEnterRequestDto.getUserIdList();
+        List<Long> userIdList = roomEnterRequestDto.getUserIdList();
 
         List<User> userList = userRepository.findByIdIn(userIdList);
         List<UserRoom> userRooms = userList.stream()

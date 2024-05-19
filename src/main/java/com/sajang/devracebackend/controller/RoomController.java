@@ -2,7 +2,7 @@ package com.sajang.devracebackend.controller;
 
 import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
 import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
-import com.sajang.devracebackend.dto.user.UserEnterRequestDto;
+import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.RoomService;
@@ -38,9 +38,9 @@ public class RoomController {
     @Operation(summary = "방 입장 시작 [jwt O]")
     public ResponseEntity<ResponseData> usersEnterRoom(
             @PathVariable(value = "roomId") Long roomId,  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
-            @RequestBody UserEnterRequestDto userEnterRequestDto) {
+            @RequestBody RoomEnterRequestDto roomEnterRequestDto) {
 
-        userRoomService.usersEnterRoom(roomId, userEnterRequestDto);
+        userRoomService.usersEnterRoom(roomId, roomEnterRequestDto);
         return ResponseData.toResponseEntity(ResponseCode.CREATED_USERROOM);
     }
 }

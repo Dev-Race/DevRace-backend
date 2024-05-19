@@ -1,4 +1,4 @@
-package com.sajang.devracebackend.dto.user;
+package com.sajang.devracebackend.dto.room;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class UserEnterRequestDto {
+public class RoomEnterRequestDto {
 
     private List<Long> userIdList;
 }
