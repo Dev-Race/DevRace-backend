@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ProblemRequestDto {
+public class ProblemSaveRequestDto {
 
     private Integer problemNumber;  // 백준 문제 번호
 }

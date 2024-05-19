@@ -1,10 +1,10 @@
 package com.sajang.devracebackend.service;
 
-import com.sajang.devracebackend.dto.problem.ProblemRequestDto;
-import com.sajang.devracebackend.dto.room.RoomIdResponseDto;
+import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
+import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 
 import java.io.IOException;
 
 public interface RoomService {
-    RoomIdResponseDto createRoom(ProblemRequestDto problemRequestDto) throws IOException;
+    RoomSaveResponseDto createRoom(ProblemSaveRequestDto problemSaveRequestDto) throws IOException;
 }

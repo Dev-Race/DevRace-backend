@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SolvedResponseDto {
+public class UserSolvedResponseDto {
 
     private Integer solvedCount;
 
     @Builder
-    public SolvedResponseDto(Integer solvedCount){
+    public UserSolvedResponseDto(Integer solvedCount){
         this.solvedCount = solvedCount;
     }
 }

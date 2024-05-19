@@ -2,8 +2,8 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.domain.Room;
-import com.sajang.devracebackend.dto.problem.ProblemRequestDto;
-import com.sajang.devracebackend.dto.room.RoomIdResponseDto;
+import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
+import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.repository.ProblemRepository;
 import com.sajang.devracebackend.repository.RoomRepository;
 import com.sajang.devracebackend.service.ProblemService;
@@ -27,8 +27,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Transactional
     @Override
-    public RoomIdResponseDto createRoom(ProblemRequestDto problemRequestDto) throws IOException {
-        Integer problemNumber = problemRequestDto.getProblemNumber();
+    public RoomSaveResponseDto createRoom(ProblemSaveRequestDto problemSaveRequestDto) throws IOException {
+        Integer problemNumber = problemSaveRequestDto.getProblemNumber();
 
         Problem problem = problemRepository.findByNumber(problemNumber)
                 .orElse(null);  // try~catch문 대신 null로 표현했음.
@@ -47,8 +47,8 @@ public class RoomServiceImpl implements RoomService {
                 .problem(problem)
                 .build();
         Long roomId = roomRepository.save(room).getId();
-        RoomIdResponseDto roomIdResponseDto = new RoomIdResponseDto(roomId);
+        RoomSaveResponseDto roomSaveResponseDto = new RoomSaveResponseDto(roomId);
 
-        return roomIdResponseDto;
+        return roomSaveResponseDto;
     }
 }
