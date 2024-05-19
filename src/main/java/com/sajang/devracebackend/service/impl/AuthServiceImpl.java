@@ -69,6 +69,11 @@ public class AuthServiceImpl implements AuthService {
         // 추가정보 입력후, 위에서 Role을 GUEST->USER로 업데이트했지만, 헤더의 jwt 토큰에 등록해둔 권한도 수정해야하기에, Access 토큰도 따로 재발급해야함.
         TokenDto tokenDto = tokenProvider.generateAccessTokenByRefreshToken(user.getId(), Role.ROLE_USER, user.getRefreshToken());
 
-        return new SignupResponseDto(userResponseDto, tokenDto);
+        SignupResponseDto signupResponseDto = SignupResponseDto.builder()
+                .userResponseDto(userResponseDto)
+                .tokenDto(tokenDto)
+                .build();
+
+        return signupResponseDto;
     }
 }

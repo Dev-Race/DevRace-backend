@@ -47,7 +47,9 @@ public class RoomServiceImpl implements RoomService {
                 .problem(problem)
                 .build();
         Long roomId = roomRepository.save(room).getId();
-        RoomSaveResponseDto roomSaveResponseDto = new RoomSaveResponseDto(roomId);
+        RoomSaveResponseDto roomSaveResponseDto = RoomSaveResponseDto.builder()
+                .roomId(roomId)
+                .build();
 
         return roomSaveResponseDto;
     }
