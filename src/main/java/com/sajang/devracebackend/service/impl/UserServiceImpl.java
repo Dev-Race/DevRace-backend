@@ -1,6 +1,8 @@
 package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.User;
+import com.sajang.devracebackend.domain.mapping.UserRoom;
+import com.sajang.devracebackend.dto.user.UserEnterResponseDto;
 import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchBojIdException;
@@ -13,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,18 +34,38 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserSolvedResponseDto checkUserSolvedCount() {
+    public User findLoginUser() {
         Long loginUserId = SecurityUtil.getCurrentMemberId();
-        User user = findUser(loginUserId);
+        User loginUser = findUser(loginUserId);
+        return loginUser;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserSolvedResponseDto checkUserSolvedCount() {
+        User user = findLoginUser();
         UserSolvedResponseDto userSolvedResponseDto = getSolvedCount(user.getBojId());
 
         return userSolvedResponseDto;
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public UserEnterResponseDto findCurrentRoom() {
+        User user = findLoginUser();
+
+        Optional<UserRoom> optionalUserRoom = user.getUserRoomList().stream()
+                .filter(userRoom -> userRoom.getIsLeave() == 0)  // getIsLeave() 값이 0인 경우만 필터링 (참여중인 방 찾기)
+                .findFirst();
+        UserRoom userRoom = optionalUserRoom.orElse(null);
+
+        if(userRoom == null) return new UserEnterResponseDto(false, null);  // 참여중인 방이 없음 X.
+        else return new UserEnterResponseDto(true, userRoom.getRoom().getId());  // 참여중인 방이 있음 O.
+    }
+
 
     // ========== 유틸성 메소드 ========== //
 
-    @Transactional
     public static UserSolvedResponseDto getSolvedCount(String bojId){  // WebClient로 외부 solved API 호출 메소드
         try {
             WebClient webClient = WebClient.builder()

@@ -13,7 +13,6 @@ import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.service.AuthService;
 import com.sajang.devracebackend.service.AwsS3Service;
 import com.sajang.devracebackend.service.UserService;
-import com.sajang.devracebackend.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,8 +43,7 @@ public class AuthServiceImpl implements AuthService {
         }
         UserServiceImpl.getSolvedCount(signupRequestDto.getBojId());  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
 
-        Long loginUserId = SecurityUtil.getCurrentMemberId();
-        User user = userService.findUser(loginUserId);
+        User user = userService.findLoginUser();
 
         // signup은 Role이 GUEST인 사용자만 이용가능한 API임.
         if(!user.getRole().equals(Role.ROLE_GUEST) || user.getBojId() != null) {
@@ -69,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
         UserResponseDto userResponseDto = new UserResponseDto(user);
 
         // 추가정보 입력후, 위에서 Role을 GUEST->USER로 업데이트했지만, 헤더의 jwt 토큰에 등록해둔 권한도 수정해야하기에, Access 토큰도 따로 재발급해야함.
-        TokenDto tokenDto = tokenProvider.generateAccessTokenByRefreshToken(loginUserId, Role.ROLE_USER, user.getRefreshToken());
+        TokenDto tokenDto = tokenProvider.generateAccessTokenByRefreshToken(user.getId(), Role.ROLE_USER, user.getRefreshToken());
 
         return new SignupResponseDto(userResponseDto, tokenDto);
     }
