@@ -1,5 +1,6 @@
 package com.sajang.devracebackend.service.impl;
 
+import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,5 +9,5 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
-//    private final ChatRepository chatRepository;
+    private final ChatRepository chatRepository;
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 
-//@Document(collection = "chat")  // 채팅내역만 MongoDB로 관리.
+@Document(collection = "chat")  // 채팅방 내역만 MongoDB로 관리.
 public class Chat implements Serializable {
 
     @Id
