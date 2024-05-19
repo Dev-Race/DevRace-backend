@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
         // signup은 Role이 GUEST인 사용자만 이용가능한 API임.
         if(!user.getRole().equals(Role.ROLE_GUEST) || user.getBojId() != null) {
             // 이 로직을 SecurityConfig의 hasAuthority("ROLE_GUEST") 외에도 여기 또 써줘야하는 이유는,
-            // reissue로 인한 재발급 이후에도 이전 엑세스 토큰으로 '/signup' 경로에 다시 접근할 경우, 토큰 내의 권한은 GUEST이 맞겠지만 DB 내의 권한은 USER이기에 이러한 비정상적인 접근을 방지할 수 있기 때문임.
+            // reissue로 인한 재발급 이후에도 이전 엑세스 토큰으로 '/signup' 경로에 다시 접근할 경우, 토큰 내의 권한은 GUEST가 맞겠지만 DB 내의 권한은 USER이기에 이러한 비정상적인 접근을 방지할 수 있기 때문임.
             throw new UserBadRequestException("이미 가입완료 되어있는 사용자입니다.");
         }
 

@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.User;
-import com.sajang.devracebackend.dto.user.SolvedResponseDto;
+import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchBojIdException;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchUserException;
@@ -30,19 +30,19 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public SolvedResponseDto checkUserSolvedCount() {
+    public UserSolvedResponseDto checkUserSolvedCount() {
         Long loginUserId = SecurityUtil.getCurrentMemberId();
         User user = findUser(loginUserId);
-        SolvedResponseDto solvedResponseDto = getSolvedCount(user.getBojId());
+        UserSolvedResponseDto userSolvedResponseDto = getSolvedCount(user.getBojId());
 
-        return solvedResponseDto;
+        return userSolvedResponseDto;
     }
 
 
     // ========== 유틸성 메소드 ========== //
 
     @Transactional
-    public static SolvedResponseDto getSolvedCount(String bojId){  // WebClient로 외부 solved API 호출 메소드
+    public static UserSolvedResponseDto getSolvedCount(String bojId){  // WebClient로 외부 solved API 호출 메소드
         try {
             WebClient webClient = WebClient.builder()
                     .baseUrl("https://solved.ac/api/v3")
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             return webClient.get()
                     .uri("/user/show?handle=" + bojId)
                     .retrieve()
-                    .bodyToMono(SolvedResponseDto.class)
+                    .bodyToMono(UserSolvedResponseDto.class)
                     .block();
         }catch (Exception e){
             throw new NoSuchBojIdException("bojId = " + bojId);  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.

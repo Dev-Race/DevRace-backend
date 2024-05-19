@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.controller;
 
-import com.sajang.devracebackend.dto.problem.ProblemRequestDto;
-import com.sajang.devracebackend.dto.room.RoomIdResponseDto;
+import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
+import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.RoomService;
@@ -25,8 +25,8 @@ public class RoomController {
 
     @PostMapping("/rooms")
     @Operation(summary = "방 생성 [jwt O]")
-    public ResponseEntity<ResponseData<RoomIdResponseDto>> createRoom(@RequestBody ProblemRequestDto problemRequestDto) throws IOException {
-        RoomIdResponseDto roomIdResponseDto = roomService.createRoom(problemRequestDto);
-        return ResponseData.toResponseEntity(ResponseCode.CREATED_ROOM, roomIdResponseDto);
+    public ResponseEntity<ResponseData<RoomSaveResponseDto>> createRoom(@RequestBody ProblemSaveRequestDto problemSaveRequestDto) throws IOException {
+        RoomSaveResponseDto roomSaveResponseDto = roomService.createRoom(problemSaveRequestDto);
+        return ResponseData.toResponseEntity(ResponseCode.CREATED_ROOM, roomSaveResponseDto);
     }
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomIdResponseDto {
+public class RoomSaveResponseDto {
 
     private Long roomId;
 }
