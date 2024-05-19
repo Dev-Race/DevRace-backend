@@ -59,8 +59,21 @@ public class UserServiceImpl implements UserService {
                 .findFirst();
         UserRoom userRoom = optionalUserRoom.orElse(null);
 
-        if(userRoom == null) return new UserEnterResponseDto(false, null);  // 참여중인 방이 없음 X.
-        else return new UserEnterResponseDto(true, userRoom.getRoom().getId());  // 참여중인 방이 있음 O.
+        UserEnterResponseDto userEnterResponseDto;
+        if(userRoom == null) {  // 참여중인 방이 없을때 X
+            userEnterResponseDto = UserEnterResponseDto.builder()
+                    .isEnter(false)
+                    .roomId(null)
+                    .build();
+        }
+        else {  // 참여중인 방이 있을때 O
+            userEnterResponseDto = UserEnterResponseDto.builder()
+                    .isEnter(true)
+                    .roomId(userRoom.getRoom().getId())
+                    .build();
+        }
+
+        return userEnterResponseDto;
     }
 
 
