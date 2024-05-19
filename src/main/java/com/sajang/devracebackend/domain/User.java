@@ -53,7 +53,7 @@ public class User extends BaseEntity implements Serializable {
     private List<UserRoom> userRoomList = new ArrayList<>();
 
 
-    @Builder(builderClassName = "UserJoinBuilder", builderMethodName = "UserJoinBuilder")
+    @Builder(builderClassName = "UserSaveBuilder", builderMethodName = "UserSaveBuilder")
     public User(String email, Role role, SocialType socialType, String socialId, String nickname, String imageUrl) {
         // 이 빌더는 사용자 회원가입때만 사용할 용도 (refreshToken과 이 외의 속성값들은 전부 null로 들어간다.)
         this.email = email;

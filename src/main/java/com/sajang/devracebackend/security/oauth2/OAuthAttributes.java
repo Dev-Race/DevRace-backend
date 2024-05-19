@@ -48,7 +48,7 @@ public class OAuthAttributes {  // 소셜별로 데이터를 받는 데이터를
     }
 
     public User toEntity(SocialType socialType, OAuth2UserInfo oauth2UserInfo) {
-        return User.UserJoinBuilder()
+        return User.UserSaveBuilder()
                 // email과 role도 사용하기 위해 추가하여 빌드.
                 .email(UUID.randomUUID() + "@socialUser.com")  // email은 JWT Token을 발급하기 위한 용도뿐이므로, UUID를 사용하여 임의로 랜덤값 설정.
                 .role(Role.ROLE_GUEST)  // role은 GUEST로 설정.
