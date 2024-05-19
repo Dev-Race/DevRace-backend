@@ -50,7 +50,7 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
 	// MongoDB
-//	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	// WebSocket & Stomp
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
