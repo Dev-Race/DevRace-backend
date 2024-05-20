@@ -1,6 +1,6 @@
 package com.sajang.devracebackend.controller;
 
-//import com.sajang.devracebackend.config.RabbitConfig;
+import com.sajang.devracebackend.config.RabbitConfig;
 import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
 import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
@@ -52,12 +52,12 @@ public class RoomController {
         return ResponseData.toResponseEntity(ResponseCode.CREATED_USERROOM);
     }
 
-//    @MessageMapping("wait.enter")  // 웹소켓 메시지 처리 (백엔드로 '/pub/wait.enter'를 호출시 이 브로커에서 처리)
-//    public void userWaitRoom(@Payload RoomWaitRequestDto roomWaitRequestDto) {
-//        // '/exchange/wait.exchange/waitingroom.{roomId}' 구독되어있는 프론트엔드에게 메세지 전달.
-//        RoomWaitResponseDto roomWaitResponseDto = roomService.userWaitRoom(roomWaitRequestDto);
-//        rabbitTemplate.convertAndSend(RabbitConfig.WAIT_EXCHANGE_NAME, "waitingroom." + roomWaitResponseDto.getRoomId(), roomWaitResponseDto);
-//    }
+    @MessageMapping("wait.enter")  // 웹소켓 메시지 처리 (백엔드로 '/pub/wait.enter'를 호출시 이 브로커에서 처리)
+    public void userWaitRoom(@Payload RoomWaitRequestDto roomWaitRequestDto) {
+        // '/exchange/wait.exchange/waitingroom.{roomId}' 구독되어있는 프론트엔드에게 메세지 전달.
+        RoomWaitResponseDto roomWaitResponseDto = roomService.userWaitRoom(roomWaitRequestDto);
+        rabbitTemplate.convertAndSend(RabbitConfig.WAIT_EXCHANGE_NAME, "waitingroom." + roomWaitResponseDto.getRoomId(), roomWaitResponseDto);
+    }
 
 
     // ========== STOMP Test 임시 용도 ========== //
