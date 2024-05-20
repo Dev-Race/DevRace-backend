@@ -53,7 +53,8 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 ### Template
 - <a href="https://github.com/Dev-Race/DevRace-backend/tree/develop/.github/ISSUE_TEMPLATE">Issue Template</a>
 - <a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/PULL_REQUEST_TEMPLATE.md">Pull-Request Template</a>
-  <br>
+
+<br>
 
 
 ## 📂 Package Convention
