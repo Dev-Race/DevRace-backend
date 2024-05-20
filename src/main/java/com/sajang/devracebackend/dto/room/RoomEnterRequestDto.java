@@ -9,5 +9,5 @@ import java.util.List;
 @NoArgsConstructor
 public class RoomEnterRequestDto {
 
-    private List<Long> userIdList;
+    private List<Long> userIdList;  // 방장을 제외한 나머지 입장자들 목록
 }

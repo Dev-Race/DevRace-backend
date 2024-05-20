@@ -2,25 +2,31 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.domain.Room;
+import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
 import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
+import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
+import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
 import com.sajang.devracebackend.repository.ProblemRepository;
 import com.sajang.devracebackend.repository.RoomRepository;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchRoomException;
 import com.sajang.devracebackend.service.ProblemService;
 import com.sajang.devracebackend.service.RoomService;
+import com.sajang.devracebackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
+    private final UserService userService;
     private final ProblemService problemService;
     private final ProblemRepository problemRepository;
     private final RoomRepository roomRepository;
@@ -60,5 +66,20 @@ public class RoomServiceImpl implements RoomService {
                 .build();
 
         return roomSaveResponseDto;
+    }
+
+    @Transactional
+    @Override
+    public RoomWaitResponseDto userWaitRoom(RoomWaitRequestDto roomWaitRequestDto) {
+        User user = userService.findUser(roomWaitRequestDto.getUserId());
+        RoomWaitResponseDto roomWaitResponseDto = RoomWaitResponseDto.builder()
+                .roomId(roomWaitRequestDto.getRoomId())
+                .userId(roomWaitRequestDto.getUserId())
+                .nickname(user.getNickname())
+                .isManager(roomWaitRequestDto.getIsManager())
+                .createdTime(LocalDateTime.now())  // 시간을 수동으로 직접 넣어줌.
+                .build();
+
+        return roomWaitResponseDto;
     }
 }

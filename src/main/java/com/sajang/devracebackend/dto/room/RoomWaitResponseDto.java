@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 @NoArgsConstructor
@@ -15,4 +17,5 @@ public class RoomWaitResponseDto {
     private Long userId;  // 대기자 userId
     private String nickname;  // 대기자 이름
     private Boolean isManager;  // 방장 여부
+    private LocalDateTime createdTime;
 }
