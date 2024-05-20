@@ -9,7 +9,7 @@ name: Project CI/CD
 on:
   pull_request:
     types: [ closed ]  # Pull Request가 닫힐 때만 트리거됨
-  workflow_dispatch:  # GitHub UI 수동 실행도 가능
+  workflow_dispatch:  # Github UI 수동 실행도 가능
 
 jobs:
   deploy:
