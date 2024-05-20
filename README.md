@@ -53,3 +53,35 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 ### Template
 - <a href="https://github.com/Dev-Race/DevRace-backend/tree/develop/.github/ISSUE_TEMPLATE">Issue Template</a>
 - <a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/PULL_REQUEST_TEMPLATE.md">Pull-Request Template</a>
+  <br>
+
+
+## 📂 Package Convention
+
+
+### Structure
+```
+├── config
+├── controller
+├── service
+│   └── impl
+├── repository
+├── domain : Entity
+│   ├── enums
+│   ├── common : BaseEntity
+│   └── mapping : 다대다 매핑
+├── dto
+├── response : API 응답값, Exception 핸들러
+│   ├── responseitem
+│   └── exception
+│       ├── exception400
+│       ├── exception404
+│       └── exception500
+├── security
+│   ├── jwt : 토큰 처리
+│   │   └── handler
+│   └── oauth2 : 소셜 로그인
+│       ├── handler
+│       └── userinfo
+└── util
+```

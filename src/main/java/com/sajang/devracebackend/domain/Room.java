@@ -54,4 +54,8 @@ public class Room extends BaseEntity implements Serializable{
     public void updateRanking(String nickname) {
         this.ranking.add(nickname);
     }
+
+    public void updateRoomState(RoomState roomState) {
+        this.roomState = roomState;
+    }
 }
