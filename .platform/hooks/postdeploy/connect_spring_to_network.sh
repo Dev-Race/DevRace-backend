@@ -10,7 +10,7 @@ SPRING_CONTAINER_ID=$(docker ps -q -f ancestor=sahyunjin/devrace-image:latest)
 CONNECTED_CONTAINERS=$(docker network inspect mynetwork -f '{{range .Containers}}{{.Name}} {{end}}')
 
 if [[ $CONNECTED_CONTAINERS == *"$SPRING_CONTAINER_ID"* ]]; then
-  echo "Spring 컨테이너는 이미 'mynetwork'에 연결되어 있습니다."
+  echo "Already Connected - Spring 컨테이너는 이미 'mynetwork'에 연결되어 있습니다."
 else
   # Spring 프로젝트 컨테이너를 네트워크에 연결
   docker network connect mynetwork $SPRING_CONTAINER_ID
