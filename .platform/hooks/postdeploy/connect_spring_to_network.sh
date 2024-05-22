@@ -1,8 +1,5 @@
 #!/bin/bash
 
-## 스크립트 오류 발생 시 자동 종료 (이는 밑의 조건문처리로 불필요함.)
-#set -e
-
 # Spring 프로젝트 컨테이너 이름 가져오기
 SPRING_CONTAINER_ID=$(docker ps -q -f ancestor=sahyunjin/devrace-image:latest)
 
