@@ -1,6 +1,7 @@
 package com.sajang.devracebackend.controller;
 
 import com.sajang.devracebackend.dto.user.UserCheckRoomResponseDto;
+import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
@@ -19,6 +20,13 @@ public class UserController {
 
     private final UserService userService;
 
+
+    @GetMapping("/users")
+    @Operation(summary = "사용자 프로필 조회 [jwt O]")
+    public ResponseEntity<ResponseData<UserResponseDto>> findUserProfile() {
+        UserResponseDto userResponseDto = userService.findUserProfile();
+        return ResponseData.toResponseEntity(ResponseCode.READ_USER, userResponseDto);
+    }
 
     @GetMapping("/users/solved-count")
     @Operation(summary = "백준 solvedCount값 조회 [jwt O]")
