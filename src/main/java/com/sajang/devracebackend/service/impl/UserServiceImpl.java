@@ -3,6 +3,7 @@ package com.sajang.devracebackend.service.impl;
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.user.UserCheckRoomResponseDto;
+import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchBojIdException;
@@ -38,6 +39,14 @@ public class UserServiceImpl implements UserService {
         Long loginUserId = SecurityUtil.getCurrentMemberId();
         User loginUser = findUser(loginUserId);
         return loginUser;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserResponseDto findUserProfile() {
+        User user = findLoginUser();
+        UserResponseDto userResponseDto = new UserResponseDto(user);
+        return userResponseDto;
     }
 
     @Transactional(readOnly = true)
