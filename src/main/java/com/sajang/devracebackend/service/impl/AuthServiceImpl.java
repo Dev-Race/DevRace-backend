@@ -34,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public SignupResponseDto signup(MultipartFile imageFile, SignupRequestDto signupRequestDto) throws IOException {
 
+        // < 회원 프로필 사진 변경조건 >
         // - 사진 변경X : if 'imageFile == null' --> AWS S3 업로드X
         // - 사진 변경O : if 'imageFile != null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드O
         // - 기본사진으로 변경O : if 'imageFile != null && signupRequestDto.getIsImageChange() == 0' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
@@ -61,8 +62,8 @@ public class AuthServiceImpl implements AuthService {
             user.updateImage(null);  // 기본사진임을 명시하고자 null값으로 imageUrl 업데이트.
         }
 
+        if(signupRequestDto.getNickname() != null) user.updateName(signupRequestDto.getNickname());  // 이름 수정없이 유지할경우, 업데이트 X
         user.updateBojId(signupRequestDto.getBojId());
-        user.updateName(signupRequestDto.getNickname());
         user.updateRole();
         UserResponseDto userResponseDto = new UserResponseDto(user);
 
