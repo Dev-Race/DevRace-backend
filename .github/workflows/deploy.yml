@@ -1,6 +1,7 @@
 name: Project CI/CD
 
-# < CI/CD 이전에 먼저 호출해야만 하는 목록 - submodule 최신화 >
+# < CI/CD 이전에 먼저 호출해야만 하는 목록 - postdeploy chmod 권한 부여 & submodule 최신화 >
+# chmod +x .platform/hooks/postdeploy/connect_spring_to_network.sh
 # git submodule update --remote
 # git add .
 # git commit -m "[#이슈번호] Setting: Git Submodule 최신화"
@@ -56,8 +57,10 @@ jobs:
       - name: Generate deployment package
         run: |
           mkdir -p deploy
+          mkdir -p deploy/.platform/hooks/postdeploy
           cp -r .ebextensions deploy/.ebextensions
           cp Dockerrun.aws.json deploy/Dockerrun.aws.json
+          cp .platform/hooks/postdeploy/connect_spring_to_network.sh deploy/.platform/hooks/postdeploy/connect_spring_to_network.sh
           cd deploy && zip -r deploy.zip .
 
       ### AWS Elastic Beanstalk ###
