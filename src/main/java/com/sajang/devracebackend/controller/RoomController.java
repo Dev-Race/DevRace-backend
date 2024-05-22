@@ -1,6 +1,6 @@
 package com.sajang.devracebackend.controller;
 
-//import com.sajang.devracebackend.config.RabbitConfig;
+import com.sajang.devracebackend.config.RabbitConfig;
 import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
 import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
