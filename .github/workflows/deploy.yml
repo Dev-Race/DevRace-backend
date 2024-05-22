@@ -58,6 +58,7 @@ jobs:
           mkdir -p deploy
           cp -r .ebextensions deploy/.ebextensions
           cp Dockerrun.aws.json deploy/Dockerrun.aws.json
+          cp .platform/hooks/postdeploy/connect_spring_to_network.sh deploy/.platform/hooks/postdeploy/connect_spring_to_network.sh
           cd deploy && zip -r deploy.zip .
 
       ### AWS Elastic Beanstalk ###
