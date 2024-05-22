@@ -6,27 +6,20 @@ set -e
 # Spring 프로젝트 컨테이너 이름 가져오기
 SPRING_CONTAINER_ID=$(docker ps -q -f ancestor=sahyunjin/devrace-image:latest)
 
-# 컨테이너 ID가 올바르게 가져와졌는지 확인
-if [ -z "$SPRING_CONTAINER_ID" ]; then
-  echo "ERROR - Spring 컨테이너를 찾을 수 없습니다. 이미지 이름을 확인하세요: sahyunjin/devrace-image:latest"
-  exit 1
-fi
-
 # Spring 프로젝트 컨테이너가 이미 mynetwork에 연결되어 있는지 확인
-docker network inspect mynetwork --format '{{json .Containers}}' | grep -q "$SPRING_CONTAINER_ID"
-NETWORK_CONNECTED=$?
+CONNECTED_CONTAINERS=$(docker network inspect mynetwork -f '{{range .Containers}}{{.Name}} {{end}}')
 
-# 이미 연결되어 있지 않다면 연결 시도
-if [ "$NETWORK_CONNECTED" -ne 0 ]; then
+if [[ $CONNECTED_CONTAINERS == *"$SPRING_CONTAINER_ID"* ]]; then
+  echo "Spring 컨테이너는 이미 'mynetwork'에 연결되어 있습니다."
+else
+  # Spring 프로젝트 컨테이너를 네트워크에 연결
   docker network connect mynetwork $SPRING_CONTAINER_ID
 
   # 네트워크 연결 성공 여부 확인
   if [ $? -eq 0 ]; then
-    echo "SUCCESS - Spring 컨테이너가 성공적으로 mynetwork에 연결되었습니다."
+    echo "SUCCESS - Spring 컨테이너가 성공적으로 'mynetwork'에 연결되었습니다."
   else
-    echo "ERROR - Spring 컨테이너를 네트워크에 연결하는 데 실패했습니다."
+    echo "ERROR - Spring 컨테이너를 'mynetwork'에 연결하는 데 실패했습니다."
     exit 1
   fi
-else
-  echo "Spring 컨테이너가 이미 mynetwork에 연결되어 있습니다."
 fi
