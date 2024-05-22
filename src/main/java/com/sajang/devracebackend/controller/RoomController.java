@@ -6,6 +6,8 @@ import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
+import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
+import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
@@ -14,7 +16,6 @@ import com.sajang.devracebackend.service.UserRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -41,7 +42,7 @@ public class RoomController {
     }
 
     @PostMapping("/rooms/{roomId}")
-    @Operation(summary = "방 입장 시작 [jwt O]")
+    @Operation(summary = "방 입장 시작 [jwt O]", description = "userIdList : 방장을 제외한 나머지 입장자들 목록")
     public ResponseEntity<ResponseData> usersEnterRoom(
             @PathVariable(value = "roomId") Long roomId,  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
             @RequestBody RoomEnterRequestDto roomEnterRequestDto) {
@@ -55,6 +56,20 @@ public class RoomController {
     public ResponseEntity<ResponseData<SolvingPageResponseDto>> loadSolvingPage(@PathVariable(value = "roomId") Long roomId) {  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
         SolvingPageResponseDto solvingPageResponseDto = userRoomService.loadSolvingPage(roomId);
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, solvingPageResponseDto);
+    }
+
+    @GetMapping("/rooms/{roomId}/access-check")
+    @Operation(summary = "문제풀이 페이지 접근허용 검사 [jwt O]", description = "isLeave == 0 or 1 or null")
+    public ResponseEntity<ResponseData<RoomCheckAccessResponseDto>> checkAccess(@PathVariable(value = "roomId") Long roomId) {  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
+        RoomCheckAccessResponseDto roomCheckAccessResponseDto = userRoomService.checkAccess(roomId);
+        return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, roomCheckAccessResponseDto);
+    }
+
+    @GetMapping("/rooms/{roomId}/state-check")
+    @Operation(summary = "방 상태 검사 [jwt O]")
+    public ResponseEntity<ResponseData<RoomCheckStateResponseDto>> checkState(@PathVariable(value = "roomId") Long roomId) {  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
+        RoomCheckStateResponseDto roomCheckStateResponseDto = roomService.checkState(roomId);
+        return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, roomCheckStateResponseDto);
     }
 
     @MessageMapping("wait.enter")  // 웹소켓 메시지 처리 (백엔드로 '/pub/wait.enter'를 호출시 이 브로커에서 처리)

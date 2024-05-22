@@ -7,6 +7,7 @@ import com.sajang.devracebackend.domain.enums.MessageType;
 import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
+import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.repository.UserRepository;
@@ -95,5 +96,27 @@ public class UserRoomServiceImpl implements UserRoomService {
                 ()->new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", user.getId(), room.getId())));
 
         return new SolvingPageResponseDto(userRoom);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public RoomCheckAccessResponseDto checkAccess(Long roomId) {
+        User user = userService.findLoginUser();
+        Room room = roomService.findRoom(roomId);
+        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room)
+                .orElse(null);
+
+        Boolean isExistUserRoom = true;
+        if(userRoom == null) isExistUserRoom = false;
+        Integer isLeave = null;
+        if(userRoom != null) isLeave = userRoom.getIsLeave();
+
+        RoomCheckAccessResponseDto roomCheckAccessResponseDto = RoomCheckAccessResponseDto.builder()
+                .isExistUserRoom(isExistUserRoom)
+                .roomState(room.getRoomState())
+                .isLeave(isLeave)
+                .build();
+
+        return roomCheckAccessResponseDto;
     }
 }
