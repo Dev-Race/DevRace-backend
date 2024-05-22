@@ -2,7 +2,7 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.user.UserCurrentRoomResponseDto;
+import com.sajang.devracebackend.dto.user.UserCheckRoomResponseDto;
 import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchBojIdException;
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserCurrentRoomResponseDto findCurrentRoom() {
+    public UserCheckRoomResponseDto checkCurrentRoom() {
         User user = findLoginUser();
 
         Optional<UserRoom> optionalUserRoom = user.getUserRoomList().stream()
@@ -59,21 +59,21 @@ public class UserServiceImpl implements UserService {
                 .findFirst();
         UserRoom userRoom = optionalUserRoom.orElse(null);
 
-        UserCurrentRoomResponseDto userCurrentRoomResponseDto;
+        UserCheckRoomResponseDto userCheckRoomResponseDto;
         if(userRoom == null) {  // 참여중인 방이 없을때 X
-            userCurrentRoomResponseDto = UserCurrentRoomResponseDto.builder()
-                    .isEnter(false)
+            userCheckRoomResponseDto = UserCheckRoomResponseDto.builder()
+                    .isExistRoom(false)
                     .roomId(null)
                     .build();
         }
         else {  // 참여중인 방이 있을때 O
-            userCurrentRoomResponseDto = UserCurrentRoomResponseDto.builder()
-                    .isEnter(true)
+            userCheckRoomResponseDto = UserCheckRoomResponseDto.builder()
+                    .isExistRoom(true)
                     .roomId(userRoom.getRoom().getId())
                     .build();
         }
 
-        return userCurrentRoomResponseDto;
+        return userCheckRoomResponseDto;
     }
 
 

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCurrentRoomResponseDto {
+public class UserCheckRoomResponseDto {
 
-    private Boolean isEnter;  // 참여중인 방 존재 여부
+    private Boolean isExistRoom;  // 참여중인 방 존재 여부
     private Long roomId;  // null 가능.
 }

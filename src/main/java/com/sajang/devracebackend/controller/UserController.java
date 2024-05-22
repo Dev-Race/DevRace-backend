@@ -1,6 +1,6 @@
 package com.sajang.devracebackend.controller;
 
-import com.sajang.devracebackend.dto.user.UserCurrentRoomResponseDto;
+import com.sajang.devracebackend.dto.user.UserCheckRoomResponseDto;
 import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
@@ -27,10 +27,10 @@ public class UserController {
         return ResponseData.toResponseEntity(ResponseCode.READ_SOLVEDCOUNT, userSolvedResponseDto);
     }
 
-    @GetMapping("/users/rooms")
-    @Operation(summary = "참여중인 방 여부 검사 [jwt O]")
-    public ResponseEntity<ResponseData<UserCurrentRoomResponseDto>> findCurrentRoom() {
-        UserCurrentRoomResponseDto userCurrentRoomResponseDto = userService.findCurrentRoom();
-        return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, userCurrentRoomResponseDto);
+    @GetMapping("/users/room-check")
+    @Operation(summary = "참여중인 방 여부 검사 [jwt O]", description = "roomId == Long or null")
+    public ResponseEntity<ResponseData<UserCheckRoomResponseDto>> checkCurrentRoom() {
+        UserCheckRoomResponseDto userCheckRoomResponseDto = userService.checkCurrentRoom();
+        return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, userCheckRoomResponseDto);
     }
 }

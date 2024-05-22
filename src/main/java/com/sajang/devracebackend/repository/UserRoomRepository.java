@@ -1,8 +1,12 @@
 package com.sajang.devracebackend.repository;
 
+import com.sajang.devracebackend.domain.Room;
+import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
+import java.util.Optional;
 
+public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
+    Optional<UserRoom> findByUserAndRoom(User user, Room room);
 }
