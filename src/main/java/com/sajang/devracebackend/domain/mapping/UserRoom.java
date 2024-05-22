@@ -37,7 +37,7 @@ public class UserRoom extends BaseEntity implements Serializable {
     private Integer isLeave;
 
     @Column(name = "leave_time")
-    private LocalDateTime leaveTime;
+    private LocalDateTime leaveTime;  // 퇴장 시각 (반면, createdTime = 입장 시각)
 
     @ManyToOne(fetch = FetchType.LAZY)  // User-UserRoom 양방향매핑
     @JoinColumn(name = "user_id")

@@ -7,9 +7,11 @@ import com.sajang.devracebackend.domain.enums.MessageType;
 import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
+import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
+import com.sajang.devracebackend.response.exception.exception404.NoSuchUserRoomException;
 import com.sajang.devracebackend.service.RoomService;
 import com.sajang.devracebackend.service.UserRoomService;
 import com.sajang.devracebackend.service.UserService;
@@ -82,5 +84,16 @@ public class UserRoomServiceImpl implements UserRoomService {
 
         // Chat 입장 채팅 내역 저장
         chatRepository.save(chat);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public SolvingPageResponseDto loadSolvingPage(Long roomId) {
+        User user = userService.findLoginUser();
+        Room room = roomService.findRoom(roomId);
+        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(
+                ()->new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", user.getId(), room.getId())));
+
+        return new SolvingPageResponseDto(userRoom);
     }
 }

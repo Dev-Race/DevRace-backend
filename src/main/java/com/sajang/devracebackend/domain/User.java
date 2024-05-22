@@ -49,7 +49,7 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "refresh_token")
     private String refreshToken;
 
-    @OneToMany(mappedBy = "user")  // User-UserRoom 양방향매핑
+    @OneToMany(mappedBy = "user")  // User-UserRoom 양방향매핑 (읽기 전용 필드)
     private List<UserRoom> userRoomList = new ArrayList<>();
 
 

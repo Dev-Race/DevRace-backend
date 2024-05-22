@@ -37,7 +37,7 @@ public class Room extends BaseEntity implements Serializable{
     @JoinColumn(name = "problem_id")
     private Problem problem;
 
-    @OneToMany(mappedBy = "room")  // Room-UserRoom 양방향매핑
+    @OneToMany(mappedBy = "room")  // Room-UserRoom 양방향매핑 (읽기 전용 필드)
     private List<UserRoom> userRoomList = new ArrayList<>();
 
 
