@@ -27,7 +27,7 @@ public class UserController {
         return ResponseData.toResponseEntity(ResponseCode.READ_SOLVEDCOUNT, userSolvedResponseDto);
     }
 
-    @GetMapping("/users/rooms")
+    @GetMapping("/users/room-check")
     @Operation(summary = "참여중인 방 여부 검사 [jwt O]")
     public ResponseEntity<ResponseData<UserCurrentRoomResponseDto>> findCurrentRoom() {
         UserCurrentRoomResponseDto userCurrentRoomResponseDto = userService.findCurrentRoom();
