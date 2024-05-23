@@ -7,7 +7,7 @@ import com.sajang.devracebackend.domain.enums.MessageType;
 import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
-import com.sajang.devracebackend.dto.userroom.CheckIsPassDto;
+import com.sajang.devracebackend.dto.userroom.UserPassRequestDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
@@ -123,27 +123,28 @@ public class UserRoomServiceImpl implements UserRoomService {
 
     @Transactional
     @Override
-    public void checkIsPass(CheckIsPassDto checkIsPassDto, Long roomId) {
-        User user = userService.findLoginUser();  // 현재 유저 데이터 가져오기
-        Room room = roomService.findRoom(roomId);  // 현재 입장된 방 데이터 가져오기
-        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user,room).orElseThrow(  // api를 호출한 유저와 유저의 room 요소 가져오기
-                () -> new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", user.getId(), room.getId()))
-        );
+    public void passSolvingProblem(Long roomId, UserPassRequestDto userPassRequestDto) {
+        User user = userService.findLoginUser();
+        Room room = roomService.findRoom(roomId);
+        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(
+                ()->new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", user.getId(), room.getId())));
 
-        userRoom.updateCode(checkIsPassDto.getCode());
-        userRoom.updateIsPass(checkIsPassDto.getIsPass());
-        userRoom.updateIsLeave(1);  
+        userRoom.updateCode(userPassRequestDto.getCode());
+        userRoom.updateIsLeave(1);
         userRoom.updateLeaveTime(LocalDateTime.now());
 
-        if(checkIsPassDto.getIsPass() == 1){
-                room.updateRanking(userRoom.getUser().getNickname());  // 성공시에만 닉네임 랭킹 등록.
+        if(userPassRequestDto.getIsRetry() == 0 || (userPassRequestDto.getIsRetry() == 1 && userPassRequestDto.getIsPass() == 1)) {
+            // 재풀이인 경우, 성공인 경우에만 성공여부를 업데이트함. (재풀이의 퇴장인 경우에는 성공여부를 업데이트 하지않음)
+            userRoom.updateIsPass(userPassRequestDto.getIsPass());
         }
 
-        boolean isUsersLeave = userRoomRepository.findAllByRoom(room).stream()
-                .allMatch(users -> users.getIsLeave() == 1);  //모든 유저의 isLeave를 찾아 1인지 확인
-        if(isUsersLeave) {
-            room.updateRoomState(RoomState.FINISH);
-        }
+        // 밑의 랭킹 업데이트 파트는 STOMP 실시간 처리를 위하여, 주석처리 해두었음.
+//        if(userPassRequestDto.getIsPass() == 1) {
+//            room.updateRanking(user.getNickname());  // 성공시에만 닉네임 랭킹 등록.
+//        }
+
+        boolean isLeaveAllUsers = userRoomRepository.findAllByRoom(room).stream()
+                .allMatch(users -> users.getIsLeave() == 1);  // 모든 유저의 isLeave 값이 1인지 확인
+        if(isLeaveAllUsers == true) room.updateRoomState(RoomState.FINISH);
     }
-
 }

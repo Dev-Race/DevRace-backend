@@ -6,7 +6,7 @@ import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
-import com.sajang.devracebackend.dto.userroom.CheckIsPassDto;
+import com.sajang.devracebackend.dto.userroom.UserPassRequestDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
@@ -61,16 +61,25 @@ public class RoomController {
 
     @GetMapping("/rooms/{roomId}/access-check")
     @Operation(summary = "문제풀이 페이지 접근허용 검사 [jwt O]", description = "isLeave == 0 or 1 or null")
-    public ResponseEntity<ResponseData<RoomCheckAccessResponseDto>> checkAccess(@PathVariable(value = "roomId") Long roomId) {  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
+    public ResponseEntity<ResponseData<RoomCheckAccessResponseDto>> checkAccess(@PathVariable(value = "roomId") Long roomId) {
         RoomCheckAccessResponseDto roomCheckAccessResponseDto = userRoomService.checkAccess(roomId);
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, roomCheckAccessResponseDto);
     }
 
     @GetMapping("/rooms/{roomId}/state-check")
     @Operation(summary = "방 상태 검사 [jwt O]")
-    public ResponseEntity<ResponseData<RoomCheckStateResponseDto>> checkState(@PathVariable(value = "roomId") Long roomId) {  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
+    public ResponseEntity<ResponseData<RoomCheckStateResponseDto>> checkState(@PathVariable(value = "roomId") Long roomId) {
         RoomCheckStateResponseDto roomCheckStateResponseDto = roomService.checkState(roomId);
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, roomCheckStateResponseDto);
+    }
+
+    @PutMapping("/room/{roomId}")
+    @Operation(summary = "문제풀이 실패 및 성공 [jwt O]", description = "isRetry==0 : 첫풀이 경우 / isRetry==1 : 재풀이 경우")
+    public ResponseEntity<ResponseData> passSolvingProblem(
+            @PathVariable(value = "roomId") Long roomId,
+            @RequestBody UserPassRequestDto userPassRequestDto) {
+        userRoomService.passSolvingProblem(roomId, userPassRequestDto);
+        return ResponseData.toResponseEntity(ResponseCode.UPDATE_USERROOM);
     }
 
     @MessageMapping("wait.enter")  // 웹소켓 메시지 처리 (백엔드로 '/pub/wait.enter'를 호출시 이 브로커에서 처리)
@@ -78,14 +87,6 @@ public class RoomController {
         // '/exchange/wait.exchange/waitingroom.{roomId}' 구독되어있는 프론트엔드에게 메세지 전달.
         RoomWaitResponseDto roomWaitResponseDto = roomService.userWaitRoom(roomWaitRequestDto);
         rabbitTemplate.convertAndSend(RabbitConfig.WAIT_EXCHANGE_NAME, "waitingroom." + roomWaitResponseDto.getRoomId(), roomWaitResponseDto);
-    }
-
-    @PutMapping("/room/{roomId}")
-    public ResponseEntity<ResponseData> success(
-            @RequestBody CheckIsPassDto checkIsPassDto,
-            @PathVariable(name ="roomId") Long roomId){
-        userRoomService.checkIsPass(checkIsPassDto,roomId);
-        return ResponseData.toResponseEntity(ResponseCode.UPDATE_USERROOM);
     }
 
 

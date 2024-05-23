@@ -4,7 +4,6 @@ import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.repository.ProblemRepository;
 import com.sajang.devracebackend.service.ProblemService;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.jsoup.Jsoup;

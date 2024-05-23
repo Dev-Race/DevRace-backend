@@ -25,6 +25,6 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         if (dbData == null || dbData.equals("__null__")) {
             return new ArrayList<>();
         }
-        return new ArrayList<>(Arrays.asList(dbData.split(SPLIT_CHAR))); // else 경우
+        return new ArrayList<>(Arrays.asList(dbData.split(SPLIT_CHAR)));  // else 경우
     }
 }
