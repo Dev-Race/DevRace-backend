@@ -2,9 +2,9 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.repository.ProblemRepository;
+import com.sajang.devracebackend.response.exception.exception404.NoSuchProblemException;
 import com.sajang.devracebackend.service.ProblemService;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.jsoup.Jsoup;
@@ -28,7 +28,12 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     public Problem crawlAndSaveProblem(Integer problemNumber) throws IOException {  // Service 클래스 내에서만 호출되며 방 생성에 이용될 것이기에 Dto가 아닌, Entity를 반환받음.
         String url = "https://www.acmicpc.net/problem/" + problemNumber;
-        Document doc = Jsoup.connect(url).get();
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).get();
+        } catch (Exception e) {
+            throw new NoSuchProblemException("problemNumber = " + problemNumber);
+        }
 
         Elements contents = doc.select("#problem-body");  // #problem-body에 접근
         Elements contentHead = doc.select(".page-header h1");  // 문제 title 추출을 위한 page-header에 접근
