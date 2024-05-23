@@ -6,6 +6,7 @@ import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
+import com.sajang.devracebackend.dto.userroom.CheckIsPassDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
@@ -78,6 +79,8 @@ public class RoomController {
         RoomWaitResponseDto roomWaitResponseDto = roomService.userWaitRoom(roomWaitRequestDto);
         rabbitTemplate.convertAndSend(RabbitConfig.WAIT_EXCHANGE_NAME, "waitingroom." + roomWaitResponseDto.getRoomId(), roomWaitResponseDto);
     }
+
+
 
 
     // ========== STOMP Test 임시 용도 ========== //

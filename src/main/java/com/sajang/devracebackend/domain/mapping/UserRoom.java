@@ -58,4 +58,21 @@ public class UserRoom extends BaseEntity implements Serializable {
         this.user = user;
         this.room = room;
     }
+
+
+    public void updateCode(String code) {
+        this.code = code;
+    }
+
+    public void updateIsPass(Integer isPass) {
+        this.isPass = isPass;
+    }
+
+    public void updateIsLeave(Integer isLeave) {
+        this.isLeave = isLeave;
+    }
+
+    public void updateLeaveTime(LocalDateTime leaveTime) {
+        this.leaveTime = leaveTime;
+    }
 }
