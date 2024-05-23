@@ -7,6 +7,7 @@ import com.sajang.devracebackend.domain.enums.MessageType;
 import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
+import com.sajang.devracebackend.dto.userroom.CheckIsPassDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
@@ -119,4 +120,30 @@ public class UserRoomServiceImpl implements UserRoomService {
 
         return roomCheckAccessResponseDto;
     }
+
+    @Transactional
+    @Override
+    public void checkIsPass(CheckIsPassDto checkIsPassDto, Long roomId) {
+        User user = userService.findLoginUser();  // 현재 유저 데이터 가져오기
+        Room room = roomService.findRoom(roomId);  // 현재 입장된 방 데이터 가져오기
+        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user,room).orElseThrow(  // api를 호출한 유저와 유저의 room 요소 가져오기
+                () -> new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", user.getId(), room.getId()))
+        );
+
+        userRoom.updateCode(checkIsPassDto.getCode());
+        userRoom.updateIsPass(checkIsPassDto.getIsPass());
+        userRoom.updateIsLeave(1);  
+        userRoom.updateLeaveTime(LocalDateTime.now());
+
+        if(checkIsPassDto.getIsPass() == 1){
+                room.updateRanking(userRoom.getUser().getNickname());  // 성공시에만 닉네임 랭킹 등록.
+        }
+
+        boolean isUsersLeave = userRoomRepository.findAllByRoom(room).stream()
+                .allMatch(users -> users.getIsLeave() == 1);  //모든 유저의 isLeave를 찾아 1인지 확인
+        if(isUsersLeave) {
+            room.updateRoomState(RoomState.FINISH);
+        }
+    }
+
 }

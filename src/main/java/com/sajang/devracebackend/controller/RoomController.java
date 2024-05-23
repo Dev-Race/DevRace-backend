@@ -6,6 +6,7 @@ import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.dto.room.RoomEnterRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
+import com.sajang.devracebackend.dto.userroom.CheckIsPassDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
@@ -77,6 +78,14 @@ public class RoomController {
         // '/exchange/wait.exchange/waitingroom.{roomId}' 구독되어있는 프론트엔드에게 메세지 전달.
         RoomWaitResponseDto roomWaitResponseDto = roomService.userWaitRoom(roomWaitRequestDto);
         rabbitTemplate.convertAndSend(RabbitConfig.WAIT_EXCHANGE_NAME, "waitingroom." + roomWaitResponseDto.getRoomId(), roomWaitResponseDto);
+    }
+
+    @PutMapping("/room/{roomId}")
+    public ResponseEntity<ResponseData> success(
+            @RequestBody CheckIsPassDto checkIsPassDto,
+            @PathVariable(name ="roomId") Long roomId){
+        userRoomService.checkIsPass(checkIsPassDto,roomId);
+        return ResponseData.toResponseEntity(ResponseCode.UPDATE_USERROOM);
     }
 
 

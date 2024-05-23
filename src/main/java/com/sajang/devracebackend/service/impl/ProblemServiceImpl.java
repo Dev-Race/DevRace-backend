@@ -34,9 +34,6 @@ public class ProblemServiceImpl implements ProblemService {
         Elements contentHead = doc.select(".page-header h1");  // 문제 title 추출을 위한 page-header에 접근
         Elements sampleDataElement = doc.getElementsByClass("col-md-6");  // 예제 문제쪽 요소에 따로 접근
 
-        JSONObject sampleInputJson = new JSONObject();
-        JSONObject sampleOutputJson = new JSONObject();
-
         int Amount = sampleDataElement.size();  // 예제 문제 개수 추출
         List<String> sampleInput = new ArrayList<>();
         List<String> sampleOutput = new ArrayList<>();
