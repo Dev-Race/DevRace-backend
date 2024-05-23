@@ -80,7 +80,13 @@ public class RoomController {
         rabbitTemplate.convertAndSend(RabbitConfig.WAIT_EXCHANGE_NAME, "waitingroom." + roomWaitResponseDto.getRoomId(), roomWaitResponseDto);
     }
 
-
+    @PutMapping("/room/{roomId}")
+    public ResponseEntity<ResponseData> success(
+            @RequestBody CheckIsPassDto checkIsPassDto,
+            @PathVariable(name ="roomId") Long roomId){
+        userRoomService.checkIsPass(checkIsPassDto,roomId);
+        return ResponseData.toResponseEntity(ResponseCode.UPDATE_USERROOM);
+    }
 
 
     // ========== STOMP Test 임시 용도 ========== //
