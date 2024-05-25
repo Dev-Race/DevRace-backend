@@ -16,6 +16,7 @@ public class MessageItem {
     // < Room >
     public static final String CREATED_ROOM = "SUCCESS - 방 생성 성공";
     public static final String READ_ROOM = "SUCCESS - 방 조회 성공";
+    public static final String UPDATE_ROOM = "SUCCESS - 방 정보 수정 성공";
 
     public static final String NOT_FOUND_ROOM = "ERROR - 존재하지 않는 방 조회 에러";
     public static final String BAD_REQUEST_ROOM = "ERROR - 잘못된 방 요청 에러";
