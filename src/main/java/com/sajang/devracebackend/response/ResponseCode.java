@@ -31,6 +31,7 @@ public enum ResponseCode {
     // Room 성공 응답
     CREATED_ROOM(StatusItem.CREATED, MessageItem.CREATED_ROOM),
     READ_ROOM(StatusItem.OK, MessageItem.READ_ROOM),
+    UPDATE_ROOM(StatusItem.NO_CONTENT, MessageItem.UPDATE_ROOM),
 
     // Room 실패 응답
     NOT_FOUND_ROOM(StatusItem.NOT_FOUND, MessageItem.NOT_FOUND_ROOM),

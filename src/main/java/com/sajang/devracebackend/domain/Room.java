@@ -3,6 +3,7 @@ package com.sajang.devracebackend.domain;
 import com.sajang.devracebackend.domain.common.BaseEntity;
 import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
+import com.sajang.devracebackend.util.LongListConverter;
 import com.sajang.devracebackend.util.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,9 @@ public class Room extends BaseEntity implements Serializable{
     @Column(name = "link", unique = true)
     private String link;
 
+    @Convert(converter = LongListConverter.class)  // DB에는 String으로 저장됨.
+    private List<Long> waiting = new ArrayList<>();  // 0인덱스에는 무조건 방장의 userId가 들어갈것.
+
     @Convert(converter = StringListConverter.class)  // DB에는 String으로 저장됨.
     private List<String> ranking = new ArrayList<>();
 
@@ -45,13 +49,35 @@ public class Room extends BaseEntity implements Serializable{
     public Room(String link, Problem problem) {
         // 이 빌더는 Room 생성때만 사용할 용도
         this.link = link;
+        this.waiting = new ArrayList<>();  // 초기값 빈배열인 문자열 -> "__null__"
         this.ranking = new ArrayList<>();  // 초기값 빈배열인 문자열 -> "__null__"
         this.roomState = RoomState.WAIT;  // 초기값 WAIT
         this.problem = problem;
     }
 
 
-    public void updateRanking(String nickname) {
+    public void addWaiting(Long userId, Boolean isManager) {
+        if(isManager == true) {  // 방장인 경우, 리스트의 맨앞에 추가.
+            if(this.waiting.contains(userId)) {
+                this.waiting.remove(userId);
+            }
+            this.waiting.add(0, userId);
+        }
+        else if(!this.waiting.contains(userId)) {  // 방장이 아니며, 리스트에 없는 일반 사용자인 경우
+            this.waiting.add(userId);
+        }
+    }
+
+    public void deleteWaiting(Long userId, Boolean isAllDelete) {
+        if(isAllDelete == true) {
+            this.waiting.clear();
+        }
+        else {
+            this.waiting.remove(userId);
+        }
+    }
+
+    public void addRanking(String nickname) {
         this.ranking.add(nickname);
     }
 
