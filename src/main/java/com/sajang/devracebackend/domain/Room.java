@@ -4,7 +4,6 @@ import com.sajang.devracebackend.domain.common.BaseEntity;
 import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.util.LongListConverter;
-import com.sajang.devracebackend.util.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,8 +29,8 @@ public class Room extends BaseEntity implements Serializable{
     @Convert(converter = LongListConverter.class)  // DB에는 String으로 저장됨.
     private List<Long> waiting = new ArrayList<>();  // 0인덱스에는 무조건 방장의 userId가 들어갈것.
 
-    @Convert(converter = StringListConverter.class)  // DB에는 String으로 저장됨.
-    private List<String> ranking = new ArrayList<>();
+    @Convert(converter = LongListConverter.class)  // DB에는 String으로 저장됨.
+    private List<Long> ranking = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "room_state")
@@ -77,8 +76,8 @@ public class Room extends BaseEntity implements Serializable{
         }
     }
 
-    public void addRanking(String nickname) {
-        this.ranking.add(nickname);
+    public void addRanking(Long userId) {
+        this.ranking.add(userId);
     }
 
     public void updateRoomState(RoomState roomState) {

@@ -8,6 +8,7 @@ import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
+import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.dto.userroom.UserPassRequestDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
@@ -37,14 +38,11 @@ public class UserRoomServiceImpl implements UserRoomService {
     private final ChatRepository chatRepository;
 
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public void createUserRoom(User user, Room room) {
-        UserRoom userRoom = UserRoom.UserRoomSaveBuilder()
-                .user(user)
-                .room(room)
-                .build();
-        userRoomRepository.save(userRoom);
+    public UserRoom findUserRoom(User user, Room room) {
+        return userRoomRepository.findByUserAndRoom(user, room).orElseThrow(
+                ()->new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", user.getId(), room.getId())));
     }
 
     @Transactional
@@ -118,7 +116,7 @@ public class UserRoomServiceImpl implements UserRoomService {
         User loginUser = userService.findLoginUser();
         Room room = roomService.findRoom(roomId);
 
-        room.deleteWaiting(loginUser.getId(), false);
+        room.deleteWaiting(loginUser.getId(), false);  // 대기자 목록에서 해당 사용자 제거.
     }
 
     @Transactional(readOnly = true)
@@ -126,10 +124,15 @@ public class UserRoomServiceImpl implements UserRoomService {
     public SolvingPageResponseDto loadSolvingPage(Long roomId) {
         User user = userService.findLoginUser();
         Room room = roomService.findRoom(roomId);
-        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(
-                ()->new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", user.getId(), room.getId())));
+        UserRoom userRoom = findUserRoom(user, room);
 
-        return new SolvingPageResponseDto(userRoom);
+        List<Long> rankUserIdList = room.getWaiting();
+        List<User> rankUserList = userRepository.findByIdIn(rankUserIdList);
+        List<UserResponseDto> rankUserDtoList = rankUserList.stream()
+                .map(UserResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new SolvingPageResponseDto(userRoom, rankUserDtoList);
     }
 
     @Transactional(readOnly = true)
@@ -159,8 +162,7 @@ public class UserRoomServiceImpl implements UserRoomService {
     public void passSolvingProblem(Long roomId, UserPassRequestDto userPassRequestDto) {
         User user = userService.findLoginUser();
         Room room = roomService.findRoom(roomId);
-        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(
-                ()->new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", user.getId(), room.getId())));
+        UserRoom userRoom = findUserRoom(user, room);
 
         userRoom.updateCode(userPassRequestDto.getCode());
         userRoom.updateIsLeave(1);

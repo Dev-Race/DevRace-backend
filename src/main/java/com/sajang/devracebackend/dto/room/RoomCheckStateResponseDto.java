@@ -17,5 +17,5 @@ public class RoomCheckStateResponseDto {
 
     private RoomState roomState;
     private String link;
-    private List<UserResponseDto> userResponseDtoList;
+    private List<UserResponseDto> waitUserDtoList;
 }
