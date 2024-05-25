@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class ChatSaveRequestDto {
+public class ChatRequestDto {
 
     // cannot NULL
     @NotNull(message = "ERROR - roomId cannot be NULL")
@@ -26,11 +26,12 @@ public class ChatSaveRequestDto {
     private String message;  // MessageType == 'ENTER' or 'LEAVE' or 'RANK' 일때는 null 가능. 'TALK'일때는 null 불가능.
 
 
-    public Chat toEntity(String senderName, String message, LocalDateTime createdTime) {
+    public Chat toEntity(String senderName, String senderImageUrl, String message, LocalDateTime createdTime) {
         return Chat.ChatSaveBuilder()
                 .roomId(roomId)
                 .senderId(senderId)
                 .senderName(senderName)
+                .senderImageUrl(senderImageUrl)
                 .message(message)
                 .messageType(messageType)
                 .createdTime(createdTime)

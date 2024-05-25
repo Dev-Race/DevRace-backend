@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/users/room-check")
-    @Operation(summary = "참여중인 방 여부 검사 [jwt O]", description = "roomId == Long or null")
+    @Operation(summary = "메인 Page - 참여중인 방 여부 검사 [jwt O]", description = "roomId == Long or null")
     public ResponseEntity<ResponseData<UserCheckRoomResponseDto>> checkCurrentRoom() {
         UserCheckRoomResponseDto userCheckRoomResponseDto = userService.checkCurrentRoom();
         return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, userCheckRoomResponseDto);

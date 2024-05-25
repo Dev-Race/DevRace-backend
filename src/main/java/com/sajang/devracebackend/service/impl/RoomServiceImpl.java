@@ -75,28 +75,28 @@ public class RoomServiceImpl implements RoomService {
         Room room = findRoom(roomId);
         List<Long> waitUserIdList = room.getWaiting();
         List<User> waitUserList = userRepository.findByIdIn(waitUserIdList);
-        List<UserResponseDto> userResponseDtoList = waitUserList.stream()
+        List<UserResponseDto> waitUserDtoList = waitUserList.stream()
                 .map(UserResponseDto::new)
                 .collect(Collectors.toList());
 
-        List<UserResponseDto> sortedUserResponseDtoList = new ArrayList<>();
-        if(userResponseDtoList.size() > 1) {
+        List<UserResponseDto> sortedWaitUserDtoList = new ArrayList<>();
+        if(waitUserDtoList.size() > 1) {
             // 방장인 맨앞 인덱스를 제외하고 나머지 인덱스들을 정렬.
-            sortedUserResponseDtoList.addAll(userResponseDtoList.subList(1, userResponseDtoList.size()).stream()
+            sortedWaitUserDtoList.addAll(waitUserDtoList.subList(1, waitUserDtoList.size()).stream()
                     .sorted(Comparator.comparing(UserResponseDto::getNickname)
                             .thenComparing(UserResponseDto::getCreatedTime))  // nickname으로 먼저 오름차순 정렬 후, createdTime으로 오름차순 정렬.
                     .collect(Collectors.toList()));
             // 방장을 정렬된 리스트의 맨앞에 추가.
-            sortedUserResponseDtoList.add(0, userResponseDtoList.get(0));
+            sortedWaitUserDtoList.add(0, waitUserDtoList.get(0));
         }
         else {
-            sortedUserResponseDtoList = userResponseDtoList;
+            sortedWaitUserDtoList = waitUserDtoList;
         }
 
         RoomCheckStateResponseDto roomCheckStateResponseDto = RoomCheckStateResponseDto.builder()
                 .roomState(room.getRoomState())
                 .link(room.getLink())
-                .userResponseDtoList(sortedUserResponseDtoList)
+                .waitUserDtoList(sortedWaitUserDtoList)
                 .build();
 
         return roomCheckStateResponseDto;
