@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +42,19 @@ public class UserServiceImpl implements UserService {
         Long loginUserId = SecurityUtil.getCurrentMemberId();
         User loginUser = findUser(loginUserId);
         return loginUser;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public <T> List<T> findUsersOriginal(List<Long> userIdList, Boolean isDto) {  // 기존 userId리스트의 순서를 보장하는 User&UserDto리스트 반환 메소드
+        List<User> userList = userRepository.findByIdIn(userIdList);
+        Map<Long, User> userMap = userList.stream()
+                .collect(Collectors.toMap(User::getId, user -> user));
+
+        return userIdList.stream()
+                .map(userMap::get)
+                .map(user -> isDto ? (T) new UserResponseDto(user) : (T) user)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

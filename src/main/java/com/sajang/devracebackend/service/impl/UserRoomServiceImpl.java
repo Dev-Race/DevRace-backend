@@ -13,7 +13,6 @@ import com.sajang.devracebackend.dto.userroom.UserPassRequestDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
-import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchUserRoomException;
 import com.sajang.devracebackend.service.RoomService;
@@ -33,7 +32,6 @@ public class UserRoomServiceImpl implements UserRoomService {
 
     private final UserService userService;
     private final RoomService roomService;
-    private final UserRepository userRepository;
     private final UserRoomRepository userRoomRepository;
     private final ChatRepository chatRepository;
 
@@ -76,7 +74,7 @@ public class UserRoomServiceImpl implements UserRoomService {
     public void usersEnterRoom(Long roomId) {
         Room room = roomService.findRoom(roomId);
         List<Long> waitUserIdList = room.getWaiting();
-        List<User> waitUserList = userRepository.findByIdIn(waitUserIdList);
+        List<User> waitUserList = userService.findUsersOriginal(waitUserIdList, false);
         User managerUser = waitUserList.get(0);  // 방장
 
         List<UserRoom> userRooms = waitUserList.stream()
@@ -127,10 +125,7 @@ public class UserRoomServiceImpl implements UserRoomService {
         UserRoom userRoom = findUserRoom(user, room);
 
         List<Long> rankUserIdList = room.getWaiting();
-        List<User> rankUserList = userRepository.findByIdIn(rankUserIdList);
-        List<UserResponseDto> rankUserDtoList = rankUserList.stream()
-                .map(UserResponseDto::new)
-                .collect(Collectors.toList());
+        List<UserResponseDto> rankUserDtoList = userService.findUsersOriginal(rankUserIdList, true);
 
         return new SolvingPageResponseDto(userRoom, rankUserDtoList);
     }

@@ -1,10 +1,12 @@
 package com.sajang.devracebackend.controller;
 
 import com.sajang.devracebackend.domain.Problem;
+import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.AwsS3Service;
 import com.sajang.devracebackend.service.ProblemService;
+import com.sajang.devracebackend.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.io.IOException;
 public class TestController {
 
     private final AwsS3Service awsS3Service;
+    private final RoomService roomService;
     private final ProblemService problemService;
 
 
@@ -48,5 +51,11 @@ public class TestController {
 //    public ResponseEntity crawlAndSaveProblem(@PathVariable Integer number) throws IOException {
 //        Problem problem = problemService.crawlAndSaveProblem(number);
 //        return ResponseData.toResponseEntity(ResponseCode.TEST_SUCCESS, problem.getProblemLimit());
+//    }
+//
+//    @GetMapping("/roomstate/{roomId}")
+//    public ResponseEntity checkRoomState(@PathVariable Long roomId) {
+//        RoomCheckStateResponseDto roomCheckStateResponseDto = roomService.checkState(roomId);
+//        return ResponseData.toResponseEntity(ResponseCode.TEST_SUCCESS, roomCheckStateResponseDto);
 //    }
 }
