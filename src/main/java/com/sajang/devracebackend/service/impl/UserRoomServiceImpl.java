@@ -57,7 +57,7 @@ public class UserRoomServiceImpl implements UserRoomService {
         }
 
         // 대기
-        room.addWaiting(roomWaitRequestDto.getRoomId(), roomWaitRequestDto.getIsManager());
+        room.addWaiting(roomWaitRequestDto.getUserId(), roomWaitRequestDto.getIsManager());
         RoomWaitResponseDto roomWaitResponseDto = RoomWaitResponseDto.builder()
                 .roomId(roomWaitRequestDto.getRoomId())
                 .userId(roomWaitRequestDto.getUserId())

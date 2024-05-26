@@ -7,9 +7,7 @@ import com.sajang.devracebackend.domain.enums.MessageType;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.chat.ChatResponseDto;
 import com.sajang.devracebackend.dto.chat.ChatRequestDto;
-import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
-import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
 import com.sajang.devracebackend.service.ChatService;
 import com.sajang.devracebackend.service.RoomService;
@@ -20,8 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +27,6 @@ public class ChatServiceImpl implements ChatService {
     private final RoomService roomService;
     private final UserRoomService userRoomService;
     private final UserRoomRepository userRoomRepository;
-    private final UserRepository userRepository;
     private final ChatRepository chatRepository;
 
 
