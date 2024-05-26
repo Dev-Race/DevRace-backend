@@ -14,7 +14,10 @@ import com.sajang.devracebackend.service.ChatService;
 import com.sajang.devracebackend.service.RoomService;
 import com.sajang.devracebackend.service.UserRoomService;
 import com.sajang.devracebackend.service.UserService;
+import com.sajang.devracebackend.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,5 +73,18 @@ public class ChatServiceImpl implements ChatService {
         chatRepository.save(chat);
 
         return new ChatResponseDto(chat);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Slice<ChatResponseDto> findChatsByRoom(Long roomId, Pageable pageable) {
+        User loginUser = userService.findUser(SecurityUtil.getCurrentMemberId());
+        Room room = roomService.findRoom(roomId);
+        UserRoom userRoom = userRoomService.findUserRoom(loginUser, room);
+        LocalDateTime leaveTime = userRoom.getLeaveTime();
+
+        // 본인 퇴장시각 이하까지의 채팅 내역 조회
+        Slice<Chat> chatSlice = chatRepository.findAllByRoomIdAndCreatedTimeLessThanEqual(roomId, leaveTime, pageable);
+        return chatSlice.map(chat -> new ChatResponseDto(chat));
     }
 }

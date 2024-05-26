@@ -2,7 +2,6 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.domain.Room;
-import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
 import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
 import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
@@ -11,24 +10,22 @@ import com.sajang.devracebackend.repository.*;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchRoomException;
 import com.sajang.devracebackend.service.ProblemService;
 import com.sajang.devracebackend.service.RoomService;
+import com.sajang.devracebackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
+    private final UserService userService;
     private final ProblemService problemService;
-    private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final ProblemRepository problemRepository;
 
@@ -74,10 +71,7 @@ public class RoomServiceImpl implements RoomService {
     public RoomCheckStateResponseDto checkState(Long roomId) {
         Room room = findRoom(roomId);
         List<Long> waitUserIdList = room.getWaiting();
-        List<User> waitUserList = userRepository.findByIdIn(waitUserIdList);
-        List<UserResponseDto> waitUserDtoList = waitUserList.stream()
-                .map(UserResponseDto::new)
-                .collect(Collectors.toList());
+        List<UserResponseDto> waitUserDtoList = userService.findUsersOriginal(waitUserIdList, true);
 
         RoomCheckStateResponseDto roomCheckStateResponseDto = RoomCheckStateResponseDto.builder()
                 .roomState(room.getRoomState())
