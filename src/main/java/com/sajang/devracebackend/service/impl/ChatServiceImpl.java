@@ -59,7 +59,7 @@ public class ChatServiceImpl implements ChatService {
         else if(chatRequestDto.getMessageType().equals(MessageType.TALK)) {  // 방 채팅의 경우
             if(isExistUserRoom == false) throw new RuntimeException("ERROR - 방에 참가하지않은 사용자는 채팅이 불가능합니다.");
             if(chatRequestDto.getMessage() == null) throw new RuntimeException("ERROR - 채팅시에는 반드시 message을 함께 보내주어야합니다.");
-            message = "'" + user.getNickname() + "'님의 메세지: '" + chatRequestDto.getMessage() + "'";
+            message = chatRequestDto.getMessage();
         }
         else {  // 랭킹 상승의 경우 (MessageType.RANK 일때)
             room.addRanking(user.getId());
