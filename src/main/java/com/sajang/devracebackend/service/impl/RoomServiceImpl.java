@@ -79,24 +79,10 @@ public class RoomServiceImpl implements RoomService {
                 .map(UserResponseDto::new)
                 .collect(Collectors.toList());
 
-        List<UserResponseDto> sortedWaitUserDtoList = new ArrayList<>();
-        if(waitUserDtoList.size() > 1) {
-            // 방장인 맨앞 인덱스를 제외하고 나머지 인덱스들을 정렬.
-            sortedWaitUserDtoList.addAll(waitUserDtoList.subList(1, waitUserDtoList.size()).stream()
-                    .sorted(Comparator.comparing(UserResponseDto::getNickname)
-                            .thenComparing(UserResponseDto::getCreatedTime))  // nickname으로 먼저 오름차순 정렬 후, createdTime으로 오름차순 정렬.
-                    .collect(Collectors.toList()));
-            // 방장을 정렬된 리스트의 맨앞에 추가.
-            sortedWaitUserDtoList.add(0, waitUserDtoList.get(0));
-        }
-        else {
-            sortedWaitUserDtoList = waitUserDtoList;
-        }
-
         RoomCheckStateResponseDto roomCheckStateResponseDto = RoomCheckStateResponseDto.builder()
                 .roomState(room.getRoomState())
                 .link(room.getLink())
-                .waitUserDtoList(sortedWaitUserDtoList)
+                .waitUserDtoList(waitUserDtoList)
                 .build();
 
         return roomCheckStateResponseDto;

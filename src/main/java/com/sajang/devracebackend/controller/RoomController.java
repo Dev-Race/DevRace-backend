@@ -56,7 +56,7 @@ public class RoomController {
     }
 
     @GetMapping("/rooms/{roomId}/state-check")
-    @Operation(summary = "입장 Page - 방 상태 검사 [jwt O]", description = "dtoList index==0 : 방장 / dtoList index==others : 방장 외 대기자들 nickname & createdTime 기준 오름차순 정렬")
+    @Operation(summary = "입장 Page - 방 상태 검사 [jwt O]", description = "dtoList index==0 : 방장 / dtoList index==others : 방장 외 대기자들 접속시간 기준 오름차순 정렬")
     public ResponseEntity<ResponseData<RoomCheckStateResponseDto>> checkState(@PathVariable(value = "roomId") Long roomId) {
         RoomCheckStateResponseDto roomCheckStateResponseDto = roomService.checkState(roomId);
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, roomCheckStateResponseDto);
