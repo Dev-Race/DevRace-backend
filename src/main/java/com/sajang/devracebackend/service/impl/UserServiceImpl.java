@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserService userService;
     private final AwsS3Service awsS3Service;
 
 
@@ -80,7 +79,7 @@ public class UserServiceImpl implements UserService {
         // - 사진 변경O : if 'imageFile != null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드O
         // - 기본사진으로 변경O : if 'imageFile == null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
 
-        User user = userService.findLoginUser();
+        User user = findLoginUser();
 
         // 새 프로필 사진을 AWS S3에 업로드 후, 이미지 url 반환.
         if(imageFile != null && userUpdateRequestDto.getIsImageChange() == 1) {  // 사진 변경O 경우

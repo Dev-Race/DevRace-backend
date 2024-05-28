@@ -15,7 +15,7 @@ public interface UserService {
     User findLoginUser();
     <T> List<T> findUsersOriginal(List<Long> userIdList, Boolean isDto);
     UserResponseDto findUserProfile();
+    void updateUserProfile(MultipartFile imageFile, UserUpdateRequestDto userUpdateRequestDto) throws IOException;
     UserSolvedResponseDto checkUserSolvedCount();
     UserCheckRoomResponseDto checkCurrentRoom();
-    void updateUserProfile(MultipartFile imageFile, UserUpdateRequestDto userUpdateRequestDto) throws IOException;
 }
