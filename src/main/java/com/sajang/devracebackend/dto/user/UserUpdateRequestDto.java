@@ -1,13 +1,12 @@
-package com.sajang.devracebackend.dto.auth;
+package com.sajang.devracebackend.dto.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SignupRequestDto {
+public class UserUpdateRequestDto {
 
     private String nickname;
-    private String bojId;
     private Integer isImageChange;
 }

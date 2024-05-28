@@ -5,9 +5,11 @@ import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.user.UserCheckRoomResponseDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
+import com.sajang.devracebackend.dto.user.UserUpdateRequestDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchBojIdException;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchUserException;
+import com.sajang.devracebackend.service.AwsS3Service;
 import com.sajang.devracebackend.service.UserService;
 import com.sajang.devracebackend.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +17,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final AwsS3Service awsS3Service;
 
 
     @Transactional(readOnly = true)
@@ -63,6 +68,29 @@ public class UserServiceImpl implements UserService {
         User user = findLoginUser();
         UserResponseDto userResponseDto = new UserResponseDto(user);
         return userResponseDto;
+    }
+
+    @Transactional
+    @Override
+    public void updateUserProfile(MultipartFile imageFile, UserUpdateRequestDto userUpdateRequestDto) throws IOException {
+
+        // < 회원 프로필 사진 변경조건 >
+        // - 사진 변경X : if 'imageFile == null && signupRequestDto.getIsImageChange() == 0' --> AWS S3 업로드X
+        // - 사진 변경O : if 'imageFile != null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드O
+        // - 기본사진으로 변경O : if 'imageFile == null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
+
+        User user = findLoginUser();
+
+        // 새 프로필 사진을 AWS S3에 업로드 후, 이미지 url 반환.
+        if(imageFile != null && userUpdateRequestDto.getIsImageChange() == 1) {  // 사진 변경O 경우
+            String uploadImageUrl = awsS3Service.uploadImage(imageFile);
+            user.updateImage(uploadImageUrl);  // 새로운 사진 url로 imageUrl 업데이트.
+        }
+        else if(imageFile == null && userUpdateRequestDto.getIsImageChange() == 1) {  // 기본사진으로 변경O 경우
+            user.updateImage(null);  // 기본사진임을 명시하고자 null값으로 imageUrl 업데이트.
+        }
+
+        if(userUpdateRequestDto.getNickname() != null) user.updateName(userUpdateRequestDto.getNickname());  // 이름 수정없이 유지할경우, 업데이트 X
     }
 
     @Transactional(readOnly = true)
