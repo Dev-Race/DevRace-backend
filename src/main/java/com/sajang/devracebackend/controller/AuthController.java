@@ -28,7 +28,12 @@ public class AuthController {
 
 
     @PutMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "회원가입 [jwt O]", description = "isImageChange==0 : 기본 사진으로 변경 / isImageChange==1 : 새 사진으로 변경")
+    @Operation(summary = "회원가입 [jwt O]",
+            description = """
+                - 사진 변경 X : imageFile == null && signupRequestDto.getIsImageChange() == 0
+                - 사진 변경 O : imageFile != null && signupRequestDto.getIsImageChange() == 1
+                - 기본사진으로 변경 O : imageFile == null && signupRequestDto.getIsImageChange() == 1  \n기본사진 변경시, User의 imageUrl=null로 업데이트
+                """)
     public ResponseEntity<ResponseData<SignupResponseDto>> signup(
             @RequestPart(value="imageFile", required = false) MultipartFile imageFile,
             @RequestPart(value="signupRequestDto") SignupRequestDto signupRequestDto) throws IOException {  // 여기서 Role을 USER로 교체해주지 않으면 다른 로그인 필수 API를 사용하지 못함.
