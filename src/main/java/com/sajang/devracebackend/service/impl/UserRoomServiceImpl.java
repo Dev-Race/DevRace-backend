@@ -9,16 +9,20 @@ import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
+import com.sajang.devracebackend.dto.userroom.CodeRoomResponseDto;
 import com.sajang.devracebackend.dto.userroom.UserPassRequestDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
+import com.sajang.devracebackend.response.exception.exception400.UserRoomBadRequestException;
 import com.sajang.devracebackend.response.exception.exception404.NoSuchUserRoomException;
 import com.sajang.devracebackend.service.RoomService;
 import com.sajang.devracebackend.service.UserRoomService;
 import com.sajang.devracebackend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -171,5 +175,30 @@ public class UserRoomServiceImpl implements UserRoomService {
         Boolean isLeaveAllUsers = userRoomRepository.findAllByRoom(room).stream()
                 .allMatch(users -> users.getIsLeave() == 1);  // 모든 유저의 isLeave 값이 1인지 확인
         if(isLeaveAllUsers == true) room.updateRoomState(RoomState.FINISH);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<CodeRoomResponseDto> findCodeRoom(Integer isPass, Integer number, String link, Pageable pageable) {
+        User loginUser = userService.findLoginUser();
+        Page<UserRoom> userRoomPage;
+
+        if(isPass == null && number == null && link == null) {  // 전체 정렬 조회의 경우
+            userRoomPage = userRoomRepository.findAllByIsLeaveAndUser(1, loginUser, pageable);
+        }
+        else if(isPass != null && number == null && link == null) {  // 성공or실패 정렬 조회의 경우
+            userRoomPage = userRoomRepository.findAllByIsLeaveAndIsPass(1, isPass, pageable);
+        }
+        else if(isPass == null && number != null && link == null) {  // 문제번호 검색 조회의 경우
+            userRoomPage = userRoomRepository.findAllByIsLeaveAndRoom_Problem_Number(1, number, pageable);
+        }
+        else if(isPass == null && number == null && link != null) {  // 초대링크 탐색 조회의 경우
+            userRoomPage = userRoomRepository.findAllByIsLeaveAndRoom_Link(1, link, pageable);
+        }
+        else {  // 잘못된 URI
+            throw new UserRoomBadRequestException("잘못된 쿼리파라미터로 API를 요청하였습니다.");
+        }
+
+        return userRoomPage.map(userRoom -> new CodeRoomResponseDto(userRoom));
     }
 }
