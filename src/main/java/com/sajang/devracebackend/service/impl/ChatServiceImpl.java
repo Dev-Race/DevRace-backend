@@ -55,9 +55,8 @@ public class ChatServiceImpl implements ChatService {
             }
         }
         else if(chatRequestDto.getMessageType().equals(MessageType.LEAVE)) {  // 방 탈퇴의 경우
-            // delete UserRoom
-            UserRoom userRoom = userRoomService.findUserRoom(user, room);
-            userRoomRepository.delete(userRoom);
+            // update isLeave UserRoom
+            // (프론트엔드에서 또다른 rest api로 실질적인 퇴장을 진행한 이후에, 이 websocket api를 호출하는것이기때문에, 중복 방지로 이 메소드에서 퇴장 로직은 생략해야함.)
             message = "'" + user.getNickname() + "'님이 방에서 퇴장하셨습니다.";
         }
         else if(chatRequestDto.getMessageType().equals(MessageType.TALK)) {  // 방 채팅의 경우
