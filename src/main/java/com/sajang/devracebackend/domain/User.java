@@ -85,7 +85,7 @@ public class User extends BaseEntity implements Serializable {
         this.refreshToken = refreshToken;
     }
 
-    public void deleteUser() {  // 회원 계정탈퇴 (imageUrl 초기화는 따로 구성) - soft delete
+    public void deleteAccount() {  // 회원 계정탈퇴 (imageUrl 초기화는 따로 구성) - soft delete
         this.email = null;
         this.nickname = "(탈퇴한 사용자)";
         this.bojId = null;
