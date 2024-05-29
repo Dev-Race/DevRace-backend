@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @NoArgsConstructor
 public class ChatRequestDto {
@@ -26,15 +24,12 @@ public class ChatRequestDto {
     private String message;  // MessageType == 'ENTER' or 'LEAVE' or 'RANK' 일때는 null 가능. 'TALK'일때는 null 불가능.
 
 
-    public Chat toEntity(String senderName, String senderImageUrl, String message, LocalDateTime createdTime) {
+    public Chat toEntity(String message) {
         return Chat.ChatSaveBuilder()
                 .roomId(roomId)
                 .senderId(senderId)
-                .senderName(senderName)
-                .senderImageUrl(senderImageUrl)
                 .message(message)
                 .messageType(messageType)
-                .createdTime(createdTime)
                 .build();
     }
 }

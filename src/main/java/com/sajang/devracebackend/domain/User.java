@@ -1,11 +1,9 @@
 package com.sajang.devracebackend.domain;
 
-
 import com.sajang.devracebackend.domain.common.BaseEntity;
 import com.sajang.devracebackend.domain.enums.Role;
 import com.sajang.devracebackend.domain.enums.SocialType;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.auth.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,12 +48,12 @@ public class User extends BaseEntity implements Serializable {
     private String refreshToken;
 
     @OneToMany(mappedBy = "user")  // User-UserRoom 양방향매핑 (읽기 전용 필드)
-    private List<UserRoom> userRoomList = new ArrayList<>();
+    private List<UserRoom> userRoomList = new ArrayList<>();  // 사용자의 참여중인 방 찾는 용도에 활용.
 
 
     @Builder(builderClassName = "UserSaveBuilder", builderMethodName = "UserSaveBuilder")
     public User(String email, Role role, SocialType socialType, String socialId, String nickname, String imageUrl) {
-        // 이 빌더는 사용자 회원가입때만 사용할 용도 (refreshToken과 이 외의 속성값들은 전부 null로 들어간다.)
+        // 이 빌더는 사용자 회원가입때만 사용할 용도 (refreshToken과 이 외의 속성값들은 전부 null로 들어감.)
         this.email = email;
         this.role = role;
 
@@ -85,5 +83,13 @@ public class User extends BaseEntity implements Serializable {
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public void deleteUser() {  // 회원 계정탈퇴 (imageUrl 초기화는 따로 구성) - soft delete
+        this.email = null;
+        this.nickname = "(탈퇴한 사용자)";
+        this.bojId = null;
+        this.socialId = null;
+        this.refreshToken = null;
     }
 }

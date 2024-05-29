@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
 
     // ========== 유틸성 메소드 ========== //
 
-    public static UserSolvedResponseDto getSolvedCount(String bojId){  // WebClient로 외부 solved API 호출 메소드
+    public static UserSolvedResponseDto getSolvedCount(String bojId) {  // WebClient로 외부 solved API 호출 메소드
         try {
             WebClient webClient = WebClient.builder()
                     .baseUrl("https://solved.ac/api/v3")
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
                     .retrieve()
                     .bodyToMono(UserSolvedResponseDto.class)
                     .block();
-        }catch (Exception e){
+        } catch (Exception e){
             throw new NoSuchBojIdException("bojId = " + bojId);  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
         }
     }

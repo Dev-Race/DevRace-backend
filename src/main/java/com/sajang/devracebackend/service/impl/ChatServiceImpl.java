@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +44,6 @@ public class ChatServiceImpl implements ChatService {
         boolean isExistUserRoom = userRoomRepository.existsByUserAndRoom(user, room);
 
         String message = null;
-        LocalDateTime createdTime = LocalDateTime.now();  // 시간을 수동으로 직접 넣어줌. (실시간으로 chat 넘겨주는 시간과 DB에 저장되는 시간을 완전히 같게 하기위해서임.)
         if(chatRequestDto.getMessageType().equals(MessageType.ENTER)) {  // 방 입장의 경우 (방이 이미 생성되어있다는 전제하에)
             if(isExistUserRoom == false) {  // 이와 반대로, 이미 방에 입장해있는 사용자의 경우에는 메세지를 전송하지 않는다.
                 // create UserRoom
@@ -68,10 +69,10 @@ public class ChatServiceImpl implements ChatService {
             room.addRanking(user.getId());
         }
 
-        Chat chat = chatRequestDto.toEntity(user.getNickname(), user.getImageUrl(), message, createdTime);
+        Chat chat = chatRequestDto.toEntity(message);
         chatRepository.save(chat);
 
-        return new ChatResponseDto(chat);
+        return new ChatResponseDto(chat, user.getNickname(), user.getImageUrl());
     }
 
     @Transactional(readOnly = true)
@@ -84,6 +85,14 @@ public class ChatServiceImpl implements ChatService {
 
         // 본인 퇴장시각 이하까지의 채팅 내역 조회
         Slice<Chat> chatSlice = chatRepository.findAllByRoomIdAndCreatedTimeLessThanEqual(roomId, leaveTime, pageable);
-        return chatSlice.map(chat -> new ChatResponseDto(chat));
+
+        // 사용자 캐싱을 위한 맵 생성 (이미 검색한것은 다시 검색하지않도록 성능 향상)
+        Map<Long, User> userCacheMap = new HashMap<>();
+
+        return chatSlice.map(chat -> {
+            Long senderId = chat.getSenderId();
+            User senderUser = userCacheMap.computeIfAbsent(senderId, id -> userService.findUser(id));  //  만약 캐시에 senderId키의 데이터가 없다면, DB조회하고 캐시에 추가.
+            return new ChatResponseDto(chat, senderUser.getNickname(), senderUser.getImageUrl());
+        });
     }
 }

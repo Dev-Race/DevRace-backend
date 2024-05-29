@@ -102,10 +102,8 @@ public class UserRoomServiceImpl implements UserRoomService {
         Chat chat = Chat.ChatSaveBuilder()
                 .roomId(roomId)
                 .senderId(managerUser.getId())
-                .senderName(managerUser.getNickname())
                 .message(message)
                 .messageType(MessageType.ENTER)
-                .createdTime(LocalDateTime.now())  // 시간을 수동으로 직접 넣어줌. (실시간으로 chat 넘겨주는 시간과 DB에 저장되는 시간을 완전히 같게 하기위해서임.)
                 .build();
 
         // Chat 입장 채팅 내역 저장
@@ -172,8 +170,9 @@ public class UserRoomServiceImpl implements UserRoomService {
             userRoom.updateIsPass(userPassRequestDto.getIsPass());
         }
 
-        Boolean isLeaveAllUsers = userRoomRepository.findAllByRoom(room).stream()
-                .allMatch(users -> users.getIsLeave() == 1);  // 모든 유저의 isLeave 값이 1인지 확인
+        List<UserRoom> userRoomList = room.getUserRoomList();
+        Boolean isLeaveAllUsers = userRoomList.stream()
+                .allMatch(enterUserRoom -> enterUserRoom.getIsLeave() == 1);  // 입장했던 모든 유저의 isLeave 값이 1인지 확인
         if(isLeaveAllUsers == true) room.updateRoomState(RoomState.FINISH);
     }
 
