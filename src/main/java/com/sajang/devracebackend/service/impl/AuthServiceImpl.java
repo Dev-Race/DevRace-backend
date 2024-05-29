@@ -2,11 +2,13 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
+import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.auth.SignupRequestDto;
 import com.sajang.devracebackend.dto.auth.SignupResponseDto;
 import com.sajang.devracebackend.dto.auth.TokenDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
+import com.sajang.devracebackend.repository.UserRoomRepository;
 import com.sajang.devracebackend.response.exception.exception400.BojIdDuplicateException;
 import com.sajang.devracebackend.response.exception.exception400.UserBadRequestException;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class AuthServiceImpl implements AuthService {
     private final AwsS3Service awsS3Service;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final UserRoomRepository userRoomRepository;
     private final TokenProvider tokenProvider;
 
 
@@ -79,5 +83,20 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         return signupResponseDto;
+    }
+
+    @Transactional
+    @Override
+    public void withdrawal() {
+        User user = userService.findLoginUser();
+
+        // 자식 UserRoom 삭제 - hard delete
+        List<UserRoom> userRoomList = user.getUserRoomList();
+        userRoomRepository.deleteAll(userRoomList);
+
+        // 부모 User 삭제 - soft delete
+        user.deleteAccount();
+        awsS3Service.deleteImage(user.getImageUrl());  // 이전의 사진은 AWS S3에서 삭제.
+        user.updateImage(null);  // 탈퇴했기에 기본사진임을 명시하고자 null값으로 imageUrl 업데이트.
     }
 }

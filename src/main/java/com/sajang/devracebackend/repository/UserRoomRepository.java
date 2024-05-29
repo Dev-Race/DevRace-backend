@@ -7,12 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
     Optional<UserRoom> findByUserAndRoom(User user, Room room);
-    List<UserRoom> findAllByRoom(Room room);
     boolean existsByUserAndRoom(User user, Room room);
 
     Page<UserRoom> findAllByIsLeaveAndUser(Integer isLeave, User user, Pageable pageable);

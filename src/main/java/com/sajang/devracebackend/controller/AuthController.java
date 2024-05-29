@@ -48,4 +48,11 @@ public class AuthController {
         TokenDto tokenDto = tokenService.reissue(reissueRequestDto);
         return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenDto);
     }
+
+    @DeleteMapping("/users")
+    @Operation(summary = "회원 탈퇴 [jwt O]")
+    public ResponseEntity<ResponseData> withdrawal() {
+        authService.withdrawal();
+        return ResponseData.toResponseEntity(ResponseCode.DELETE_USER);
+    }
 }
