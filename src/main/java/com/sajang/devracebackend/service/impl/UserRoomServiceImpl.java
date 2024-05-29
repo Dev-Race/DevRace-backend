@@ -79,9 +79,13 @@ public class UserRoomServiceImpl implements UserRoomService {
         Room room = roomService.findRoom(roomId);
         List<Long> waitUserIdList = room.getWaiting();
         List<User> waitUserList = userService.findUsersOriginal(waitUserIdList, false);
+
+        waitUserList = waitUserList.stream()
+                .filter(user -> user.getEmail() != null)  // 회원탈퇴한 사용자의 입장을 막는 2중방지 용도
+                .collect(Collectors.toList());
         User managerUser = waitUserList.get(0);  // 방장
 
-        List<UserRoom> userRooms = waitUserList.stream()
+        List<UserRoom> userRoomList = waitUserList.stream()
                 .map(user -> UserRoom.UserRoomSaveBuilder()
                         .user(user)
                         .room(room)
@@ -89,7 +93,7 @@ public class UserRoomServiceImpl implements UserRoomService {
                 .collect(Collectors.toList());
 
         // UserRoom 한번에 저장 (여러번 DB에 접근하는것을 방지.)
-        userRoomRepository.saveAll(userRooms);
+        userRoomRepository.saveAll(userRoomList);
 
         // Room RoomState=START로 수정
         room.updateRoomState(RoomState.START);

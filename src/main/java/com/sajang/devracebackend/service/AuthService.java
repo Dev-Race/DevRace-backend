@@ -8,4 +8,5 @@ import java.io.IOException;
 
 public interface AuthService {
     SignupResponseDto signup(MultipartFile imageFile, SignupRequestDto userSignupRequestDto) throws IOException;
+    void withdrawal();
 }
