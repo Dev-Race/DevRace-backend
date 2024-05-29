@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
+    private final UserRepository userRepository;
 
 
     @Transactional(readOnly = true)
@@ -83,10 +83,12 @@ public class UserServiceImpl implements UserService {
 
         // 새 프로필 사진을 AWS S3에 업로드 후, 이미지 url 반환.
         if(imageFile != null && userUpdateRequestDto.getIsImageChange() == 1) {  // 사진 변경O 경우
+            awsS3Service.deleteImage(user.getImageUrl());  // 이전의 사진은 AWS S3에서 삭제.
             String uploadImageUrl = awsS3Service.uploadImage(imageFile);
             user.updateImage(uploadImageUrl);  // 새로운 사진 url로 imageUrl 업데이트.
         }
         else if(imageFile == null && userUpdateRequestDto.getIsImageChange() == 1) {  // 기본사진으로 변경O 경우
+            awsS3Service.deleteImage(user.getImageUrl());  // 이전의 사진은 AWS S3에서 삭제.
             user.updateImage(null);  // 기본사진임을 명시하고자 null값으로 imageUrl 업데이트.
         }
 
@@ -132,7 +134,7 @@ public class UserServiceImpl implements UserService {
 
     // ========== 유틸성 메소드 ========== //
 
-    public static UserSolvedResponseDto getSolvedCount(String bojId){  // WebClient로 외부 solved API 호출 메소드
+    public static UserSolvedResponseDto getSolvedCount(String bojId) {  // WebClient로 외부 solved API 호출 메소드
         try {
             WebClient webClient = WebClient.builder()
                     .baseUrl("https://solved.ac/api/v3")
@@ -144,7 +146,7 @@ public class UserServiceImpl implements UserService {
                     .retrieve()
                     .bodyToMono(UserSolvedResponseDto.class)
                     .block();
-        }catch (Exception e){
+        } catch (Exception e){
             throw new NoSuchBojIdException("bojId = " + bojId);  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
         }
     }

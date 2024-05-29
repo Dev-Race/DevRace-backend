@@ -19,11 +19,11 @@ public class ChatResponseDto {
     private MessageType messageType;
     private LocalDateTime createdTime;
 
-    public ChatResponseDto(Chat entity) {
+    public ChatResponseDto(Chat entity, String senderName, String senderImageUrl) {
         this.roomId = entity.getRoomId();
         this.senderId = entity.getSenderId();
-        this.senderName = entity.getSenderName();
-        this.senderImageUrl = entity.getSenderImageUrl();
+        this.senderName = senderName;
+        this.senderImageUrl = senderImageUrl;
         this.message = entity.getMessage();
         this.messageType = entity.getMessageType();
         this.createdTime = entity.getCreatedTime();

@@ -41,7 +41,7 @@ public class Room extends BaseEntity implements Serializable{
     private Problem problem;
 
     @OneToMany(mappedBy = "room")  // Room-UserRoom 양방향매핑 (읽기 전용 필드)
-    private List<UserRoom> userRoomList = new ArrayList<>();
+    private List<UserRoom> userRoomList = new ArrayList<>();  // 방의 입장인원 전원 퇴장여부 확인용도에 활용.
 
 
     @Builder(builderClassName = "RoomSaveBuilder", builderMethodName = "RoomSaveBuilder")
