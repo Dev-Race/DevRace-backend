@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
+    private final UserRepository userRepository;
 
 
     @Transactional(readOnly = true)

@@ -1,10 +1,10 @@
 package com.sajang.devracebackend.domain;
 
 import com.sajang.devracebackend.domain.enums.MessageType;
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
