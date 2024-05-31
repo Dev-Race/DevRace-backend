@@ -43,7 +43,7 @@ public class UserRoom extends BaseEntity implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)  // Room-UserRoom 양방향매핑
+    @ManyToOne(fetch = FetchType.LAZY)  // Room-UserRoom 양방향매핑 (default로 Lazy를 적용하되, Eager가 필요할경우 따로 메소드를 만들어 사용함.)
     @JoinColumn(name = "room_id")
     private Room room;
 

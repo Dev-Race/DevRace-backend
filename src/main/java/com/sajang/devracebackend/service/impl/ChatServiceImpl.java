@@ -65,8 +65,11 @@ public class ChatServiceImpl implements ChatService {
             if(chatRequestDto.getMessage() == null) throw new ChatBadRequestException("채팅시에는 반드시 message를 함께 보내주어야합니다.");
             message = chatRequestDto.getMessage();
         }
-        else {  // 랭킹 상승의 경우 (MessageType.RANK 일때)
+        else if(chatRequestDto.getMessageType().equals(MessageType.RANK)) {
             room.addRanking(user.getId());
+        }
+        else {  // 잘못된 MessageType
+            throw new ChatBadRequestException("잘못된 MessageType으로 API를 요청하였습니다.");
         }
 
         Chat chat = chatRequestDto.toEntity(message);
@@ -78,20 +81,18 @@ public class ChatServiceImpl implements ChatService {
     @Transactional(readOnly = true)
     @Override
     public Slice<ChatResponseDto> findChatsByRoom(Long roomId, Pageable pageable) {
-        User loginUser = userService.findUser(SecurityUtil.getCurrentMemberId());
-        Room room = roomService.findRoom(roomId);
-        UserRoom userRoom = userRoomService.findUserRoom(loginUser, room);
+        UserRoom userRoom = userRoomService.findUserRoom(SecurityUtil.getCurrentMemberId(), roomId);
         LocalDateTime leaveTime = userRoom.getLeaveTime();
 
         // 본인 퇴장시각 이하까지의 채팅 내역 조회
         Slice<Chat> chatSlice = chatRepository.findAllByRoomIdAndCreatedTimeLessThanEqual(roomId, leaveTime, pageable);
 
         // 사용자 캐싱을 위한 맵 생성 (이미 검색한것은 다시 검색하지않도록 성능 향상)
-        Map<Long, User> userCacheMap = new HashMap<>();
+        Map<Long, User> cacheUserMap = new HashMap<>();
 
         return chatSlice.map(chat -> {
             Long senderId = chat.getSenderId();
-            User senderUser = userCacheMap.computeIfAbsent(senderId, id -> userService.findUser(id));  //  만약 캐시에 senderId키의 데이터가 없다면, DB조회하고 캐시에 추가.
+            User senderUser = cacheUserMap.computeIfAbsent(senderId, id -> userService.findUser(id));  //  만약 캐시에 senderId키의 데이터가 없다면, DB조회하고 캐시에 추가.
             return new ChatResponseDto(chat, senderUser.getNickname(), senderUser.getImageUrl());
         });
     }

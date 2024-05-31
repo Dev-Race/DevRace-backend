@@ -47,8 +47,10 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "refresh_token")
     private String refreshToken;
 
+    // 밑처럼 과도한 N+1 문제를 유발할 서비스 로직이 없을뿐더러 활용 빈도수도 낮기때문에, fetch join이나 @EntityGraph를 사용하지 않은채로 지연 로딩을 유지하도록 했음.
+    // 과도한 N+1 예시: Users를 JPA의 findAll()로 호출하고, 각 User를 순회하며 user.getUserRoomList.get내부속성()으로 접근하는 경우.
     @OneToMany(mappedBy = "user")  // User-UserRoom 양방향매핑 (읽기 전용 필드)
-    private List<UserRoom> userRoomList = new ArrayList<>();  // 사용자의 참여중인 방 찾는 용도에 활용.
+    private List<UserRoom> userRoomList = new ArrayList<>();  // '사용자의 참여중인 방 찾는 용도 & 회원탈퇴 용도'에 활용.
 
 
     @Builder(builderClassName = "UserSaveBuilder", builderMethodName = "UserSaveBuilder")
