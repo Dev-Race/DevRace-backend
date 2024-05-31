@@ -140,33 +140,33 @@ public class UserRoomServiceImpl implements UserRoomService {
     @Transactional(readOnly = true)
     @Override
     public RoomCheckAccessResponseDto checkAccess(Long roomId) {
-        System.out.println("========== !!! 메소드 시작 !!! ==========\n");
+//        System.out.println("========== !!! 메소드 시작 !!! ==========\n");
 
-        System.out.println("===== UserRoom 조회 =====");
+//        System.out.println("===== UserRoom 조회 =====");
         Optional<UserRoom> optionalUserRoom = userRoomRepository.findByUser_IdAndRoom_Id(SecurityUtil.getCurrentMemberId(), roomId);
-        System.out.println("===== UserRoom 조회 완료. [1번의 쿼리 발생] =====\n");
+//        System.out.println("===== UserRoom 조회 완료. [1번의 쿼리 발생] =====\n");
 
         // UserRoom이 존재하면 해당 정보 사용. 그렇지 않다면 DB에 Room 조회 쿼리 날림.
-        System.out.println("===== UserRoom.getRoom() 실행 =====");
+//        System.out.println("===== UserRoom.getRoom() 실행 =====");
         Room room = optionalUserRoom
                 .map(UserRoom::getRoom)  // 이 시점에는 아직 @EntityGraph의 영향을 받지않아, 아직 조회 쿼리가 1번으로 유지됨.
                 .orElseGet(() -> roomService.findRoom(roomId));
-        System.out.println("===== UserRoom의 Room을 가져오지만 Room 내부의 변수는 사용하지않음. [추가쿼리 발생 X] =====\n");
+//        System.out.println("===== UserRoom의 Room을 가져오지만 Room 내부의 변수는 사용하지않음. [추가쿼리 발생 X] =====\n");
 
         Boolean isExistUserRoom = optionalUserRoom.isPresent();
-        System.out.println("===== UserRoom.getIsLeave() 실행 =====");
+//        System.out.println("===== UserRoom.getIsLeave() 실행 =====");
         Integer isLeave = optionalUserRoom.map(UserRoom::getIsLeave).orElse(null);  // UserRoom이 없다면 isLeave는 null
-        System.out.println("===== UserRoom의 Room 외의 타변수를 사용. [추가쿼리 발생 X] =====\n");
+//        System.out.println("===== UserRoom의 Room 외의 타변수를 사용. [추가쿼리 발생 X] =====\n");
 
-        System.out.println("===== UserRoom.getRoom().getRoomState() 실행 =====");
+//        System.out.println("===== UserRoom.getRoom().getRoomState() 실행 =====");
         RoomCheckAccessResponseDto roomCheckAccessResponseDto = RoomCheckAccessResponseDto.builder()
                 .isExistUserRoom(isExistUserRoom)
                 .roomState(room.getRoomState())  // @EntityGraph로 UserRoom 내부의 Room은 Eager 로딩 처리되어, N+1 문제가 발생하지 않음.
                 .isLeave(isLeave)
                 .build();
-        System.out.println("===== UserRoom의 Room 내부의 변수를 사용. [@EntityGraph 미처리시 추가쿼리 발생 O] =====\n");
+//        System.out.println("===== UserRoom의 Room 내부의 변수를 사용. [@EntityGraph 미처리시 추가쿼리 발생 O] =====\n");
 
-        System.out.println("========== !!! 메소드 종료 !!! ==========");
+//        System.out.println("========== !!! 메소드 종료 !!! ==========");
 
         return roomCheckAccessResponseDto;
     }
