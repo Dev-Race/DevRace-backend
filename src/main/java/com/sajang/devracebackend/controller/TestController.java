@@ -7,6 +7,7 @@ import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.AwsS3Service;
 import com.sajang.devracebackend.service.ProblemService;
 import com.sajang.devracebackend.service.RoomService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+// @Hidden
 @Tag(name = "Test")
 @RestController
 @RequiredArgsConstructor

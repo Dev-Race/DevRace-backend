@@ -9,8 +9,7 @@ import com.sajang.devracebackend.dto.auth.TokenDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
-import com.sajang.devracebackend.response.exception.exception400.BojIdDuplicateException;
-import com.sajang.devracebackend.response.exception.exception400.UserBadRequestException;
+import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.service.AuthService;
 import com.sajang.devracebackend.service.AwsS3Service;
@@ -44,10 +43,10 @@ public class AuthServiceImpl implements AuthService {
         // - 기본사진으로 변경O : if 'imageFile == null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
 
         if(signupRequestDto.getBojId() == null) {
-            throw new UserBadRequestException("회원가입 백준id null 에러");
+            throw new Exception400.UserBadRequest("회원가입 백준id null 에러");
         }
         if(userRepository.existsByBojId(signupRequestDto.getBojId()) == true) {  // 이미 해당 백준id로 가입한 사용자가 존재하는경우, 예외 처리.
-            throw new BojIdDuplicateException(signupRequestDto.getBojId());
+            throw new Exception400.BojIdDuplicate(signupRequestDto.getBojId());
         }
         UserServiceImpl.getSolvedCount(signupRequestDto.getBojId());  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
 
@@ -57,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
         if(!user.getRole().equals(Role.ROLE_GUEST) || user.getBojId() != null) {
             // 이 로직을 SecurityConfig의 hasAuthority("ROLE_GUEST") 외에도 여기 또 써줘야하는 이유는,
             // reissue로 인한 재발급 이후에도 이전 엑세스 토큰으로 '/signup' 경로에 다시 접근할 경우, 토큰 내의 권한은 GUEST가 맞겠지만 DB 내의 권한은 USER이기에 이러한 비정상적인 접근을 방지할 수 있기 때문임.
-            throw new UserBadRequestException("이미 가입완료 되어있는 사용자입니다.");
+            throw new Exception400.UserBadRequest("이미 가입완료 되어있는 사용자입니다.");
         }
 
         // 새 프로필 사진을 AWS S3에 업로드 후, 이미지 url 반환.

@@ -4,7 +4,7 @@ import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
 import com.sajang.devracebackend.dto.auth.ReissueRequestDto;
 import com.sajang.devracebackend.dto.auth.TokenDto;
-import com.sajang.devracebackend.response.exception.exception400.TokenBadRequestException;
+import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.service.TokenService;
 import com.sajang.devracebackend.service.UserService;
@@ -45,7 +45,7 @@ public class TokenServiceImpl implements TokenService {
 
         // DB의 사용자 Refresh Token 값과, 전달받은 Refresh Token의 불일치 여부 검사
         if(!user.getRefreshToken().equals(refreshToken)) {
-            throw new TokenBadRequestException("Refresh Token = " + refreshToken);
+            throw new Exception400.TokenBadRequest("Refresh Token = " + refreshToken);
         }
 
         TokenDto tokenDto = tokenProvider.generateAccessTokenByRefreshToken(userId, role, refreshToken);

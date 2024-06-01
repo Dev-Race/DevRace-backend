@@ -9,7 +9,7 @@ import com.sajang.devracebackend.dto.chat.ChatResponseDto;
 import com.sajang.devracebackend.dto.chat.ChatRequestDto;
 import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
-import com.sajang.devracebackend.response.exception.exception400.ChatBadRequestException;
+import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.service.ChatService;
 import com.sajang.devracebackend.service.RoomService;
 import com.sajang.devracebackend.service.UserRoomService;
@@ -61,15 +61,15 @@ public class ChatServiceImpl implements ChatService {
             message = "'" + user.getNickname() + "'님이 방에서 퇴장하셨습니다.";
         }
         else if(chatRequestDto.getMessageType().equals(MessageType.TALK)) {  // 방 채팅의 경우
-            if(isExistUserRoom == false) throw new ChatBadRequestException("방에 참가하지않은 사용자는 채팅이 불가능합니다.");
-            if(chatRequestDto.getMessage() == null) throw new ChatBadRequestException("채팅시에는 반드시 message를 함께 보내주어야합니다.");
+            if(isExistUserRoom == false) throw new Exception400.ChatBadRequest("방에 참가하지않은 사용자는 채팅이 불가능합니다.");
+            if(chatRequestDto.getMessage() == null) throw new Exception400.ChatBadRequest("채팅시에는 반드시 message를 함께 보내주어야합니다.");
             message = chatRequestDto.getMessage();
         }
         else if(chatRequestDto.getMessageType().equals(MessageType.RANK)) {
             room.addRanking(user.getId());
         }
         else {  // 잘못된 MessageType
-            throw new ChatBadRequestException("잘못된 MessageType으로 API를 요청하였습니다.");
+            throw new Exception400.ChatBadRequest("잘못된 MessageType으로 API를 요청하였습니다.");
         }
 
         Chat chat = chatRequestDto.toEntity(message);
