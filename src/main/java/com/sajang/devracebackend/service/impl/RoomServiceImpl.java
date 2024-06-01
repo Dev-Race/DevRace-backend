@@ -7,7 +7,7 @@ import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
 import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.repository.*;
-import com.sajang.devracebackend.response.exception.exception404.NoSuchRoomException;
+import com.sajang.devracebackend.response.exception.Exception404;
 import com.sajang.devracebackend.service.ProblemService;
 import com.sajang.devracebackend.service.RoomService;
 import com.sajang.devracebackend.service.UserService;
@@ -34,7 +34,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room findRoom(Long roomId) {
         return roomRepository.findById(roomId).orElseThrow(
-                ()->new NoSuchRoomException(String.format("roomId = %d", roomId)));
+                ()->new Exception404.NoSuchRoom(String.format("roomId = %d", roomId)));
     }
 
     @Transactional

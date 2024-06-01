@@ -2,9 +2,11 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.repository.ProblemRepository;
-import com.sajang.devracebackend.response.exception.exception404.NoSuchProblemException;
+import com.sajang.devracebackend.response.exception.Exception404;
+import com.sajang.devracebackend.response.exception.Exception500;
 import com.sajang.devracebackend.service.ProblemService;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.HttpStatusException;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.jsoup.Jsoup;
@@ -31,8 +33,13 @@ public class ProblemServiceImpl implements ProblemService {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
+        } catch (HttpStatusException e) {
+            if (e.getStatusCode() == 404) {
+                throw new Exception404.NoSuchProblem("problemNumber = " + problemNumber);
+            }
+            throw e;  // 404가 아닌 다른 HTTP 상태 코드 에러를 다시 발생시킴.
         } catch (Exception e) {
-            throw new NoSuchProblemException("problemNumber = " + problemNumber);
+            throw new Exception500.CrawlingServer();
         }
 
         Elements contents = doc.select("#problem-body");  // #problem-body에 접근

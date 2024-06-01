@@ -15,8 +15,8 @@ import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
-import com.sajang.devracebackend.response.exception.exception400.UserRoomBadRequestException;
-import com.sajang.devracebackend.response.exception.exception404.NoSuchUserRoomException;
+import com.sajang.devracebackend.response.exception.Exception400;
+import com.sajang.devracebackend.response.exception.Exception404;
 import com.sajang.devracebackend.service.RoomService;
 import com.sajang.devracebackend.service.UserRoomService;
 import com.sajang.devracebackend.service.UserService;
@@ -49,7 +49,7 @@ public class UserRoomServiceImpl implements UserRoomService {
     @Override
     public UserRoom findUserRoom(Long userId, Long roomId) {
         return userRoomRepository.findByUser_IdAndRoom_Id(userId, roomId).orElseThrow(
-                ()->new NoSuchUserRoomException(String.format("userId = %d & roomId = %d", userId, roomId)));
+                ()->new Exception404.NoSuchUserRoom(String.format("userId = %d & roomId = %d", userId, roomId)));
     }
 
     @Transactional
@@ -210,7 +210,7 @@ public class UserRoomServiceImpl implements UserRoomService {
             userRoomPage = userRoomRepository.findAllByIsLeaveAndRoom_Link(1, link, pageable);
         }
         else {  // 잘못된 URI
-            throw new UserRoomBadRequestException("잘못된 쿼리파라미터로 API를 요청하였습니다.");
+            throw new Exception400.UserRoomBadRequest("잘못된 쿼리파라미터로 API를 요청하였습니다.");
         }
 
         return userRoomPage.map(userRoom -> new CodeRoomResponseDto(userRoom));

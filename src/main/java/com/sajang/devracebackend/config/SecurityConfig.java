@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sajang.devracebackend.security.jwt.JwtExceptionFilter;
+import com.sajang.devracebackend.security.jwt.handler.JwtExceptionFilter;
 import com.sajang.devracebackend.security.jwt.JwtFilter;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.security.jwt.handler.JwtAccessDeniedHandler;

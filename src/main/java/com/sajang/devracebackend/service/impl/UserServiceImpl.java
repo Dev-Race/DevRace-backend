@@ -7,8 +7,7 @@ import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
 import com.sajang.devracebackend.dto.user.UserUpdateRequestDto;
 import com.sajang.devracebackend.repository.UserRepository;
-import com.sajang.devracebackend.response.exception.exception404.NoSuchBojIdException;
-import com.sajang.devracebackend.response.exception.exception404.NoSuchUserException;
+import com.sajang.devracebackend.response.exception.Exception404;
 import com.sajang.devracebackend.service.AwsS3Service;
 import com.sajang.devracebackend.service.UserService;
 import com.sajang.devracebackend.util.SecurityUtil;
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(
-                ()->new NoSuchUserException(String.format("userId = %d", userId)));
+                ()->new Exception404.NoSuchUser(String.format("userId = %d", userId)));
     }
 
     @Transactional(readOnly = true)
@@ -147,7 +146,7 @@ public class UserServiceImpl implements UserService {
                     .bodyToMono(UserSolvedResponseDto.class)
                     .block();
         } catch (Exception e){
-            throw new NoSuchBojIdException("bojId = " + bojId);  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
+            throw new Exception404.NoSuchBojId(String.format("bojId = %d", bojId));  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
         }
     }
 }

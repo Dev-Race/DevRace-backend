@@ -3,7 +3,7 @@ package com.sajang.devracebackend.service.impl;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.sajang.devracebackend.response.exception.exception500.AwsS3ServerException;
+import com.sajang.devracebackend.response.exception.Exception500;
 import com.sajang.devracebackend.service.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +54,7 @@ public class AwsS3ServiceImpl implements AwsS3Service {
             log.info("Success File Delete - deleteFileName: {}, deleteFileUrl: {}", fileName, fileUrl);
         } catch (AmazonServiceException e) {
             log.info("Error File Delete - errorFileName: {}, errorFileUrl: {}", fileName, fileUrl);
-            throw new AwsS3ServerException();
+            throw new Exception500.AwsS3Server();
         }
     }
 }

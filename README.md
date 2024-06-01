@@ -75,9 +75,6 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 ├── response : API 응답값, Exception 핸들러
 │   ├── responseitem
 │   └── exception
-│       ├── exception400
-│       ├── exception404
-│       └── exception500
 ├── security
 │   ├── jwt : 토큰 처리
 │   │   └── handler

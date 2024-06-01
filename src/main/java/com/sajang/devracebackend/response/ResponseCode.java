@@ -92,9 +92,9 @@ public enum ResponseCode {
     TEST_SUCCESS(StatusItem.OK, MessageItem.TEST_SUCCESS),
 
     // 기타 실패 응답
-    INTERNAL_SERVER_ERROR(StatusItem.INTERNAL_SERVER_ERROR, MessageItem.INTERNAL_SERVER_ERROR),
-    anonymousUser_ERROR(StatusItem.INTERNAL_SERVER_ERROR, MessageItem.anonymousUser_ERROR),
-    AWS_S3_ERROR(StatusItem.INTERNAL_SERVER_ERROR, MessageItem.AWS_S3_ERROR),
+    anonymousUser_ERROR(StatusItem.UNAUTHORIZED, MessageItem.anonymousUser_ERROR),  // 401 Error
+    INTERNAL_SERVER_ERROR(StatusItem.INTERNAL_SERVER_ERROR, MessageItem.INTERNAL_SERVER_ERROR),  // 500 Error
+    AWS_S3_ERROR(StatusItem.INTERNAL_SERVER_ERROR, MessageItem.AWS_S3_ERROR),  // 500 Error
 
     // ===================== //
     ;
