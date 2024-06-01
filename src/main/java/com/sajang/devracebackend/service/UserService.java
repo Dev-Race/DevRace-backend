@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserService {
     User findUser(Long userId);
     User findLoginUser();
-    <T> List<T> findUsersOriginal(List<Long> userIdList, Boolean isDto);
+    <T> List<T> findUsersOriginal(List<Long> userIdList, boolean isDto);
     UserResponseDto findUserProfile();
     void updateUserProfile(MultipartFile imageFile, UserUpdateRequestDto userUpdateRequestDto) throws IOException;
     UserSolvedResponseDto checkUserSolvedCount();

@@ -34,7 +34,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room findRoom(Long roomId) {
         return roomRepository.findById(roomId).orElseThrow(
-                ()->new Exception404.NoSuchRoom(String.format("roomId = %d", roomId)));
+                () -> new Exception404.NoSuchRoom(String.format("roomId = %d", roomId)));
     }
 
     @Transactional

@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface UserRoomService {
-    UserRoom findUserRoom(Long userId, Long roomId);  // Eager 조회 : 'UserRoom + 내부 Room', Lazy 조회 : '내부 User'
+    UserRoom findUserRoomWithEagerRoom(Long userId, Long roomId, boolean isIncludeUserRoomList, boolean isIncludeProblem);
     RoomWaitResponseDto userWaitRoom(RoomWaitRequestDto roomWaitRequestDto);
     void usersEnterRoom(Long roomId);
     void userStopWaitRoom(Long roomId);

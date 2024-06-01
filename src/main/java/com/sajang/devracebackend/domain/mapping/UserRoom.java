@@ -39,11 +39,13 @@ public class UserRoom extends BaseEntity implements Serializable {
     @Column(name = "leave_time")
     private LocalDateTime leaveTime;  // 퇴장 시각 (반면, createdTime = 입장 시각)
 
+    // Eager 조회의 용도가 적어, 기본 Lazy 조회로만 사용함.
     @ManyToOne(fetch = FetchType.LAZY)  // User-UserRoom 양방향매핑
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)  // Room-UserRoom 양방향매핑 (default로 Lazy를 적용하되, Eager가 필요할경우 따로 메소드를 만들어 사용함.)
+    // UserRoom 조회시 UserRoom.room N+1 문제 해결 ==> Eager 조회 : '@EntityGraph 적용 메소드 활용', Lazy 조회 : '기본 지연로딩 용도'
+    @ManyToOne(fetch = FetchType.LAZY)  // Room-UserRoom 양방향매핑
     @JoinColumn(name = "room_id")
     private Room room;
 
