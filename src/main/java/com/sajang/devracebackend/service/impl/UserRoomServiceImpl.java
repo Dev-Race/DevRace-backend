@@ -143,6 +143,7 @@ public class UserRoomServiceImpl implements UserRoomService {
     @Transactional(readOnly = true)
     @Override
     public SolvingPageResponseDto loadSolvingPage(Long roomId) {
+
         // 'UserRoom.room & UserRoom.room.problem' Eager 로딩 (N+1 문제 해결)
         UserRoom userRoom = findUserRoomWithEagerRoom(SecurityUtil.getCurrentMemberId(), roomId, false, true);  // 어차피 문제풀이 페이지는 입장 이후이기에, 부모 Room을 갖고있는 자식 UserRoom은 반드시 존재함.
 
@@ -155,34 +156,23 @@ public class UserRoomServiceImpl implements UserRoomService {
     @Transactional(readOnly = true)
     @Override
     public RoomCheckAccessResponseDto checkAccess(Long roomId) {
-        System.out.println("========== !!! 메소드 시작 !!! ==========\n");
 
-        System.out.println("===== UserRoom 조회 =====");
         // 'UserRoom.room' Eager 로딩 (N+1 문제 해결)
         Optional<UserRoom> optionalUserRoom = userRoomRepository.findByUser_IdAndRoom_Id(SecurityUtil.getCurrentMemberId(), roomId);
-        System.out.println("===== UserRoom 조회 완료. [1번의 쿼리 발생] =====\n");
 
-        System.out.println("===== UserRoom.getRoom() 실행 =====");
         // UserRoom이 존재하면 해당 정보 사용. 그렇지 않다면 DB에 Room 조회 쿼리 날림.
         Room room = optionalUserRoom
                 .map(UserRoom::getRoom)  // 이 시점에는 아직 @EntityGraph의 영향을 받지않아, 아직 조회 쿼리가 1번으로 유지됨.
                 .orElseGet(() -> roomService.findRoom(roomId));
-        System.out.println("===== UserRoom의 Room을 가져오지만 Room 내부의 변수는 사용하지않음. [추가쿼리 발생 X] =====\n");
 
         Boolean isExistUserRoom = optionalUserRoom.isPresent();
-        System.out.println("===== UserRoom.getIsLeave() 실행 =====");
         Integer isLeave = optionalUserRoom.map(UserRoom::getIsLeave).orElse(null);  // UserRoom이 없다면 isLeave는 null
-        System.out.println("===== UserRoom의 Room 외의 타변수를 사용. [추가쿼리 발생 X] =====\n");
 
-        System.out.println("===== UserRoom.getRoom().getRoomState() 실행 =====");
         RoomCheckAccessResponseDto roomCheckAccessResponseDto = RoomCheckAccessResponseDto.builder()
                 .isExistUserRoom(isExistUserRoom)
                 .roomState(room.getRoomState())  // @EntityGraph로 UserRoom 내부의 Room은 Eager 로딩 처리되어, N+1 문제가 발생하지 않음.
                 .isLeave(isLeave)
                 .build();
-        System.out.println("===== UserRoom의 Room 내부의 변수를 사용. [@EntityGraph 미처리시 추가쿼리 발생 O] =====\n");
-
-        System.out.println("========== !!! 메소드 종료 !!! ==========\n");
 
         return roomCheckAccessResponseDto;
     }
@@ -190,18 +180,13 @@ public class UserRoomServiceImpl implements UserRoomService {
     @Transactional
     @Override
     public void passSolvingProblem(Long roomId, UserPassRequestDto userPassRequestDto) {
-        System.out.println("========== !!! 메소드 시작 !!! ==========\n");
 
-        System.out.println("===== UserRoom 조회 =====");
         // 'UserRoom.room & UserRoom.userRoomList' Eager 로딩 (N+1 문제 해결)
         UserRoom userRoom = findUserRoomWithEagerRoom(SecurityUtil.getCurrentMemberId(), roomId, true, false);  // 어차피 문제풀이 페이지는 입장 이후이기에, 부모 Room을 갖고있는 자식 UserRoom은 반드시 존재함.
-        System.out.println("===== UserRoom 조회 완료. [1번의 쿼리 발생] =====\n");
-        System.out.println("===== UserRoom.getRoom() 실행 =====");
         Room room = userRoom.getRoom();  // 이 시점에는 아직 Fetch Join의 영향을 받지않아, 아직 조회 쿼리가 1번으로 유지됨.
-        System.out.println("===== UserRoom의 Room을 가져오지만 Room 내부의 변수는 사용하지않음. [추가쿼리 발생 X] =====\n");
 
         userRoom.updateCode(userPassRequestDto.getCode());
-        userRoom.updateIsLeave(1);  // 동일 트랜잭션 내에서 JPA 영속성 컨텍스트가 관리하는 상위 UserRoom 엔티티이기에 DB에는 바로 반영되지않더라도, update 상태를 이후의 하위 'UserRoom.getRoom().getUserRoomList()'에서도 바로 확인이 가능함.
+        userRoom.updateIsLeave(1);  // 더티체킹으로 update가 DB에 바로 반영되지않지만, UserRoom은 동일 트랜잭션 내의 JPA 영속성 컨텍스트가 관리하는 상위 엔티티이므로, 이후 호출되는 하위 'UserRoom.getRoom().getUserRoomList()'에서도 update상태 확인이 가능함.
         userRoom.updateLeaveTime(LocalDateTime.now());
 
         if(userPassRequestDto.getIsRetry() == 0 || (userPassRequestDto.getIsRetry() == 1 && userPassRequestDto.getIsPass() == 1)) {
@@ -209,15 +194,10 @@ public class UserRoomServiceImpl implements UserRoomService {
             userRoom.updateIsPass(userPassRequestDto.getIsPass());
         }
 
-        System.out.println("===== UserRoom.getRoom().getUserRoomList() 실행 =====");
         List<UserRoom> userRoomList = room.getUserRoomList();  // Fetch Join으로 UserRoom 내부의 Room은 Eager 로딩 처리되어, N+1 문제가 발생하지 않음.
-        System.out.println("===== UserRoom의 Room 내부의 변수를 사용. [Fetch Join 미처리시 추가쿼리 발생 O] =====\n");
-        System.out.println("===== UserRoom.getRoom().getUserRoomList().getIsLeave() 실행 =====");
         Boolean isLeaveAllUsers = userRoomList.stream()  // Fetch Join으로 UserRoom 내부의 Room.userRoomList는 Eager 로딩 처리되어, N+1 문제가 발생하지 않음.
                 .allMatch(enterUserRoom -> enterUserRoom.getIsLeave() == 1);  // 입장했던 모든 유저의 isLeave 값이 1인지 확인 (DB에는 위의 updateIsLeave(1)가 아직 반영되지않았지만, 동일 트랜잭션 내라서 바로 확인이 가능함.)
-        System.out.println("===== UserRoom의 Room의 UserRoomList 내부의 변수를 사용. [Fetch Join 미처리시 추가쿼리 발생 O] =====\n");
         if(isLeaveAllUsers == true) room.updateRoomState(RoomState.FINISH);
-        System.out.println("========== !!! 메소드 종료 !!! ==========\n");  // 메소드(트랜잭션) 종료 이후 update 쿼리 DB에 반영.
     }
 
     @Transactional(readOnly = true)

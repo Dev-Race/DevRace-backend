@@ -81,6 +81,7 @@ public class ChatServiceImpl implements ChatService {
     @Transactional(readOnly = true)
     @Override
     public Slice<ChatResponseDto> findChatsByRoom(Long roomId, Pageable pageable) {
+
         // 'UserRoom.room' Eager 로딩 (N+1 문제 해결)
         UserRoom userRoom = userRoomService.findUserRoomWithEagerRoom(SecurityUtil.getCurrentMemberId(), roomId, false, false);
         LocalDateTime leaveTime = userRoom.getLeaveTime();

@@ -104,6 +104,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public UserCheckRoomResponseDto checkCurrentRoom() {
+
         // 'User.userRoomList' Eager 로딩 (N+1 문제 해결)
         User user = userRepository.findByIdWithEagerUserRoomList(SecurityUtil.getCurrentMemberId()).orElseThrow(
                 () -> new Exception404.NoSuchUser(String.format("userId = %d", SecurityUtil.getCurrentMemberId())));
