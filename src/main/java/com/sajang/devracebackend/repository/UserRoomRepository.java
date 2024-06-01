@@ -23,5 +23,5 @@ public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
     Page<UserRoom> findAllByIsLeaveAndUser_Id(Integer isLeave, Long userId, Pageable pageable);
     Page<UserRoom> findAllByIsLeaveAndIsPass(Integer isLeave, Integer isPass, Pageable pageable);
     Page<UserRoom> findAllByIsLeaveAndRoom_Problem_Number(Integer isLeave, Integer number, Pageable pageable);
-    Page<UserRoom> findAllByIsLeaveAndRoom_Link(Integer isLeave, String link, Pageable pageable);
+    Page<UserRoom> findAllByRoom_Link(String link, Pageable pageable);
 }

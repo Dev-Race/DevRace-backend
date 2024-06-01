@@ -207,7 +207,7 @@ public class UserRoomServiceImpl implements UserRoomService {
             userRoomPage = userRoomRepository.findAllByIsLeaveAndRoom_Problem_Number(1, number, pageable);
         }
         else if(isPass == null && number == null && link != null) {  // 초대링크 탐색 조회의 경우
-            userRoomPage = userRoomRepository.findAllByIsLeaveAndRoom_Link(1, link, pageable);
+            userRoomPage = userRoomRepository.findAllByRoom_Link(link, pageable);
         }
         else {  // 잘못된 URI
             throw new Exception400.UserRoomBadRequest("잘못된 쿼리파라미터로 API를 요청하였습니다.");

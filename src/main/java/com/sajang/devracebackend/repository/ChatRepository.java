@@ -8,5 +8,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.time.LocalDateTime;
 
 public interface ChatRepository extends MongoRepository<Chat, String> {  // MongoDB
+    Slice<Chat> findAllByRoomId(Long roomId, Pageable pageable);
     Slice<Chat> findAllByRoomIdAndCreatedTimeLessThanEqual(Long roomId, LocalDateTime leaveTime, Pageable pageable);
 }
