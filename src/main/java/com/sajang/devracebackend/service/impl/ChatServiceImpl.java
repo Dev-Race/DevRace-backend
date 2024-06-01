@@ -84,8 +84,10 @@ public class ChatServiceImpl implements ChatService {
         UserRoom userRoom = userRoomService.findUserRoom(SecurityUtil.getCurrentMemberId(), roomId);
         LocalDateTime leaveTime = userRoom.getLeaveTime();
 
-        // 본인 퇴장시각 이하까지의 채팅 내역 조회
-        Slice<Chat> chatSlice = chatRepository.findAllByRoomIdAndCreatedTimeLessThanEqual(roomId, leaveTime, pageable);
+        // 퇴장한 경우, 본인 퇴장시각 이하까지의 채팅 내역 조회
+        Slice<Chat> chatSlice;
+        if(userRoom.getIsLeave() == 1) chatSlice = chatRepository.findAllByRoomIdAndCreatedTimeLessThanEqual(roomId, leaveTime, pageable);
+        else chatSlice = chatRepository.findAllByRoomId(roomId, pageable);
 
         // 사용자 캐싱을 위한 맵 생성 (이미 검색한것은 다시 검색하지않도록 성능 향상)
         Map<Long, User> cacheUserMap = new HashMap<>();
