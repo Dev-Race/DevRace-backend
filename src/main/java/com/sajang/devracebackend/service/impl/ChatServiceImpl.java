@@ -98,7 +98,7 @@ public class ChatServiceImpl implements ChatService {
         else chatSlice = chatRepository.findAllByRoomId(roomId, pageable);
 
         // DESC로 가져온 데이터를 다시 오름차순으로 페이지별 정렬
-        List<Chat> reversedChatList = new ArrayList<>(chatSlice.getContent());  // 새로운 리스트로 만듦으로써 불변 해제.
+        List<Chat> reversedChatList = new ArrayList<>(chatSlice.getContent());  // 새로운 리스트로 만듦으로써 불변성 해제.
         Collections.reverse(reversedChatList);
 
         // 사용자 캐싱을 위한 맵 생성 (이미 검색한것은 다시 검색하지않도록 성능 향상)
