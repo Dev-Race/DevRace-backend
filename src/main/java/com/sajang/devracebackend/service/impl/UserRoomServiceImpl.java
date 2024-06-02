@@ -202,19 +202,19 @@ public class UserRoomServiceImpl implements UserRoomService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<CodeRoomResponseDto> findCodeRoom(Integer isPass, Integer number, String link, Pageable pageable) {
+    public Page<CodeRoomResponseDto> findCodeRooms(Integer isPass, Integer number, Pageable pageable) {
+        Long loginUserId = SecurityUtil.getCurrentMemberId();
         Page<UserRoom> userRoomPage;
-        if(isPass == null && number == null && link == null) {  // 전체 정렬 조회의 경우
-            userRoomPage = userRoomRepository.findAllByIsLeaveAndUser_Id(1, SecurityUtil.getCurrentMemberId(), pageable);
+
+        // 'UserRoom.room & UserRoom.room.problem' Eager 로딩 (N+1 문제 해결)
+        if(isPass == null && number == null) {  // 전체 정렬 조회의 경우
+            userRoomPage = userRoomRepository.findAllByUser_IdAndIsLeave(loginUserId, 1, pageable);
         }
-        else if(isPass != null && number == null && link == null) {  // 성공or실패 정렬 조회의 경우
-            userRoomPage = userRoomRepository.findAllByIsLeaveAndIsPass(1, isPass, pageable);
+        else if(isPass != null && number == null) {  // 성공or실패 정렬 조회의 경우
+            userRoomPage = userRoomRepository.findAllByUser_IdAndIsLeaveAndIsPass(loginUserId, 1, isPass, pageable);
         }
-        else if(isPass == null && number != null && link == null) {  // 문제번호 검색 조회의 경우
-            userRoomPage = userRoomRepository.findAllByIsLeaveAndRoom_Problem_Number(1, number, pageable);
-        }
-        else if(isPass == null && number == null && link != null) {  // 초대링크 탐색 조회의 경우
-            userRoomPage = userRoomRepository.findAllByRoom_Link(link, pageable);
+        else if(isPass == null && number != null) {  // 문제번호 검색 조회의 경우
+            userRoomPage = userRoomRepository.findAllByUser_IdAndIsLeaveAndRoom_Problem_Number(loginUserId, 1, number, pageable);
         }
         else {  // 잘못된 URI
             throw new Exception400.UserRoomBadRequest("잘못된 쿼리파라미터로 API를 요청하였습니다.");

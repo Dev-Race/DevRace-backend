@@ -18,5 +18,5 @@ public interface UserRoomService {
     SolvingPageResponseDto loadSolvingPage(Long roomId);
     RoomCheckAccessResponseDto checkAccess(Long roomId);
     void passSolvingProblem(Long roomId, UserPassRequestDto userPassRequestDto);
-    Page<CodeRoomResponseDto> findCodeRoom(Integer isPass, Integer number, String link, Pageable pageable);
+    Page<CodeRoomResponseDto> findCodeRooms(Integer isPass, Integer number, Pageable pageable);
 }

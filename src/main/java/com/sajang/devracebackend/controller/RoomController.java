@@ -2,10 +2,9 @@ package com.sajang.devracebackend.controller;
 
 import com.sajang.devracebackend.config.RabbitConfig;
 import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
-import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
+import com.sajang.devracebackend.dto.room.RoomResponseDto;
 import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
 import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
-import com.sajang.devracebackend.dto.userroom.CodeRoomResponseDto;
 import com.sajang.devracebackend.dto.userroom.UserPassRequestDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
@@ -18,10 +17,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -41,9 +36,16 @@ public class RoomController {
 
     @PostMapping("/rooms")
     @Operation(summary = "방생성 Page - 방 생성 [jwt O]")
-    public ResponseEntity<ResponseData<RoomSaveResponseDto>> createRoom(@RequestBody ProblemSaveRequestDto problemSaveRequestDto) throws IOException {
-        RoomSaveResponseDto roomSaveResponseDto = roomService.createRoom(problemSaveRequestDto);
-        return ResponseData.toResponseEntity(ResponseCode.CREATED_ROOM, roomSaveResponseDto);
+    public ResponseEntity<ResponseData<RoomResponseDto>> createRoom(@RequestBody ProblemSaveRequestDto problemSaveRequestDto) throws IOException {
+        RoomResponseDto roomResponseDto = roomService.createRoom(problemSaveRequestDto);
+        return ResponseData.toResponseEntity(ResponseCode.CREATED_ROOM, roomResponseDto);
+    }
+
+    @GetMapping("/rooms")
+    @Operation(summary = "초대링크 방 조회 [jwt O]", description = "URI : /rooms?link={방링크 string}")
+    public ResponseEntity<ResponseData<RoomResponseDto>> findRoomByLink(@RequestParam(value = "link", required = true) String link) {
+        RoomResponseDto roomResponseDto = roomService.findRoomByLink(link);
+        return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, roomResponseDto);
     }
 
     @GetMapping("/rooms/{roomId}")
@@ -68,7 +70,7 @@ public class RoomController {
     }
 
     @PostMapping("/rooms/{roomId}")  // 의미상 PUT보단 POST가 더 적합하다고 판단했음.
-    @Operation(summary = "문제풀이 Page - 문제풀이 실패 및 성공 [jwt O]", description = "isRetry==0 : 첫풀이 경우 / isRetry==1 : 재풀이 경우")
+    @Operation(summary = "문제풀이 Page - 문제풀이 성공 및 실패/퇴장 [jwt O]", description = "isRetry==0 : 첫풀이 경우 / isRetry==1 : 재풀이 경우")
     public ResponseEntity<ResponseData> passSolvingProblem(
             @PathVariable(value = "roomId") Long roomId,
             @RequestBody UserPassRequestDto userPassRequestDto) {
@@ -82,24 +84,6 @@ public class RoomController {
     public ResponseEntity<ResponseData> userStopWaitRoom(@PathVariable(value = "roomId") Long roomId) {
         userRoomService.userStopWaitRoom(roomId);
         return ResponseData.toResponseEntity(ResponseCode.UPDATE_ROOM);
-    }
-
-    @GetMapping("/rooms")
-    @Operation(summary = "내 코드방 목록 조회/정렬/검색 [jwt O]",
-            description = """
-                - 전체 정렬 URI : /rooms?page={페이지번호 int}
-                - 성공or실패 정렬 URI : /rooms?isPass={풀이성공여부 int}&page={페이지번호 int}
-                - 문제번호 검색 URI : /rooms?number={문제번호 int}&page={페이지번호 int}
-                - 초대링크 탐색 URI : /rooms?link={방링크 string}  \nsize, sort 필요X (기본값 : page=0 & size=9 & sort=createdTime,desc)
-                """)
-    public ResponseEntity<ResponseData<Page<CodeRoomResponseDto>>> findCodeRoom(
-            @RequestParam(value = "isPass", required = false) Integer isPass,
-            @RequestParam(value = "number", required = false) Integer number,
-            @RequestParam(value = "link", required = false) String link,
-            @PageableDefault(page=0, size=9, sort="createdTime", direction = Sort.Direction.DESC) Pageable pageable) {
-
-        Page<CodeRoomResponseDto> codeRoomResponseDtoPage = userRoomService.findCodeRoom(isPass, number, link, pageable);
-        return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, codeRoomResponseDtoPage);
     }
 
     @MessageMapping("wait.enter")  // 웹소켓 메시지 처리 (백엔드로 '/pub/wait.enter'를 호출시 이 브로커에서 처리)

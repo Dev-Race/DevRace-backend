@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
         // - 기본사진으로 변경O : if 'imageFile == null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
 
         if(signupRequestDto.getBojId() == null) {
-            throw new Exception400.UserBadRequest("회원가입 백준id null 에러");
+            throw new Exception400.UserBadRequest("회원가입 bojId==null 에러");
         }
         if(userRepository.existsByBojId(signupRequestDto.getBojId()) == true) {  // 이미 해당 백준id로 가입한 사용자가 존재하는경우, 예외 처리.
             throw new Exception400.BojIdDuplicate(signupRequestDto.getBojId());

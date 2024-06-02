@@ -29,8 +29,14 @@ public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
     Optional<UserRoom> findByUser_IdAndRoom_IdWithProblem(@Param("userId") Long userId, @Param("roomId") Long roomId);  // @Query 이므로, With문처럼 JPA네이밍 규칙을 지키지않아도됨.
 
     boolean existsByUserAndRoom(User user, Room room);
-    Page<UserRoom> findAllByIsLeaveAndUser_Id(Integer isLeave, Long userId, Pageable pageable);
-    Page<UserRoom> findAllByIsLeaveAndIsPass(Integer isLeave, Integer isPass, Pageable pageable);
-    Page<UserRoom> findAllByIsLeaveAndRoom_Problem_Number(Integer isLeave, Integer number, Pageable pageable);
-    Page<UserRoom> findAllByRoom_Link(String link, Pageable pageable);
+
+    // 밑의 3가지 메소드 모두, 페이징에서 OneToMany 속성을 Eager 조회시키지 않을것이기에, '중복 제거 처리' 및 '배치 사이즈 선언'을 하지 않았음.
+    @EntityGraph(attributePaths = {"room", "room.problem"})
+    Page<UserRoom> findAllByUser_IdAndIsLeave(Long userId, Integer isLeave, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"room", "room.problem"})
+    Page<UserRoom> findAllByUser_IdAndIsLeaveAndIsPass(Long userId, Integer isLeave, Integer isPass, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"room", "room.problem"})
+    Page<UserRoom> findAllByUser_IdAndIsLeaveAndRoom_Problem_Number(Long userId, Integer isLeave, Integer number, Pageable pageable);
 }
