@@ -1,7 +1,6 @@
 package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.User;
-import com.sajang.devracebackend.domain.mapping.UserRoom;
 import com.sajang.devracebackend.dto.user.UserCheckRoomResponseDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
@@ -22,7 +21,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(
-                ()->new Exception404.NoSuchUser(String.format("userId = %d", userId)));
+                () -> new Exception404.NoSuchUser(String.format("userId = %d", userId)));
     }
 
     @Transactional(readOnly = true)
@@ -50,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public <T> List<T> findUsersOriginal(List<Long> userIdList, Boolean isDto) {  // 기존 userId리스트의 순서를 보장하는 User&UserDto리스트 반환 메소드
+    public <T> List<T> findUsersOriginal(List<Long> userIdList, boolean isDto) {  // 기존 userId리스트의 순서를 보장하는 User&UserDto리스트 반환 메소드
         List<User> userList = userRepository.findByIdIn(userIdList);
         Map<Long, User> userMap = userList.stream()
                 .collect(Collectors.toMap(User::getId, user -> user));
@@ -106,26 +104,22 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public UserCheckRoomResponseDto checkCurrentRoom() {
-        User user = findLoginUser();
 
-        Optional<UserRoom> optionalUserRoom = user.getUserRoomList().stream()
+        // 'User.userRoomList' Eager 로딩 (N+1 문제 해결)
+        User user = userRepository.findByIdWithEagerUserRoomList(SecurityUtil.getCurrentMemberId()).orElseThrow(
+                () -> new Exception404.NoSuchUser(String.format("userId = %d", SecurityUtil.getCurrentMemberId())));
+
+        UserCheckRoomResponseDto userCheckRoomResponseDto = user.getUserRoomList().stream()
                 .filter(userRoom -> userRoom.getIsLeave() == 0)  // getIsLeave() 값이 0인 경우만 필터링 (참여중인 방 찾기)
-                .findFirst();
-        UserRoom userRoom = optionalUserRoom.orElse(null);
-
-        UserCheckRoomResponseDto userCheckRoomResponseDto;
-        if(userRoom == null) {  // 참여중인 방이 없을때 X
-            userCheckRoomResponseDto = UserCheckRoomResponseDto.builder()
-                    .isExistRoom(false)
-                    .roomId(null)
-                    .build();
-        }
-        else {  // 참여중인 방이 있을때 O
-            userCheckRoomResponseDto = UserCheckRoomResponseDto.builder()
-                    .isExistRoom(true)
-                    .roomId(userRoom.getRoom().getId())
-                    .build();
-        }
+                .findFirst()
+                .map(userRoom -> UserCheckRoomResponseDto.builder()  // 참여중인 방이 있을때 O
+                        .isExistRoom(true)
+                        .roomId(userRoom.getRoom().getId())  // User.userRoomList.room까지 Eager 처리하면 참여중인 방이 없을시의 성능 하락이 심하기에, 처리하지않음.
+                        .build())
+                .orElse(UserCheckRoomResponseDto.builder()  // 참여중인 방이 없을때 X
+                        .isExistRoom(false)
+                        .roomId(null)
+                        .build());
 
         return userCheckRoomResponseDto;
     }
@@ -133,7 +127,7 @@ public class UserServiceImpl implements UserService {
 
     // ========== 유틸성 메소드 ========== //
 
-    public static UserSolvedResponseDto getSolvedCount(String bojId) {  // WebClient로 외부 solved API 호출 메소드
+    public static UserSolvedResponseDto getSolvedCount(String bojId) {  // WebClient로 외부 solved API 호출 메소드 (entity가 아닌 dto를 반환하므로, public 접근제어자 가능.)
         try {
             WebClient webClient = WebClient.builder()
                     .baseUrl("https://solved.ac/api/v3")

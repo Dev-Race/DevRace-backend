@@ -4,9 +4,10 @@ import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.domain.Room;
 import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
 import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
-import com.sajang.devracebackend.dto.room.RoomSaveResponseDto;
+import com.sajang.devracebackend.dto.room.RoomResponseDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.repository.*;
+import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.response.exception.Exception404;
 import com.sajang.devracebackend.service.ProblemService;
 import com.sajang.devracebackend.service.RoomService;
@@ -34,12 +35,25 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room findRoom(Long roomId) {
         return roomRepository.findById(roomId).orElseThrow(
-                ()->new Exception404.NoSuchRoom(String.format("roomId = %d", roomId)));
+                () -> new Exception404.NoSuchRoom(String.format("roomId = %d", roomId)));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public RoomResponseDto findRoomByLink(String link) {
+        if(link == null) throw new Exception400.RoomBadRequest("방 조회 link==null 에러");
+
+        Room room = roomRepository.findByLink(link).orElseThrow(
+                () -> new Exception404.NoSuchRoom("link = " + link));
+
+        return RoomResponseDto.builder()
+                .roomId(room.getId())
+                .build();
     }
 
     @Transactional
     @Override
-    public RoomSaveResponseDto createRoom(ProblemSaveRequestDto problemSaveRequestDto) throws IOException {
+    public RoomResponseDto createRoom(ProblemSaveRequestDto problemSaveRequestDto) throws IOException {
         Integer problemNumber = problemSaveRequestDto.getProblemNumber();
 
         Problem problem = problemRepository.findByNumber(problemNumber)
@@ -59,11 +73,11 @@ public class RoomServiceImpl implements RoomService {
                 .problem(problem)
                 .build();
         Long roomId = roomRepository.save(room).getId();
-        RoomSaveResponseDto roomSaveResponseDto = RoomSaveResponseDto.builder()
+        RoomResponseDto roomResponseDto = RoomResponseDto.builder()
                 .roomId(roomId)
                 .build();
 
-        return roomSaveResponseDto;
+        return roomResponseDto;
     }
 
     @Transactional(readOnly = true)
