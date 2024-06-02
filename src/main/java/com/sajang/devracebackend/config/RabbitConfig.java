@@ -125,7 +125,7 @@ public class RabbitConfig {
     public Jackson2JsonMessageConverter jsonMessageConverter(){
         // LocalDateTime serializable을 위해
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);  // true인 경우, 실시간 통신시 LocalDateTime이 배열형식으로 컨버팅되어 프론트엔드에 전송됨.
         objectMapper.registerModule(dateTimeModule());
 
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter(objectMapper);
@@ -137,7 +137,8 @@ public class RabbitConfig {
         return new JavaTimeModule();
     }
     /*
-    < LocalDateTime example / 2024-04-09T02:10:29.415171 / 2024.04.09 02H:10M:29.415171S >
+    < if 'objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);'
+    ==> LocalDateTime example / 2024-04-09T02:10:29.415171 / 2024.04.09 02H:10M:29.415171S >
     {
         "createdTime": [
             2024,
