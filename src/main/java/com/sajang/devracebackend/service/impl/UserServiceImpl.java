@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService {
                     .bodyToMono(UserSolvedResponseDto.class)
                     .block();
         } catch (Exception e){
-            throw new Exception404.NoSuchBojId(String.format("bojId = %d", bojId));  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
+            throw new Exception404.NoSuchBojId("bojId = " + bojId);  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
         }
     }
 }
