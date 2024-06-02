@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {  // 참고로 Filter에서 throw된 에러
             Exception404.class,
             Exception500.class
     })
-    public ResponseEntity handleCustomExceptions(CustomException ex) {
+    public ResponseEntity handleCustomException(CustomException ex) {
         return logAndResponse(ex.getErrorResponseCode(), ex.getMessage());
     }
 
