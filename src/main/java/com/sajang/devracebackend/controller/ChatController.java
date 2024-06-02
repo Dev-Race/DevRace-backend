@@ -31,10 +31,10 @@ public class ChatController {
 
 
     @GetMapping("/rooms/{roomId}/chats")
-    @Operation(summary = "채팅 내역 조회 [jwt O]", description = "- URI : /rooms/{roomId}/chats?page={페이지번호 int}  \nsize,sort 필요X (기본값 : size=10 & sort=createdTime,asc)")
+    @Operation(summary = "채팅 내역 조회 [jwt O]", description = "- URI : /rooms/{roomId}/chats?page={페이지번호 int}  \nsize,sort 필요X (기본값 : size=10 & sort=createdTime,desc)")
     public ResponseEntity<ResponseData<Slice<ChatResponseDto>>> findChatsByRoom(
             @PathVariable(value = "roomId") Long roomId,  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
-            @PageableDefault(size=10, sort="createdTime", direction = Sort.Direction.ASC) Pageable pageable) {
+            @PageableDefault(size=10, sort="createdTime", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Slice<ChatResponseDto> chatResponseDtoSlice = chatService.findChatsByRoom(roomId, pageable);
         return ResponseData.toResponseEntity(ResponseCode.READ_CHATLIST, chatResponseDtoSlice);
