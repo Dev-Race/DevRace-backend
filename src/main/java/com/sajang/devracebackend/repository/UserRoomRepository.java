@@ -30,7 +30,7 @@ public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
 
     boolean existsByUserAndRoom(User user, Room room);
 
-    // 밑의 3가지 메소드 모두, 페이징에서 OneToMany 속성을 Eager 조회시키지 않을것이기에, '중복 제거 처리' 및 '배치 사이즈 선언'을 하지 않았음.
+    // 밑의 3가지 메소드 모두, 페이징에서 OneToMany 속성은 Eager 조회시키지 않을것이기에, '중복 제거 처리' 및 '배치 사이즈 선언'을 하지 않았음.
     @EntityGraph(attributePaths = {"room", "room.problem"})
     Page<UserRoom> findAllByUser_IdAndIsLeave(Long userId, Integer isLeave, Pageable pageable);
 

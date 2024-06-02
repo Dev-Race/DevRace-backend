@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {  // 참고로 Filter에서 throw된 에러
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity handleException(Exception ex) {
-        if (ex.getMessage().equals("Security Context에 인증 정보가 없습니다.")) {
+        if (ex.getMessage() != null && ex.getMessage().equals("Security Context에 인증 정보가 없습니다.")) {
             return logAndResponse(ResponseCode.anonymousUser_ERROR, ex.getMessage());  // 시큐리티 헤더의 로그인 정보가 없을때 값을 조회하면 발생.
         }
         return logAndResponse(ResponseCode.INTERNAL_SERVER_ERROR, ex.getMessage());
