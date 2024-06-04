@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
                 .findFirst()
                 .map(userRoom -> UserCheckRoomResponseDto.builder()  // 참여중인 방이 있을때 O
                         .isExistRoom(true)
-                        .roomId(userRoom.getRoom().getId())  // User.userRoomList.room까지 Eager 처리하면 참여중인 방이 없을시의 성능 하락이 심하기에, 처리하지않음.
+                        .roomId(userRoom.getRoom().getId())  // User.userRoomList.room까지 Eager 처리할시, 참여중인 방이 없을경우 불필요한 성능 하락을 초래하여 Eager 처리하지않음.
                         .build())
                 .orElse(UserCheckRoomResponseDto.builder()  // 참여중인 방이 없을때 X
                         .isExistRoom(false)
