@@ -33,14 +33,14 @@ public class UserController {
 
 
     @GetMapping("/users")
-    @Operation(summary = "사용자 프로필 조회 [jwt O]")
+    @Operation(summary = "마이 Page - 사용자 프로필 조회 [JWT O]")
     public ResponseEntity<ResponseData<UserResponseDto>> findUserProfile() {
         UserResponseDto userResponseDto = userService.findUserProfile();
         return ResponseData.toResponseEntity(ResponseCode.READ_USER, userResponseDto);
     }
 
     @PutMapping(value = "/users", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "사용자 프로필 수정 [jwt O]",
+    @Operation(summary = "마이 Page - 사용자 프로필 수정 [JWT O]",
             description = """
                 - 사진 변경 X : imageFile == null && signupRequestDto.getIsImageChange() == 0
                 - 사진 변경 O : imageFile != null && signupRequestDto.getIsImageChange() == 1
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/users/rooms")
-    @Operation(summary = "코드방 목록 조회/정렬/검색 [jwt O]",
+    @Operation(summary = "내 코드 Page - 코드방 목록 조회/정렬/검색 [JWT O]",
             description = """
                 - 전체 정렬 URI : /users/rooms?page={페이지번호 int}
                 - 성공or실패 정렬 URI : /users/rooms?isPass={풀이성공여부 int}&page={페이지번호 int}
@@ -71,14 +71,14 @@ public class UserController {
     }
 
     @GetMapping("/users/rooms-check")
-    @Operation(summary = "메인 Page - 참여중인 방 여부 검사 [jwt O]", description = "roomId == Long or null")
+    @Operation(summary = "메인 Page - 참여중인 방 여부 검사 [JWT O]", description = "roomId == Long or null")
     public ResponseEntity<ResponseData<UserCheckRoomResponseDto>> checkCurrentRoom() {
         UserCheckRoomResponseDto userCheckRoomResponseDto = userService.checkCurrentRoom();
         return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, userCheckRoomResponseDto);
     }
 
     @GetMapping("/users/solved-count")
-    @Operation(summary = "백준 solvedCount값 조회 [jwt O]")
+    @Operation(summary = "사용자 백준 solvedCount값 조회 [JWT O]")
     public ResponseEntity<ResponseData<UserSolvedResponseDto>> checkUserSolvedCount() {
         UserSolvedResponseDto userSolvedResponseDto = userService.checkUserSolvedCount();
         return ResponseData.toResponseEntity(ResponseCode.READ_SOLVEDCOUNT, userSolvedResponseDto);
