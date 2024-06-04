@@ -13,6 +13,23 @@
 <br>
 
 
+
+<hr>
+
+### 📖 목차
+### 1.&nbsp;&nbsp;[📄 Documents](#-documents)
+### 2.&nbsp;&nbsp;[💻 Architecture](#-architecture)
+### 3.&nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
+### 4.&nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
+### 5.&nbsp;&nbsp;[🔔 Notification](#-notification)
+### 6.&nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
+### 7.&nbsp;&nbsp;[📂 Package Convention](#-package-convention)
+### 8.&nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
+<hr>
+<br>
+
+
+
 ## 📄 Documents
 
 ### [PM]&nbsp;&nbsp;기획 명세서
@@ -41,6 +58,7 @@
 <br>
 
 
+
 ## 💻 Architecture
 
 ### Entire Architecture
@@ -48,7 +66,8 @@
 
 ### Network Architecture
 ![devrace_network_architecture drawio](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/9918f3c3-f0b5-4eb2-a712-19c665737576)
-<br><br>
+<br><br><br>
+
 
 
 ## 💡 Tech Stack
@@ -66,9 +85,22 @@ Backend|Security|Database|Deployment|Other|
 <br>
 
 
+
 ## 🗂️ Database
 ![devrace DB ERD](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/4b0db7b7-d530-4acf-9361-c1689d48f97a)
+<br><br>
+
+
+
+## 🔔 Notification
+![slack collaboration_alarm](https://github.com/Dev-Race/DevRace-backend/assets/56509933/888fd684-76bf-4c77-a25b-d4a2ca3daf16)
+<br><br>
+&#8594; Collaboration & Notification in <strong>Slack</strong><br>
+- PR Open
+- PR Review
+- CI/CD Results (Success or Fail)
 <br><br><br>
+
 
 
 ## 🤝 Git Convention
@@ -124,6 +156,7 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 <br>
 
 
+
 ## 📂 Package Convention
 
 ### Structure
@@ -150,6 +183,7 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 └── util
 ```
 <br>
+
 
 
 ## 👨‍👩‍👧‍👧 Team
