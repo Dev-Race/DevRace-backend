@@ -9,6 +9,7 @@ import com.sajang.devracebackend.service.ChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -46,4 +47,11 @@ public class ChatController {
         ChatResponseDto chatResponseDto = chatService.createChat(chatRequestDto);
         rabbitTemplate.convertAndSend(RabbitConfig.CHAT_EXCHANGE_NAME, "room." + chatResponseDto.getRoomId(), chatResponseDto);
     }
+
+
+    // ========== STOMP Test 임시 용도 ========== //
+//    @RabbitListener(queues = RabbitConfig.CHAT_QUEUE_NAME)  // 프로듀서(백엔드)->컨슈머(프론트엔드) 과정에서 큐에 도착할 때, 메소드 자동 호출됨.
+//    public void receive(ChatResponseDto chatResponseDto){
+//        System.out.println("Success Receive - Chat Message / nickname: " + chatResponseDto.getSenderName());
+//    }
 }
