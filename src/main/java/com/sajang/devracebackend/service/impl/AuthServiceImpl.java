@@ -3,6 +3,7 @@ package com.sajang.devracebackend.service.impl;
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
+import com.sajang.devracebackend.dto.auth.ReissueRequestDto;
 import com.sajang.devracebackend.dto.auth.SignupRequestDto;
 import com.sajang.devracebackend.dto.auth.SignupResponseDto;
 import com.sajang.devracebackend.dto.auth.TokenDto;
@@ -14,7 +15,9 @@ import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.service.AuthService;
 import com.sajang.devracebackend.service.AwsS3Service;
 import com.sajang.devracebackend.service.UserService;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,6 +85,36 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         return signupResponseDto;
+    }
+
+    @Transactional
+    @Override
+    public TokenDto reissue(ReissueRequestDto reissueRequestDto) {  // Refresh Token으로 Access Token 재발급 메소드
+
+        // RequestDto로 전달받은 Token값들
+        String accessToken = reissueRequestDto.getAccessToken();
+        String refreshToken = reissueRequestDto.getRefreshToken();
+
+        // Refresh Token 유효성 검사
+        if(tokenProvider.validateToken(refreshToken) == false) {
+            throw new JwtException("입력한 Refresh Token은 잘못된 토큰입니다.");
+        }
+
+        // Access Token에서 userId 가져오기
+        Authentication authentication = tokenProvider.getAuthentication(accessToken);
+        Long userId = Long.valueOf(authentication.getName());
+
+        // userId로 사용자 검색 & 해당 사용자의 role 가져오기
+        User user = userService.findUser(userId);
+        Role role = user.getRole();
+
+        // DB의 사용자 Refresh Token 값과, 전달받은 Refresh Token의 불일치 여부 검사
+        if(!user.getRefreshToken().equals(refreshToken)) {
+            throw new Exception400.TokenBadRequest("Refresh Token = " + refreshToken);
+        }
+
+        TokenDto tokenDto = tokenProvider.generateAccessTokenByRefreshToken(userId, role, refreshToken);
+        return tokenDto;
     }
 
     @Transactional

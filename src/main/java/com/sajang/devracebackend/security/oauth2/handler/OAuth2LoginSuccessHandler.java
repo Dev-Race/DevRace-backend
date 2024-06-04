@@ -1,10 +1,11 @@
 package com.sajang.devracebackend.security.oauth2.handler;
 
+import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
 import com.sajang.devracebackend.dto.auth.TokenDto;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.security.oauth2.CustomOAuth2User;
-import com.sajang.devracebackend.service.TokenService;
+import com.sajang.devracebackend.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ import java.io.IOException;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final TokenProvider tokenProvider;
-    private final TokenService tokenService;
+    private final UserService userService;
 
 
     @Override
@@ -43,7 +44,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             log.info("발급된 Refresh Token : {}", refreshToken);
 
             // 로그인에 성공했으므로, 사용자 DB에 Refresh Token 저장(있다면 업데이트).
-            tokenService.updateRefreshToken(userId, refreshToken);
+            User user = userService.findUser(userId);
+            user.updateRefreshToken(refreshToken);
 
             String redirectUrl;
             if(oAuth2User.getRole().equals(Role.ROLE_GUEST)) {  // User의 Role이 GUEST일 경우, 처음 요청한 회원이므로, 회원가입 페이지로 리다이렉트 시켜야함을 프론트에 전달.
