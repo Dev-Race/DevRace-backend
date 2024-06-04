@@ -10,7 +10,7 @@
     실시간 코딩 경쟁 및 채팅 서비스
   </strong>
 </p>
-<br><br>
+<br>
 
 
 ## 📄 Documents
@@ -68,7 +68,7 @@ Backend|Security|Database|Deployment|Other|
 
 ## 🗂️ Database
 ![devrace DB ERD](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/4b0db7b7-d530-4acf-9361-c1689d48f97a)
-<br><br>
+<br><br><br>
 
 
 ## 🤝 Git Convention
@@ -121,7 +121,7 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 ### Template
 - <a href="https://github.com/Dev-Race/DevRace-backend/tree/develop/.github/ISSUE_TEMPLATE">Issue Template</a>
 - <a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/PULL_REQUEST_TEMPLATE.md">Pull-Request Template</a>
-  <br>
+<br>
 
 
 ## 📂 Package Convention
