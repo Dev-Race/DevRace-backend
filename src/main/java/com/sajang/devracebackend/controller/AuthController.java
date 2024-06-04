@@ -28,7 +28,7 @@ public class AuthController {
 
 
     @PutMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "회원가입 [jwt O]",
+    @Operation(summary = "회원가입 Page - 회원가입 [JWT O]",
             description = """
                 - 사진 변경 X : imageFile == null && signupRequestDto.getIsImageChange() == 0
                 - 사진 변경 O : imageFile != null && signupRequestDto.getIsImageChange() == 1
@@ -43,14 +43,14 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    @Operation(summary = "JWT Access Token 재발급(로그인 유지) [jwt X]")
+    @Operation(summary = "JWT Access Token 재발급 [JWT X]")
     public ResponseEntity<ResponseData<TokenDto>> reissue(@RequestBody ReissueRequestDto reissueRequestDto) {
         TokenDto tokenDto = tokenService.reissue(reissueRequestDto);
         return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenDto);
     }
 
     @DeleteMapping("/users")
-    @Operation(summary = "회원 탈퇴 [jwt O]")
+    @Operation(summary = "마이 Page - 회원탈퇴 [JWT O]")
     public ResponseEntity<ResponseData> withdrawal() {
         authService.withdrawal();
         return ResponseData.toResponseEntity(ResponseCode.DELETE_USER);

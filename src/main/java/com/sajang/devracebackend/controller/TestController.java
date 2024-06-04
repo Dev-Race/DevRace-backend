@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
 
     @GetMapping("/health")
-    @Operation(summary = "서버 헬스체크 [jwt X]")
+    @Operation(summary = "서버 헬스체크 [JWT X]")
     public ResponseEntity<ResponseData> healthCheck() {
         return ResponseData.toResponseEntity(ResponseCode.HEALTHY_SUCCESS);
     }

@@ -35,42 +35,42 @@ public class RoomController {
 
 
     @PostMapping("/rooms")
-    @Operation(summary = "방생성 Page - 방 생성 [jwt O]")
+    @Operation(summary = "방생성 Page - 방 생성 [JWT O]")
     public ResponseEntity<ResponseData<RoomResponseDto>> createRoom(@RequestBody ProblemSaveRequestDto problemSaveRequestDto) throws IOException {
         RoomResponseDto roomResponseDto = roomService.createRoom(problemSaveRequestDto);
         return ResponseData.toResponseEntity(ResponseCode.CREATED_ROOM, roomResponseDto);
     }
 
     @GetMapping("/rooms")
-    @Operation(summary = "초대링크 방 조회 [jwt O]", description = "URI : /rooms?link={방링크 string}")
+    @Operation(summary = "초대링크 방 조회 [JWT O]", description = "URI : /rooms?link={방링크 string}")
     public ResponseEntity<ResponseData<RoomResponseDto>> findRoomByLink(@RequestParam(value = "link", required = true) String link) {
         RoomResponseDto roomResponseDto = roomService.findRoomByLink(link);
         return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, roomResponseDto);
     }
 
     @GetMapping("/rooms/{roomId}")
-    @Operation(summary = "문제풀이 Page - 문제풀이 페이지 정보 조회 [jwt O]")
+    @Operation(summary = "문제풀이 Page - 문제풀이 페이지 정보 조회 [JWT O]")
     public ResponseEntity<ResponseData<SolvingPageResponseDto>> loadSolvingPage(@PathVariable(value = "roomId") Long roomId) {  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
         SolvingPageResponseDto solvingPageResponseDto = userRoomService.loadSolvingPage(roomId);
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, solvingPageResponseDto);
     }
 
     @GetMapping("/rooms/{roomId}/access-check")
-    @Operation(summary = "문제풀이 Page - 문제풀이 페이지 접근허용 검사 [jwt O]", description = "isLeave == 0 or 1 or null")
+    @Operation(summary = "문제풀이 Page - 문제풀이 페이지 접근허용 검사 [JWT O]", description = "isLeave == 0 or 1 or null")
     public ResponseEntity<ResponseData<RoomCheckAccessResponseDto>> checkAccess(@PathVariable(value = "roomId") Long roomId) {
         RoomCheckAccessResponseDto roomCheckAccessResponseDto = userRoomService.checkAccess(roomId);
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, roomCheckAccessResponseDto);
     }
 
     @GetMapping("/rooms/{roomId}/state-check")
-    @Operation(summary = "입장 Page - 방 상태 검사 [jwt O]", description = "dtoList index==0 : 방장 / dtoList index==others : 방장 외 대기자들 접속시간 기준 오름차순 정렬")
+    @Operation(summary = "입장 Page - 방 상태 검사 [JWT O]", description = "dtoList index==0 : 방장 / dtoList index==others : 방장 외 대기자들 접속시간 기준 오름차순 정렬")
     public ResponseEntity<ResponseData<RoomCheckStateResponseDto>> checkState(@PathVariable(value = "roomId") Long roomId) {
         RoomCheckStateResponseDto roomCheckStateResponseDto = roomService.checkState(roomId);
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, roomCheckStateResponseDto);
     }
 
     @PostMapping("/rooms/{roomId}")  // 의미상 PUT보단 POST가 더 적합하다고 판단했음.
-    @Operation(summary = "문제풀이 Page - 문제풀이 성공 및 실패/퇴장 [jwt O]", description = "isRetry==0 : 첫풀이 경우 / isRetry==1 : 재풀이 경우")
+    @Operation(summary = "문제풀이 Page - 문제풀이 성공 및 실패/퇴장 [JWT O]", description = "isRetry==0 : 첫풀이 경우 / isRetry==1 : 재풀이 경우")
     public ResponseEntity<ResponseData> passSolvingProblem(
             @PathVariable(value = "roomId") Long roomId,
             @RequestBody UserPassRequestDto userPassRequestDto) {
@@ -80,7 +80,7 @@ public class RoomController {
     }
 
     @PutMapping("/rooms/{roomId}")
-    @Operation(summary = "입장 Page - 방 입장 대기열 나가기 [jwt O]")
+    @Operation(summary = "입장 Page - 방 입장 대기열 나가기 [JWT O]")
     public ResponseEntity<ResponseData> userStopWaitRoom(@PathVariable(value = "roomId") Long roomId) {
         userRoomService.userStopWaitRoom(roomId);
         return ResponseData.toResponseEntity(ResponseCode.UPDATE_ROOM);
