@@ -7,7 +7,6 @@ import com.sajang.devracebackend.dto.auth.TokenDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.AuthService;
-import com.sajang.devracebackend.service.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ import java.io.IOException;
 public class AuthController {
 
     private final AuthService authService;
-    private final TokenService tokenService;
 
 
     @PutMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,7 +43,7 @@ public class AuthController {
     @PostMapping("/reissue")
     @Operation(summary = "JWT Access Token 재발급 [JWT X]")
     public ResponseEntity<ResponseData<TokenDto>> reissue(@RequestBody ReissueRequestDto reissueRequestDto) {
-        TokenDto tokenDto = tokenService.reissue(reissueRequestDto);
+        TokenDto tokenDto = authService.reissue(reissueRequestDto);
         return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenDto);
     }
 
