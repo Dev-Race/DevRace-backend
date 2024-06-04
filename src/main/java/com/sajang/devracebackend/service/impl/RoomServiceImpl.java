@@ -48,6 +48,7 @@ public class RoomServiceImpl implements RoomService {
 
         return RoomResponseDto.builder()
                 .roomId(room.getId())
+                .roomState(room.getRoomState())
                 .build();
     }
 
@@ -72,12 +73,12 @@ public class RoomServiceImpl implements RoomService {
                 .link(link)
                 .problem(problem)
                 .build();
-        Long roomId = roomRepository.save(room).getId();
-        RoomResponseDto roomResponseDto = RoomResponseDto.builder()
-                .roomId(roomId)
-                .build();
+        roomRepository.save(room);
 
-        return roomResponseDto;
+        return RoomResponseDto.builder()
+                .roomId(room.getId())
+                .roomState(room.getRoomState())
+                .build();
     }
 
     @Transactional(readOnly = true)
