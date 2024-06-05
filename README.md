@@ -1,72 +1,57 @@
 <br>
-<p align="center">
-  <img src="https://github.com/Dev-Race/.github/assets/56509933/d3c424bc-4cc9-4c44-ad1c-05f6e251d133" />
-</p>
-
-<p align="center">
-  <strong>
-    - Dev Race 🧑‍💻 -
-    <br>
-    실시간 코딩 경쟁 및 채팅 서비스
-  </strong>
-</p>
+<div align="center">
+  <img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a57f82e1-43fa-44ea-b23e-bf39747a6cc5" width="193" height="193" />
+  <h3 align="center">Dev Race 🧑‍💻</h3>
+  <p align="center">
+    실시간 코딩 경쟁 및 채팅 서비스<br>
+    <a href="https://github.com/Dev-Race"><strong>Explore the team »</strong></a>
+  </p>
+</div>
 <br>
 
+<details open>
+  <summary><strong>&nbsp;📖&nbsp;목차</strong></summary>
 
-
-<hr>
-
-### 📖 목차
-### 1.&nbsp;&nbsp;[📄 Documents](#-documents)
-### 2.&nbsp;&nbsp;[💻 Architecture](#-architecture)
-### 3.&nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
-### 4.&nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
-### 5.&nbsp;&nbsp;[🔔 Notification](#-notification)
-### 6.&nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
-### 7.&nbsp;&nbsp;[📂 Package Convention](#-package-convention)
-### 8.&nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
-<hr>
+1. &nbsp;&nbsp;[📄 Documents](#-documents)
+2. &nbsp;&nbsp;[💻 Architecture](#-architecture)
+3. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
+4. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
+5. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
+6. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
+7. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
+</details>
 <br>
 
 
 
 ## 📄 Documents
 
-### [PM]&nbsp;&nbsp;기획 명세서
-<details>
-  <summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary>
-  <br><img width="1124" alt="DevRace_기능상세_명세서" src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/38c36139-1d4a-4075-bdf7-6ca33f222466">
-</details>
-<details>
-  <summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary>
-  <br><img width="1124" alt="DevRace_WBS_명세서" src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/3f3cc0aa-d485-4762-9850-f34ad1a8e98f">
-</details>
+- #### [PM] 기획 명세서
+    - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/38c36139-1d4a-4075-bdf7-6ca33f222466" /></details>
+    - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/b82c38a7-6e32-4038-b92f-7ded9b2ca113" /></details>
 
-### [BE]&nbsp;&nbsp;API 명세서
-<details>
-  <summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary>
-  <br><img width="1124" alt="DevRace_RestAPI_명세서" src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/863cd935-c292-4318-97e2-03b357528a27">
-</details>
-<details>
-  <summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary>
-  <br><img width="1124" alt="DevRace_WebSocketAPI_명세서" src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a5e52b5a-c3af-405c-89a7-43c24e5f1182">
-</details>
-<details open>
-  <summary>&nbsp;Swagger API 명세서</summary>
-  <br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/222b7599-69ba-41aa-9ef5-613fd7837c54" />
-</details>
+- #### [BE] API 명세서
+    - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/863cd935-c292-4318-97e2-03b357528a27" /></details>
+    - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a5e52b5a-c3af-405c-89a7-43c24e5f1182" /></details>
+    - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/222b7599-69ba-41aa-9ef5-613fd7837c54" /></details>
 <br>
 
 
 
 ## 💻 Architecture
 
-### Entire Architecture
+- ### System Architecture
 ![devrace_architecture drawio](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/bafcab1e-77b4-4e9d-9db2-aac15c130eed)
 
-### Network Architecture
+- ### Network Architecture
 ![devrace_network_architecture drawio](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/9918f3c3-f0b5-4eb2-a712-19c665737576)
-<br><br><br>
+
+- ### Notification in Architecture
+![slack collaboration_alarm](https://github.com/Dev-Race/DevRace-backend/assets/56509933/888fd684-76bf-4c77-a25b-d4a2ca3daf16)
+
+&#8594;&nbsp;&nbsp;<strong>Slack Notifications</strong> sent by the <strong>GitHub Actions</strong> :<br>
+`💡 PR Open`  `💬 PR Review`  `❌ CI/CD Fail`  `✅ CI/CD Success`
+<br><br>
 
 
 
@@ -82,24 +67,14 @@ Backend|Security|Database|Deployment|Other|
 - Documentation : Notion, Swagger
 - Notification : Slack
 ```
-<br>
+&#8594;&nbsp;***Version***&nbsp;:&nbsp;&nbsp;Java 17 · Spring Boot 3.1.11
+<br><br>
 
 
 
 ## 🗂️ Database
 ![devrace DB ERD](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/4b0db7b7-d530-4acf-9361-c1689d48f97a)
 <br><br>
-
-
-
-## 🔔 Notification
-![slack collaboration_alarm](https://github.com/Dev-Race/DevRace-backend/assets/56509933/888fd684-76bf-4c77-a25b-d4a2ca3daf16)
-<br><br>
-&#8594; Collaboration & Notification in <strong>Slack</strong><br>
-- PR Open
-- PR Review
-- CI/CD Results (Success or Fail)
-<br><br><br>
 
 
 
@@ -182,6 +157,140 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 │       └── userinfo
 └── util
 ```
+<details>
+  <summary>&nbsp;Open detailed Structure</summary>
+  <br>
+
+```
+├── .ebextensions-dev
+│   ├── 00-set-timezone.config
+│   ├── 01-set-swapmemory.config
+│   └── 02-rabbitmq.config
+├── .github
+│   ├── ISSUE_TEMPLATE
+│   │   ├── custom.md
+│   │   ├── feature.md
+│   │   ├── fix.md
+│   │   └── refactor.md
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── workflows
+│       ├── deploy.yml
+│       ├── slack-pr-open.yml
+│       └── slack-pr-review.yml
+├── .gitmodules
+├── .platform
+│   └── hooks
+│       └── postdeploy
+│           └── connect_spring_to_network.sh
+├── Dockerfile
+├── Dockerrun.aws.json
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── sajang
+│   │   │           └── devracebackend
+│   │   │               ├── DevraceBackendApplication.java
+│   │   │               ├── config
+│   │   │               │   ├── AwsS3Config.java
+│   │   │               │   ├── RabbitConfig.java
+│   │   │               │   ├── SecurityConfig.java
+│   │   │               │   ├── StompConfig.java
+│   │   │               │   └── SwaggerConfig.java
+│   │   │               ├── controller
+│   │   │               │   ├── AuthController.java
+│   │   │               │   ├── ChatController.java
+│   │   │               │   ├── RoomController.java
+│   │   │               │   ├── TestController.java
+│   │   │               │   └── UserController.java
+│   │   │               ├── domain
+│   │   │               │   ├── Chat.java
+│   │   │               │   ├── Problem.java
+│   │   │               │   ├── Room.java
+│   │   │               │   ├── User.java
+│   │   │               │   ├── common
+│   │   │               │   │   └── BaseEntity.java
+│   │   │               │   ├── enums
+│   │   │               │   │   ├── Language.java
+│   │   │               │   │   ├── MessageType.java
+│   │   │               │   │   ├── Role.java
+│   │   │               │   │   ├── RoomState.java
+│   │   │               │   │   └── SocialType.java
+│   │   │               │   └── mapping
+│   │   │               │       └── UserRoom.java
+│   │   │               ├── dto
+
+                        !!! DTO 리팩토링 예정 !!!
+
+│   │   │               ├── repository
+│   │   │               │   ├── ChatRepository.java
+│   │   │               │   ├── ProblemRepository.java
+│   │   │               │   ├── RoomRepository.java
+│   │   │               │   ├── UserRepository.java
+│   │   │               │   └── UserRoomRepository.java
+│   │   │               ├── response
+│   │   │               │   ├── GlobalExceptionHandler.java
+│   │   │               │   ├── ResponseCode.java
+│   │   │               │   ├── ResponseData.java
+│   │   │               │   ├── exception
+│   │   │               │   │   ├── CustomException.java
+│   │   │               │   │   ├── Exception400.java
+│   │   │               │   │   ├── Exception404.java
+│   │   │               │   │   └── Exception500.java
+│   │   │               │   └── responseitem
+│   │   │               │       ├── MessageItem.java
+│   │   │               │       └── StatusItem.java
+│   │   │               ├── security
+│   │   │               │   ├── jwt
+│   │   │               │   │   ├── JwtChannelInterceptor.java
+│   │   │               │   │   ├── JwtFilter.java
+│   │   │               │   │   ├── TokenProvider.java
+│   │   │               │   │   └── handler
+│   │   │               │   │       ├── JwtAccessDeniedHandler.java
+│   │   │               │   │       ├── JwtAuthenticationEntryPoint.java
+│   │   │               │   │       ├── JwtExceptionFilter.java
+│   │   │               │   │       └── JwtStompExceptionHandler.java
+│   │   │               │   └── oauth2
+│   │   │               │       ├── CustomOAuth2User.java
+│   │   │               │       ├── CustomOAuth2UserService.java
+│   │   │               │       ├── OAuthAttributes.java
+│   │   │               │       ├── handler
+│   │   │               │       │   ├── OAuth2LoginFailureHandler.java
+│   │   │               │       │   └── OAuth2LoginSuccessHandler.java
+│   │   │               │       └── userinfo
+│   │   │               │           ├── GithubOAuth2UserInfo.java
+│   │   │               │           ├── GoogleOAuth2UserInfo.java
+│   │   │               │           └── OAuth2UserInfo.java
+│   │   │               ├── service
+│   │   │               │   ├── AuthService.java
+│   │   │               │   ├── AwsS3Service.java
+│   │   │               │   ├── ChatService.java
+│   │   │               │   ├── ProblemService.java
+│   │   │               │   ├── RoomService.java
+│   │   │               │   ├── UserRoomService.java
+│   │   │               │   ├── UserService.java
+│   │   │               │   └── impl
+│   │   │               │       ├── AuthServiceImpl.java
+│   │   │               │       ├── AwsS3ServiceImpl.java
+│   │   │               │       ├── ChatServiceImpl.java
+│   │   │               │       ├── ProblemServiceImpl.java
+│   │   │               │       ├── RoomServiceImpl.java
+│   │   │               │       ├── UserRoomServiceImpl.java
+│   │   │               │       └── UserServiceImpl.java
+│   │   │               └── util
+│   │   │                   ├── LongListConverter.java
+│   │   │                   ├── MultipartJackson2HttpMessageConverter.java
+│   │   │                   ├── SecurityUtil.java
+│   │   │                   └── StringListConverter.java
+│   │   └── resources
+│   │       ├── application-local.properties
+│   │       ├── application-secret.properties
+│   │       └── application.properties
+└── submodule-backend
+    ├── application-prod.properties
+    └── application-secret.properties
+```
+</details>
 <br>
 
 
