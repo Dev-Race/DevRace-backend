@@ -13,10 +13,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@NoArgsConstructor
-@Table(name ="user")
+
 @Getter
+@NoArgsConstructor
+
+@Table(name ="user")
+@Entity
 public class User extends BaseEntity implements Serializable {
 
     @Id
