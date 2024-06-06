@@ -1,4 +1,4 @@
-package com.sajang.devracebackend;
+package com.sajang.devracebackend.service;
 
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.SocialType;
