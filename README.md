@@ -136,6 +136,21 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 
 ### Structure
 ```
+## DevOps ##
+├── .ebextensions : AWS EB 환경 설정
+├── .github
+│   └── workflows : CI/CD 실행, Slack 알림
+├── .gitmodules : Git 서브모듈 정의
+├── .platform
+│   └── hooks
+│       └── postdeploy : EB 배포 이후 실행
+├── Dockerfile : 도커 이미지 빌드 설정
+├── Dockerrun.aws.json : 도커 컨테이너 EB 배포 설정
+└── submodule-backend : 배포용 properties 관리
+
++
+
+## Backend ##
 ├── config
 ├── controller
 ├── service
@@ -146,7 +161,7 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 │   ├── common : BaseEntity
 │   └── mapping : 다대다 매핑
 ├── dto
-├── response : API 응답값, Exception 핸들러
+├── response : API 응답, Exception 핸들러
 │   ├── responseitem
 │   └── exception
 ├── security
@@ -227,7 +242,8 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 │   │   │               │   ├── ProblemRepository.java
 │   │   │               │   ├── RoomRepository.java
 │   │   │               │   ├── UserRepository.java
-│   │   │               │   └── UserRoomRepository.java
+│   │   │               │   ├── UserRoomRepository.java
+│   │   │               │   └── UserRoomBatchRepository.java
 │   │   │               ├── response
 │   │   │               │   ├── GlobalExceptionHandler.java
 │   │   │               │   ├── ResponseCode.java

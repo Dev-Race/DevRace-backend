@@ -14,6 +14,7 @@ import com.sajang.devracebackend.dto.userroom.UserPassRequestDto;
 import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
 import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
 import com.sajang.devracebackend.repository.ChatRepository;
+import com.sajang.devracebackend.repository.UserRoomBatchRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
 import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.response.exception.Exception404;
@@ -40,6 +41,7 @@ public class UserRoomServiceImpl implements UserRoomService {
     private final UserService userService;
     private final RoomService roomService;
     private final UserRoomRepository userRoomRepository;
+    private final UserRoomBatchRepository userRoomBatchRepository;
     private final ChatRepository chatRepository;
 
 
@@ -111,8 +113,9 @@ public class UserRoomServiceImpl implements UserRoomService {
                         .build())
                 .collect(Collectors.toList());
 
-        // UserRoom 한번에 저장 (여러번 DB에 접근하는것을 방지.)
-        userRoomRepository.saveAll(userRoomList);
+        // JDBC batch insert로 UserRoom 한번에 저장 (여러번 DB에 접근하는것을 방지.)
+        // userRoomRepository.saveAll(userRoomList);
+        userRoomBatchRepository.batchInsert(userRoomList);  // 위 JPA의 saveAll()은 기본키가 IDENTITY 전략인 테이블에는 batch 처리가 적용되지않음.
 
         // Room RoomState=START로 수정
         room.updateRoomState(RoomState.START);
