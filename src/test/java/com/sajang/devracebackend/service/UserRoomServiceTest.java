@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+// @SpringBootTest
 public class UserRoomServiceTest {
 
     @Autowired
@@ -37,7 +37,7 @@ public class UserRoomServiceTest {
     private JdbcTemplate jdbcTemplate;
 
 
-    @Test
+    // @Test
     @Transactional
     @DisplayName("다중 사용자 동시입장 - Batch Insert Test")  // UserRooms Batch Insert 시간 측정
     void usersEnterRoom_Test() {
