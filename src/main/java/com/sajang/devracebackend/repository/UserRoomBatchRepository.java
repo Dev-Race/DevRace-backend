@@ -41,4 +41,22 @@ public class UserRoomBatchRepository {  // 대용량 데이터의 batch 처리�
             }
         });
     }
+
+    public void batchDelete(List<UserRoom> userRoomList) {
+        String sql = "DELETE FROM user_room WHERE user_room_id = ?";
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                UserRoom userRoom = userRoomList.get(i);
+                ps.setLong(1, userRoom.getId());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return userRoomList.size();
+            }
+        });
+    }
 }

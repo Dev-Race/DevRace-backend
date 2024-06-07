@@ -9,6 +9,7 @@ import com.sajang.devracebackend.dto.auth.SignupResponseDto;
 import com.sajang.devracebackend.dto.auth.TokenDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
+import com.sajang.devracebackend.repository.UserRoomBatchRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
 import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
@@ -33,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final UserRoomRepository userRoomRepository;
+    private final UserRoomBatchRepository userRoomBatchRepository;
     private final TokenProvider tokenProvider;
 
 
@@ -121,10 +123,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void withdrawal() {
         User user = userService.findLoginUser();
+        List<UserRoom> userRoomList = user.getUserRoomList();
 
         // 자식 UserRoom 삭제 - hard delete
-        List<UserRoom> userRoomList = user.getUserRoomList();
-        userRoomRepository.deleteAll(userRoomList);
+        // userRoomRepository.deleteAll(userRoomList);  // JPA의 deleteAll()은 SQL 쿼리가 UserRoom 개수만큼 날아가는 문제가 있음.
+        // userRoomRepository.deleteAllInBatch(userRoomList);  // JPA의 deleteAllInBatch()은 10000개 이상의 데이터 처리시 stackoverflow 에러가 발생함.
+        userRoomBatchRepository.batchDelete(userRoomList);  // JDBC의 batch delete를 활용하여, 대용량 Batch 삭제 처리가 가능함. -> DB 여러번 접근 방지 & 성능 향상
 
         // 부모 User 삭제 - soft delete
         user.deleteAccount();

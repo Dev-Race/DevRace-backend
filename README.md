@@ -1,6 +1,6 @@
 <br>
 <div align="center">
-  <img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a57f82e1-43fa-44ea-b23e-bf39747a6cc5" width="193" height="193" />
+  <img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/e8dfa33b-8561-4181-9496-e3ec70f41aa8" width="193" height="193" />
   <h3 align="center">Dev Race 🧑‍💻</h3>
   <p align="center">
     실시간 코딩 경쟁 및 채팅 서비스<br>
@@ -25,15 +25,16 @@
 
 
 ## 📄 Documents
+- <strong>기간</strong>&nbsp;:&nbsp;&nbsp;2024.04.29 ~ 06.16
 
 - #### [PM] 기획 명세서
-    - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/38c36139-1d4a-4075-bdf7-6ca33f222466" /></details>
-    - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/b82c38a7-6e32-4038-b92f-7ded9b2ca113" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/38c36139-1d4a-4075-bdf7-6ca33f222466" /></details>
+  - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/b82c38a7-6e32-4038-b92f-7ded9b2ca113" /></details>
 
 - #### [BE] API 명세서
-    - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/863cd935-c292-4318-97e2-03b357528a27" /></details>
-    - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a5e52b5a-c3af-405c-89a7-43c24e5f1182" /></details>
-    - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/222b7599-69ba-41aa-9ef5-613fd7837c54" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/863cd935-c292-4318-97e2-03b357528a27" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a5e52b5a-c3af-405c-89a7-43c24e5f1182" /></details>
+  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/222b7599-69ba-41aa-9ef5-613fd7837c54" /></details>
 <br>
 
 
@@ -41,15 +42,15 @@
 ## 💻 Architecture
 
 - ### System Architecture
-![devrace_architecture drawio](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/bafcab1e-77b4-4e9d-9db2-aac15c130eed)
+![devrace_architecture drawio](https://github.com/Dev-Race/DevRace-backend/assets/56509933/103fd5a2-1ba8-4365-81ea-68b11b8218d8)
 
 - ### Network Architecture
-![devrace_network_architecture drawio](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/9918f3c3-f0b5-4eb2-a712-19c665737576)
+![devrace_network_architecture drawio](https://github.com/Dev-Race/DevRace-backend/assets/56509933/a43dae33-515c-4cd0-b8fe-39bfe56d7ab7)
 
 - ### Notification in Architecture
 ![slack collaboration_alarm](https://github.com/Dev-Race/DevRace-backend/assets/56509933/888fd684-76bf-4c77-a25b-d4a2ca3daf16)
 
-&#8594;&nbsp;&nbsp;<strong>Slack Notifications</strong> sent by the <strong>GitHub Actions</strong> :<br>
+&#8594;&nbsp;&nbsp;<strong>Slack Notifications</strong> sent by the <strong>GitHub Actions</strong>&nbsp;:<br>
 `💡 PR Open`  `💬 PR Review`  `❌ CI/CD Fail`  `✅ CI/CD Success`
 <br><br>
 
@@ -67,13 +68,13 @@ Backend|Security|Database|Deployment|Other|
 - Documentation : Notion, Swagger
 - Notification : Slack
 ```
-&#8594;&nbsp;***Version***&nbsp;:&nbsp;&nbsp;Java 17 · Spring Boot 3.1.11
+&#8594;&nbsp;&nbsp;***BE Version***&nbsp;:&nbsp;&nbsp;Java 17 · Spring Boot 3.1.11
 <br><br>
 
 
 
 ## 🗂️ Database
-![devrace DB ERD](https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/4b0db7b7-d530-4acf-9361-c1689d48f97a)
+![devrace DB ERD](https://github.com/Dev-Race/DevRace-backend/assets/56509933/cc34957c-5429-4fd0-b95d-8c9d9024f77e)
 <br><br>
 
 
@@ -177,7 +178,7 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
   <br>
 
 ```
-├── .ebextensions-dev
+├── .ebextensions
 │   ├── 00-set-timezone.config
 │   ├── 01-set-swapmemory.config
 │   └── 02-rabbitmq.config
@@ -314,5 +315,5 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 ## 👨‍👩‍👧‍👧 Team
 | [사현진](https://github.com/tkguswls1106) | [장준상](https://github.com/JunSang1121) | [정연재](https://github.com/zzangjyj0818) | [권인우](https://github.com/inwoo0206) | [이정향](https://github.com/Hyanggggg) |
 | :----------------------------------------: | :----------------------------------------: | :----------------------------------------: | :----------------------------------------: | :----------------------------------------: |
-| <img width = "300" src ="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/6f1a9df8-8511-466c-b22e-93c55f9919ac"><br>- Team Leader - | <img width = "300" src ="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/f872cd42-cfa2-4818-a717-75451450382e"> | <img width = "300" src ="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/3794fbbb-20d5-4752-956e-4560bd15e1f0"> | <img width = "300" src ="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/866c8eac-3b18-453d-8e33-e5fa06817a89"> | <img width = "300" src ="https://github.com/2023-Hackathon-TeamSMUD/.github/assets/56509933/a563b39b-6d80-40b1-930f-311455b21e82"> |
+| <img width = "300" src ="https://github.com/Dev-Race/DevRace-backend/assets/56509933/20a67908-ca87-49ea-aafc-60f306302429"><br>- Team Leader - | <img width = "300" src ="https://github.com/Dev-Race/DevRace-backend/assets/56509933/2223bac3-48ed-4a98-9f0f-6bd860a080ac"> | <img width = "300" src ="https://github.com/Dev-Race/DevRace-backend/assets/56509933/798cc442-77f0-4b81-a61e-56aaedf784d5"> | <img width = "300" src ="https://github.com/Dev-Race/DevRace-backend/assets/56509933/79fe6476-58ae-42ce-83ca-2dd6a59c4585"> | <img width = "300" src ="https://github.com/Dev-Race/DevRace-backend/assets/56509933/e9ef0c57-73cb-4b2c-9b61-f9773fb02f5b"> |
 | Project Manager,<br>DevOps Engineer,<br>BE Developer | Backend Developer | Frontend Developer | Frontend Developer | Designer |
