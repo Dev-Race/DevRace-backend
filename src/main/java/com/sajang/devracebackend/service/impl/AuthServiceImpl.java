@@ -126,7 +126,9 @@ public class AuthServiceImpl implements AuthService {
         List<UserRoom> userRoomList = user.getUserRoomList();
 
         // 자식 UserRoom 삭제 - hard delete
-        userRoomRepository.deleteAll(userRoomList);
+        // userRoomRepository.deleteAll(userRoomList);  // JPA의 deleteAll()은 SQL 쿼리가 UserRoom 개수만큼 날아가는 문제가 있음.
+        // userRoomRepository.deleteAllInBatch(userRoomList);  // JPA의 deleteAllInBatch()은 10000개 이상의 데이터 처리시 stackoverflow 에러가 발생함.
+        userRoomBatchRepository.batchDelete(userRoomList);  // JDBC의 batch delete를 활용하여, 대용량 Batch 삭제 처리가 가능함. -> DB 여러번 접근 방지 & 성능 향상
 
         // 부모 User 삭제 - soft delete
         user.deleteAccount();
