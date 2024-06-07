@@ -9,6 +9,7 @@ import com.sajang.devracebackend.dto.auth.SignupResponseDto;
 import com.sajang.devracebackend.dto.auth.TokenDto;
 import com.sajang.devracebackend.dto.user.UserResponseDto;
 import com.sajang.devracebackend.repository.UserRepository;
+import com.sajang.devracebackend.repository.UserRoomBatchRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
 import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
@@ -33,6 +34,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final UserRoomRepository userRoomRepository;
+    private final UserRoomBatchRepository userRoomBatchRepository;
     private final TokenProvider tokenProvider;
 
 
@@ -121,9 +123,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void withdrawal() {
         User user = userService.findLoginUser();
+        List<UserRoom> userRoomList = user.getUserRoomList();
 
         // 자식 UserRoom 삭제 - hard delete
-        List<UserRoom> userRoomList = user.getUserRoomList();
         userRoomRepository.deleteAll(userRoomList);
 
         // 부모 User 삭제 - soft delete

@@ -113,9 +113,8 @@ public class UserRoomServiceImpl implements UserRoomService {
                         .build())
                 .collect(Collectors.toList());
 
-        // JDBC batch insert로 UserRoom 한번에 저장 (여러번 DB에 접근하는것을 방지.)
-        // userRoomRepository.saveAll(userRoomList);
-        userRoomBatchRepository.batchInsert(userRoomList);  // 위 JPA의 saveAll()은 기본키가 IDENTITY 전략인 테이블에는 batch 처리가 적용되지않음.
+        // userRoomRepository.saveAll(userRoomList);  // JPA의 saveAll()은 기본키가 IDENTITY 전략인 테이블에는 batch 처리가 적용되지않는 문제가 있음.
+        userRoomBatchRepository.batchInsert(userRoomList);  // JDBC의 batch insert를 활용하여, 대용량 Batch 저장 처리가 가능함. -> DB 여러번 접근 방지 & 성능 향상
 
         // Room RoomState=START로 수정
         room.updateRoomState(RoomState.START);
