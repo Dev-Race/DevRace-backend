@@ -89,6 +89,7 @@ PR close & Merge into develop branch
 1. connect Spring to docker network (if not connected)
 2. logging Connect results & monitoring on AWS CloudWatch
 ```
+<br>
 </details>
 
 <details>
