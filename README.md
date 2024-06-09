@@ -41,18 +41,66 @@
 
 ## 💻 Architecture
 
-- ### System Architecture
+### System
 ![devrace_architecture drawio](https://github.com/Dev-Race/DevRace-backend/assets/56509933/103fd5a2-1ba8-4365-81ea-68b11b8218d8)
 
-- ### Network Architecture
+### Network
 ![devrace_network_architecture drawio](https://github.com/Dev-Race/DevRace-backend/assets/56509933/a43dae33-515c-4cd0-b8fe-39bfe56d7ab7)
 
-- ### Notification in Architecture
+### Detail
+<details>
+  <summary>&nbsp;<strong>CI/CD flow</strong>&nbsp;:&nbsp;Open!</summary>
+
+#### [ Github ]<br>
+1. &nbsp;trigger CI/CD
+```
+PR close & Merge into develop branch
+```
+
+#### [ Github Actions ]<br>
+2. &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/deploy.yml"><i>.github/workflows/deploy.yml</i></a>&nbsp;<i>+</i>&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/Dockerfile"><i>Dockerfile</i></a>&nbsp;:&nbsp;&nbsp;start CI/CD
+```
+1. build gradle
+2. Dockerfile : build docker image
+3. push image to Docker Hub
+4. deploy to AWS Elastic BeanStalk
+5. notify CI/CD results to Slack
+```
+
+#### [ AWS EB - in deploy ]<br>
+3. &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/tree/develop/.ebextensions"><i>.ebextensions</i></a>&nbsp;:&nbsp;&nbsp;set EB Environment
+```
+1. set timezone & swap memory
+2. set RabbitMQ
+  - create docker network (if not exists)
+  - docker run RabbitMQ image (if not run)
+  - connect to docker network (if not connected)
+  - enable RabbitMQ plugins (if not enabled)
+```
+4. &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/Dockerrun.aws.json"><i>Dockerrun.aws.json</i></a>&nbsp;:&nbsp;&nbsp;deploy Spring Container
+```
+1. pull image from Docker Hub
+2. docker run Spring image
+```
+
+#### [ AWS EB - after deploy ]<br>
+5. &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.platform/hooks/postdeploy/connect_spring_to_network.sh"><i>.platform/hooks/postdeploy/connect_spring_to_network.sh</i></a>&nbsp;:&nbsp;&nbsp;connect Spring Container
+```
+1. connect Spring to docker network (if not connected)
+2. logging Connect results & monitoring on AWS CloudWatch
+```
+</details>
+
+<details>
+  <summary>&nbsp;<strong>Notification</strong>&nbsp;:&nbsp;Open!</summary>
+  <br>
+
 ![slack collaboration_alarm](https://github.com/Dev-Race/DevRace-backend/assets/56509933/888fd684-76bf-4c77-a25b-d4a2ca3daf16)
 
 &#8594;&nbsp;&nbsp;<strong>Slack Notifications</strong> sent by the <strong>GitHub Actions</strong>&nbsp;:<br>
-`💡 PR Open`  `💬 PR Review`  `❌ CI/CD Fail`  `✅ CI/CD Success`
-<br><br>
+<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/slack-pr-open.yml">`💡 PR Open`</a>&nbsp;&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/slack-pr-review.yml">`💬 PR Review`<a>&nbsp;&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/deploy.yml#L114">`❌ CI/CD Fail`</a>&nbsp;&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/deploy.yml#L80">`✅ CI/CD Success`</a>
+</details>
+<br>
 
 
 
@@ -174,7 +222,7 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 └── util
 ```
 <details>
-  <summary>&nbsp;Open detailed Structure</summary>
+  <summary>&nbsp;<strong>Detailed Structure</strong>&nbsp;:&nbsp;Open!</summary>
   <br>
 
 ```
