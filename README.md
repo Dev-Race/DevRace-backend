@@ -12,14 +12,33 @@
 <details open>
   <summary><strong>&nbsp;📖&nbsp;목차</strong></summary>
 
-1. &nbsp;&nbsp;[📄 Documents](#-documents)
-2. &nbsp;&nbsp;[💻 Architecture](#-architecture)
-3. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
-4. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
-5. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
-6. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
-7. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
+1. &nbsp;&nbsp;[🔍 Introduction](#-introduction)
+2. &nbsp;&nbsp;[📄 Documents](#-documents)
+3. &nbsp;&nbsp;[💻 Architecture](#-architecture)
+4. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
+5. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
+6. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
+7. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
+8. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
 </details>
+<br>
+
+
+
+## 🔍 Introduction
+
+### Description
+최근 개발자들 사이에서 알고리즘 스터디 모임이 활발히 이루어지고 있습니다.<br>
+이를 위해, 함께 알고리즘 문제를 풀고 토의하며 경쟁할 수 있는 실시간 코딩 플랫폼을 제공합니다.<br>
+이 플랫폼으로 스터디원들의 실력을 빠르게 향상시키고, 모임의 운영 효율성을 극대화하고자 합니다.
+
+### Main Feature
+- 소셜 로그인&nbsp;:&nbsp;&nbsp;Google, Github을 통한 간편한 로그인 제공
+- 알고리즘 문제 풀이&nbsp;:&nbsp;&nbsp;'백준 온라인 저지' 문제를 바탕으로 다양한 언어 및 에디터 지원
+- 입장 대기열&nbsp;:&nbsp;&nbsp;초대 링크로 스터디원들을 초대하고 동시에 문제 풀이 시작
+- 실시간 랭킹&nbsp;:&nbsp;&nbsp;문제 풀이 중 실시간 순위 확인을 통한 경쟁 유도
+- 실시간 채팅&nbsp;:&nbsp;&nbsp;문제 풀이 중 힌트 주고받기 및 의견 교환 가능
+- 기록 보관&nbsp;:&nbsp;&nbsp;소스코드 및 채팅 내역 저장을 통한 복습 및 재풀이 지원
 <br>
 
 
@@ -35,6 +54,10 @@
   - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/863cd935-c292-4318-97e2-03b357528a27" /></details>
   - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a5e52b5a-c3af-405c-89a7-43c24e5f1182" /></details>
   - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/222b7599-69ba-41aa-9ef5-613fd7837c54" /></details>
+
+- #### To Do List
+  - - [ ] Demo 사진 및 영상 첨부
+  - - [ ] DTO inner class 리팩토링
 <br>
 
 
@@ -52,42 +75,43 @@
   <summary>&nbsp;<strong>CI/CD flow</strong>&nbsp;:&nbsp;Open!</summary>
 
 #### [ Github ]<br>
-1. &nbsp;trigger CI/CD
+- &nbsp;trigger CI/CD
 ```
-PR close & Merge into develop branch
+1. PR close & Merge into develop branch
 ```
 
 #### [ Github Actions ]<br>
-2. &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/deploy.yml"><i>.github/workflows/deploy.yml</i></a>&nbsp;<i>+</i>&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/Dockerfile"><i>Dockerfile</i></a>&nbsp;:&nbsp;&nbsp;start CI/CD
+- &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/deploy.yml"><i>.github/workflows/deploy.yml</i></a>&nbsp;<i>+</i>&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/Dockerfile"><i>Dockerfile</i></a>&nbsp;:&nbsp;&nbsp;start CI/CD
 ```
-1. build gradle
-2. Dockerfile : build docker image
-3. push image to Docker Hub
-4. deploy to AWS Elastic BeanStalk
-5. notify CI/CD results to Slack
+2. build gradle
+3. Dockerfile : build docker image
+4. push image to Docker Hub
+5. deploy to AWS Elastic BeanStalk
+6. notify CI/CD results to Slack
 ```
 
 #### [ AWS EB - in deploy ]<br>
-3. &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/tree/develop/.ebextensions"><i>.ebextensions</i></a>&nbsp;:&nbsp;&nbsp;set EB Environment
+- &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/tree/develop/.ebextensions"><i>.ebextensions</i></a>&nbsp;:&nbsp;&nbsp;set EB Environment
 ```
-1. set timezone & swap memory
-2. set RabbitMQ
+7. set timezone & swap memory
+8. set RabbitMQ
   - create docker network (if not exists)
   - docker run RabbitMQ image (if not run)
   - connect to docker network (if not connected)
   - enable RabbitMQ plugins (if not enabled)
 ```
-4. &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/Dockerrun.aws.json"><i>Dockerrun.aws.json</i></a>&nbsp;:&nbsp;&nbsp;deploy Spring Container
+- &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/Dockerrun.aws.json"><i>Dockerrun.aws.json</i></a>&nbsp;:&nbsp;&nbsp;deploy Spring Container
 ```
-1. pull image from Docker Hub
-2. docker run Spring image
+9. pull image from Docker Hub
+10. docker run Spring image
 ```
 
 #### [ AWS EB - after deploy ]<br>
-5. &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.platform/hooks/postdeploy/connect_spring_to_network.sh"><i>.platform/hooks/postdeploy/connect_spring_to_network.sh</i></a>&nbsp;:&nbsp;&nbsp;connect Spring Container
+- &nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.platform/hooks/postdeploy/connect_spring_to_network.sh"><i>.platform/hooks/postdeploy/connect_spring_to_network.sh</i></a>&nbsp;:&nbsp;&nbsp;connect Spring Container
 ```
-1. connect Spring to docker network (if not connected)
-2. logging Connect results & monitoring on AWS CloudWatch
+11. connect Spring to docker network (if not connected)
+12. logging Connect results & monitoring on AWS CloudWatch
+==> deploy complete.
 ```
 <br>
 </details>
