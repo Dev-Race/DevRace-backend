@@ -1,10 +1,7 @@
 package com.sajang.devracebackend.controller;
 
-import com.sajang.devracebackend.dto.user.UserCheckRoomResponseDto;
-import com.sajang.devracebackend.dto.user.UserResponseDto;
-import com.sajang.devracebackend.dto.user.UserSolvedResponseDto;
-import com.sajang.devracebackend.dto.user.UserUpdateRequestDto;
-import com.sajang.devracebackend.dto.userroom.CodeRoomResponseDto;
+import com.sajang.devracebackend.dto.UserDto;
+import com.sajang.devracebackend.dto.UserRoomDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.UserRoomService;
@@ -34,8 +31,8 @@ public class UserController {
 
     @GetMapping("/users")
     @Operation(summary = "마이 Page - 사용자 프로필 조회 [JWT O]")
-    public ResponseEntity<ResponseData<UserResponseDto>> findUserProfile() {
-        UserResponseDto userResponseDto = userService.findUserProfile();
+    public ResponseEntity<ResponseData<UserDto.Response>> findUserProfile() {
+        UserDto.Response userResponseDto = userService.findUserProfile();
         return ResponseData.toResponseEntity(ResponseCode.READ_USER, userResponseDto);
     }
 
@@ -48,9 +45,9 @@ public class UserController {
                 """)
     public ResponseEntity<ResponseData> updateUserProfile(
             @RequestPart(value="imageFile", required = false) MultipartFile imageFile,
-            @RequestPart(value="userUpdateRequestDto") UserUpdateRequestDto userUpdateRequestDto) throws IOException {
+            @RequestPart(value="userUpdateRequestDto") UserDto.UpdateRequest updateRequestDto) throws IOException {
 
-        userService.updateUserProfile(imageFile, userUpdateRequestDto);
+        userService.updateUserProfile(imageFile, updateRequestDto);
         return ResponseData.toResponseEntity(ResponseCode.UPDATE_USER);
     }
 
@@ -61,26 +58,26 @@ public class UserController {
                 - 성공or실패 정렬 URI : /users/rooms?isPass={풀이성공여부 int}&page={페이지번호 int}
                 - 문제번호 검색 URI : /users/rooms?number={문제번호 int}&page={페이지번호 int}  \nsize, sort 필요X (기본값 : size=9 & sort=createdTime,desc)
                 """)
-    public ResponseEntity<ResponseData<Page<CodeRoomResponseDto>>> findCodeRooms(
+    public ResponseEntity<ResponseData<Page<UserRoomDto.CodePageResponse>>> findCodeRooms(
             @RequestParam(value = "isPass", required = false) Integer isPass,
             @RequestParam(value = "number", required = false) Integer number,
             @PageableDefault(size=9, sort="createdTime", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<CodeRoomResponseDto> codeRoomResponseDtoPage = userRoomService.findCodeRooms(isPass, number, pageable);
-        return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, codeRoomResponseDtoPage);
+        Page<UserRoomDto.CodePageResponse> codePageResponseDtoPage = userRoomService.findCodeRooms(isPass, number, pageable);
+        return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, codePageResponseDtoPage);
     }
 
     @GetMapping("/users/rooms-check")
     @Operation(summary = "메인 Page - 참여중인 방 여부 검사 [JWT O]", description = "roomId == Long or null")
-    public ResponseEntity<ResponseData<UserCheckRoomResponseDto>> checkCurrentRoom() {
-        UserCheckRoomResponseDto userCheckRoomResponseDto = userService.checkCurrentRoom();
-        return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, userCheckRoomResponseDto);
+    public ResponseEntity<ResponseData<UserDto.CheckRoomResponse>> checkCurrentRoom() {
+        UserDto.CheckRoomResponse checkRoomResponseDto = userService.checkCurrentRoom();
+        return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, checkRoomResponseDto);
     }
 
     @GetMapping("/users/solved-count")
     @Operation(summary = "사용자 백준 solvedCount값 조회 [JWT O]")
-    public ResponseEntity<ResponseData<UserSolvedResponseDto>> checkUserSolvedCount() {
-        UserSolvedResponseDto userSolvedResponseDto = userService.checkUserSolvedCount();
-        return ResponseData.toResponseEntity(ResponseCode.READ_SOLVEDCOUNT, userSolvedResponseDto);
+    public ResponseEntity<ResponseData<UserDto.SolvedCountResponse>> checkUserSolvedCount() {
+        UserDto.SolvedCountResponse solvedCountResponseDto = userService.checkUserSolvedCount();
+        return ResponseData.toResponseEntity(ResponseCode.READ_SOLVEDCOUNT, solvedCountResponseDto);
     }
 }

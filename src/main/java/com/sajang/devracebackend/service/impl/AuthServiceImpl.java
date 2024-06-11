@@ -3,11 +3,8 @@ package com.sajang.devracebackend.service.impl;
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.auth.ReissueRequestDto;
-import com.sajang.devracebackend.dto.auth.SignupRequestDto;
-import com.sajang.devracebackend.dto.auth.SignupResponseDto;
-import com.sajang.devracebackend.dto.auth.TokenDto;
-import com.sajang.devracebackend.dto.user.UserResponseDto;
+import com.sajang.devracebackend.dto.AuthDto;
+import com.sajang.devracebackend.dto.UserDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.repository.UserRoomBatchRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
@@ -40,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public SignupResponseDto signup(MultipartFile imageFile, SignupRequestDto signupRequestDto) throws IOException {
+    public AuthDto.SignupResponse signup(MultipartFile imageFile, AuthDto.SignupRequest signupRequestDto) throws IOException {
 
         // < 회원 프로필 사진 변경조건 >
         // - 사진 변경X : if 'imageFile == null && signupRequestDto.getIsImageChange() == 0' --> AWS S3 업로드X
@@ -76,14 +73,14 @@ public class AuthServiceImpl implements AuthService {
         if(signupRequestDto.getNickname() != null) user.updateName(signupRequestDto.getNickname());  // 이름 수정없이 유지할경우, 업데이트 X
         user.updateBojId(signupRequestDto.getBojId());
         user.updateRole();
-        UserResponseDto userResponseDto = new UserResponseDto(user);
+        UserDto.Response userResponseDto = new UserDto.Response(user);
 
         // 추가정보 입력후, 위에서 Role을 GUEST->USER로 업데이트했지만, 헤더의 jwt 토큰에 등록해둔 권한도 수정해야하기에, Access 토큰도 따로 재발급해야함.
-        TokenDto tokenDto = tokenProvider.generateAccessTokenByRefreshToken(user.getId(), Role.ROLE_USER, user.getRefreshToken());
+        AuthDto.TokenResponse tokenResponseDto = tokenProvider.generateAccessTokenByRefreshToken(user.getId(), Role.ROLE_USER, user.getRefreshToken());
 
-        SignupResponseDto signupResponseDto = SignupResponseDto.builder()
+        AuthDto.SignupResponse signupResponseDto = AuthDto.SignupResponse.builder()
                 .userResponseDto(userResponseDto)
-                .tokenDto(tokenDto)
+                .tokenResponseDto(tokenResponseDto)
                 .build();
 
         return signupResponseDto;
@@ -91,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public TokenDto reissue(ReissueRequestDto reissueRequestDto) {  // Refresh Token으로 Access Token 재발급 메소드
+    public AuthDto.TokenResponse reissue(AuthDto.ReissueRequest reissueRequestDto) {  // Refresh Token으로 Access Token 재발급 메소드
 
         // RequestDto로 전달받은 Token값들
         String accessToken = reissueRequestDto.getAccessToken();
@@ -115,8 +112,8 @@ public class AuthServiceImpl implements AuthService {
             throw new Exception400.TokenBadRequest("Refresh Token = " + refreshToken);
         }
 
-        TokenDto tokenDto = tokenProvider.generateAccessTokenByRefreshToken(userId, role, refreshToken);
-        return tokenDto;
+        AuthDto.TokenResponse tokenResponseDto = tokenProvider.generateAccessTokenByRefreshToken(userId, role, refreshToken);
+        return tokenResponseDto;
     }
 
     @Transactional

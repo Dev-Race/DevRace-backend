@@ -1,9 +1,6 @@
 package com.sajang.devracebackend.controller;
 
-import com.sajang.devracebackend.dto.auth.ReissueRequestDto;
-import com.sajang.devracebackend.dto.auth.SignupRequestDto;
-import com.sajang.devracebackend.dto.auth.SignupResponseDto;
-import com.sajang.devracebackend.dto.auth.TokenDto;
+import com.sajang.devracebackend.dto.AuthDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.AuthService;
@@ -32,19 +29,19 @@ public class AuthController {
                 - 사진 변경 O : imageFile != null && signupRequestDto.getIsImageChange() == 1
                 - 기본사진으로 변경 O : imageFile == null && signupRequestDto.getIsImageChange() == 1  \n기본사진 변경시, User의 imageUrl=null로 업데이트
                 """)
-    public ResponseEntity<ResponseData<SignupResponseDto>> signup(
+    public ResponseEntity<ResponseData<AuthDto.SignupResponse>> signup(
             @RequestPart(value="imageFile", required = false) MultipartFile imageFile,
-            @RequestPart(value="signupRequestDto") SignupRequestDto signupRequestDto) throws IOException {  // 여기서 Role을 USER로 교체해주지 않으면 다른 로그인 필수 API를 사용하지 못함.
+            @RequestPart(value="signupRequestDto") AuthDto.SignupRequest signupRequestDto) throws IOException {  // 여기서 Role을 USER로 교체해주지 않으면 다른 로그인 필수 API를 사용하지 못함.
 
-        SignupResponseDto signupResponseDto = authService.signup(imageFile, signupRequestDto);
+        AuthDto.SignupResponse signupResponseDto = authService.signup(imageFile, signupRequestDto);
         return ResponseData.toResponseEntity(ResponseCode.CREATED_USER, signupResponseDto);  // 이 reponseDto 내에 새로운 JWT Access 토큰이 들어있음. 이후 앞으로는 이걸로 헤더에 장착해야함.
     }
 
     @PostMapping("/reissue")
     @Operation(summary = "JWT Access Token 재발급 [JWT X]")
-    public ResponseEntity<ResponseData<TokenDto>> reissue(@RequestBody ReissueRequestDto reissueRequestDto) {
-        TokenDto tokenDto = authService.reissue(reissueRequestDto);
-        return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenDto);
+    public ResponseEntity<ResponseData<AuthDto.TokenResponse>> reissue(@RequestBody AuthDto.ReissueRequest reissueRequestDto) {
+        AuthDto.TokenResponse tokenResponseDto = authService.reissue(reissueRequestDto);
+        return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenResponseDto);
     }
 
     @DeleteMapping("/users")
