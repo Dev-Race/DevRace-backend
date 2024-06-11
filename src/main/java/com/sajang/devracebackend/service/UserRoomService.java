@@ -9,10 +9,10 @@ import org.springframework.data.domain.Pageable;
 public interface UserRoomService {
     UserRoom findUserRoomWithEagerRoom(Long userId, Long roomId, boolean isIncludeUserRoomList, boolean isIncludeProblem);
     RoomDto.WaitResponse userWaitRoom(RoomDto.WaitRequest waitRequestDto);
-    void usersEnterRoom(Long roomId);
     void userStopWaitRoom(Long roomId);
-    UserRoomDto.SolvePageResponse loadSolvingPage(Long roomId);
-    UserRoomDto.CheckAccessResponse checkAccess(Long roomId);
-    void passSolvingProblem(Long roomId, UserRoomDto.SolveRequest solveRequest);
+    void usersEnterRoom(Long roomId);
+    void solveProblem(Long roomId, UserRoomDto.SolveRequest solveRequest);
+    UserRoomDto.SolvePageResponse loadSolvePage(Long roomId);
     Page<UserRoomDto.CodePageResponse> findCodeRooms(Integer isPass, Integer number, Pageable pageable);
+    UserRoomDto.CheckAccessResponse checkAccess(Long roomId);
 }

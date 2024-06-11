@@ -37,24 +37,34 @@ public class RoomController {
     }
 
     @GetMapping("/rooms")
-    @Operation(summary = "초대링크 방 조회 [JWT O]", description = "URI : /rooms?link={방링크 string}")
+    @Operation(summary = "초대 접속 - 초대링크 방 조회 [JWT O]", description = "URI : /rooms?link={방링크 string}")
     public ResponseEntity<ResponseData<RoomDto.Response>> findRoomByLink(@RequestParam(value = "link", required = true) String link) {
         RoomDto.Response roomResponseDto = roomService.findRoomByLink(link);
         return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, roomResponseDto);
     }
 
+    @PutMapping("/rooms/{roomId}")
+    @Operation(summary = "입장 Page - 방 입장 대기열 나가기 [JWT O]")
+    public ResponseEntity<ResponseData> userStopWaitRoom(@PathVariable(value = "roomId") Long roomId) {
+        userRoomService.userStopWaitRoom(roomId);
+        return ResponseData.toResponseEntity(ResponseCode.UPDATE_ROOM);
+    }
+
     @GetMapping("/rooms/{roomId}")
     @Operation(summary = "문제풀이 Page - 문제풀이 페이지 정보 조회 [JWT O]")
-    public ResponseEntity<ResponseData<UserRoomDto.SolvePageResponse>> loadSolvingPage(@PathVariable(value = "roomId") Long roomId) {  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
-        UserRoomDto.SolvePageResponse solvePageResponseDto = userRoomService.loadSolvingPage(roomId);
+    public ResponseEntity<ResponseData<UserRoomDto.SolvePageResponse>> loadSolvePage(@PathVariable(value = "roomId") Long roomId) {  // value=""를 작성해주어야만, Swagger에서 api테스트할때 이름값이 뜸.
+        UserRoomDto.SolvePageResponse solvePageResponseDto = userRoomService.loadSolvePage(roomId);
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, solvePageResponseDto);
     }
 
-    @GetMapping("/rooms/{roomId}/access-check")
-    @Operation(summary = "문제풀이 Page - 문제풀이 페이지 접근허용 검사 [JWT O]", description = "isLeave == 0 or 1 or null")
-    public ResponseEntity<ResponseData<UserRoomDto.CheckAccessResponse>> checkAccess(@PathVariable(value = "roomId") Long roomId) {
-        UserRoomDto.CheckAccessResponse checkAccessResponseDto = userRoomService.checkAccess(roomId);
-        return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, checkAccessResponseDto);
+    @PostMapping("/rooms/{roomId}")  // 의미상 PUT보단 POST가 더 적합하다고 판단했음.
+    @Operation(summary = "문제풀이 Page - 문제풀이 성공 및 실패/퇴장 [JWT O]", description = "isRetry==0 : 첫풀이 경우 / isRetry==1 : 재풀이 경우")
+    public ResponseEntity<ResponseData> solveProblem(
+            @PathVariable(value = "roomId") Long roomId,
+            @RequestBody UserRoomDto.SolveRequest solveRequest) {
+
+        userRoomService.solveProblem(roomId, solveRequest);
+        return ResponseData.toResponseEntity(ResponseCode.UPDATE_USERROOM);  // 비록 POST이지만, 비즈니스 로직은 update임.
     }
 
     @GetMapping("/rooms/{roomId}/state-check")
@@ -64,21 +74,11 @@ public class RoomController {
         return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, checkStateResponseDto);
     }
 
-    @PostMapping("/rooms/{roomId}")  // 의미상 PUT보단 POST가 더 적합하다고 판단했음.
-    @Operation(summary = "문제풀이 Page - 문제풀이 성공 및 실패/퇴장 [JWT O]", description = "isRetry==0 : 첫풀이 경우 / isRetry==1 : 재풀이 경우")
-    public ResponseEntity<ResponseData> passSolvingProblem(
-            @PathVariable(value = "roomId") Long roomId,
-            @RequestBody UserRoomDto.SolveRequest solveRequest) {
-
-        userRoomService.passSolvingProblem(roomId, solveRequest);
-        return ResponseData.toResponseEntity(ResponseCode.UPDATE_USERROOM);  // 비록 POST이지만, 비즈니스 로직은 update임.
-    }
-
-    @PutMapping("/rooms/{roomId}")
-    @Operation(summary = "입장 Page - 방 입장 대기열 나가기 [JWT O]")
-    public ResponseEntity<ResponseData> userStopWaitRoom(@PathVariable(value = "roomId") Long roomId) {
-        userRoomService.userStopWaitRoom(roomId);
-        return ResponseData.toResponseEntity(ResponseCode.UPDATE_ROOM);
+    @GetMapping("/rooms/{roomId}/access-check")
+    @Operation(summary = "문제풀이 Page - 문제풀이 페이지 접근허용 검사 [JWT O]", description = "isLeave == 0 or 1 or null")
+    public ResponseEntity<ResponseData<UserRoomDto.CheckAccessResponse>> checkAccess(@PathVariable(value = "roomId") Long roomId) {
+        UserRoomDto.CheckAccessResponse checkAccessResponseDto = userRoomService.checkAccess(roomId);
+        return ResponseData.toResponseEntity(ResponseCode.READ_USERROOM, checkAccessResponseDto);
     }
 
     @MessageMapping("wait.enter")  // 웹소켓 메시지 처리 (백엔드로 '/pub/wait.enter'를 호출시 이 브로커에서 처리)

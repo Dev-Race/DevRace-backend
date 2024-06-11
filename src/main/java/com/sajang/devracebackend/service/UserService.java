@@ -13,6 +13,6 @@ public interface UserService {
     <T> List<T> findUsersOriginal(List<Long> userIdList, boolean isDto);
     UserDto.Response findUserProfile();
     void updateUserProfile(MultipartFile imageFile, UserDto.UpdateRequest updateRequestDto) throws IOException;
-    UserDto.SolvedCountResponse checkUserSolvedCount();
-    UserDto.CheckRoomResponse checkCurrentRoom();
+    UserDto.SolvedCountResponse findUserSolvedCount();
+    UserDto.CheckRoomResponse checkRoom();
 }

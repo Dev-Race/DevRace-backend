@@ -36,6 +36,40 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRepository chatRepository;
 
 
+    @Transactional(readOnly = true)
+    @Override
+    public Slice<ChatDto.Response> findChatsByRoom(Long roomId, Pageable pageable) {
+        // < 채팅방 페이징 정렬 기준 >
+        // - 페이징을 할 때, 최신 날짜인 마지막 페이지를 0으로 설정하여 역순으로 페이징.
+        // - 한 페이지 내의 채팅은 날짜 오름차순으로 정렬.
+        // - 만약 퇴장한 경우에는, 본인 퇴장시각 이하까지의 채팅 내역을 조회.
+        // => 알고리즘: DESC로 DB에서 페이징 조회후, 각 페이지별로 날짜 오름차순 정렬.
+
+        // 'UserRoom.room' Eager 로딩 (N+1 문제 해결)
+        UserRoom userRoom = userRoomService.findUserRoomWithEagerRoom(SecurityUtil.getCurrentMemberId(), roomId, false, false);
+        LocalDateTime leaveTime = userRoom.getLeaveTime();
+
+        // 퇴장한 경우, 본인 퇴장시각 이하까지의 채팅내역 페이징 조회
+        Slice<Chat> chatSlice;
+        if(userRoom.getIsLeave() == 1) chatSlice = chatRepository.findAllByRoomIdAndCreatedTimeLessThanEqual(roomId, leaveTime, pageable);
+        else chatSlice = chatRepository.findAllByRoomId(roomId, pageable);
+
+        // DESC로 가져온 데이터를 다시 오름차순으로 페이지별 정렬
+        List<Chat> reversedChatList = new ArrayList<>(chatSlice.getContent());  // 새로운 리스트로 만듦으로써 불변성 해제.
+        Collections.reverse(reversedChatList);
+
+        // 사용자 캐싱을 위한 맵 생성 (이미 검색한것은 다시 검색하지않도록 성능 향상)
+        Map<Long, User> cacheUserMap = new HashMap<>();
+
+        return new SliceImpl<>(reversedChatList.stream()
+                .map(chat -> {
+                    Long senderId = chat.getSenderId();
+                    User senderUser = cacheUserMap.computeIfAbsent(senderId, id -> userService.findUser(id));  // 만약 캐시에 senderId키의 데이터가 없다면, DB조회하고 캐시에 추가.
+                    return new ChatDto.Response(chat, senderUser.getNickname(), senderUser.getImageUrl());
+                })
+                .collect(Collectors.toList()), pageable, chatSlice.hasNext());
+    }
+
     @Transactional
     @Override
     public ChatDto.Response createChat(ChatDto.SaveRequest saveRequestDto) {
@@ -76,39 +110,5 @@ public class ChatServiceImpl implements ChatService {
         chatRepository.save(chat);
 
         return new ChatDto.Response(chat, user.getNickname(), user.getImageUrl());
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Slice<ChatDto.Response> findChatsByRoom(Long roomId, Pageable pageable) {
-        // < 채팅방 페이징 정렬 기준 >
-        // - 페이징을 할 때, 최신 날짜인 마지막 페이지를 0으로 설정하여 역순으로 페이징.
-        // - 한 페이지 내의 채팅은 날짜 오름차순으로 정렬.
-        // - 만약 퇴장한 경우에는, 본인 퇴장시각 이하까지의 채팅 내역을 조회.
-        // => 알고리즘: DESC로 DB에서 페이징 조회후, 각 페이지별로 날짜 오름차순 정렬.
-
-        // 'UserRoom.room' Eager 로딩 (N+1 문제 해결)
-        UserRoom userRoom = userRoomService.findUserRoomWithEagerRoom(SecurityUtil.getCurrentMemberId(), roomId, false, false);
-        LocalDateTime leaveTime = userRoom.getLeaveTime();
-
-        // 퇴장한 경우, 본인 퇴장시각 이하까지의 채팅내역 페이징 조회
-        Slice<Chat> chatSlice;
-        if(userRoom.getIsLeave() == 1) chatSlice = chatRepository.findAllByRoomIdAndCreatedTimeLessThanEqual(roomId, leaveTime, pageable);
-        else chatSlice = chatRepository.findAllByRoomId(roomId, pageable);
-
-        // DESC로 가져온 데이터를 다시 오름차순으로 페이지별 정렬
-        List<Chat> reversedChatList = new ArrayList<>(chatSlice.getContent());  // 새로운 리스트로 만듦으로써 불변성 해제.
-        Collections.reverse(reversedChatList);
-
-        // 사용자 캐싱을 위한 맵 생성 (이미 검색한것은 다시 검색하지않도록 성능 향상)
-        Map<Long, User> cacheUserMap = new HashMap<>();
-
-        return new SliceImpl<>(reversedChatList.stream()
-                .map(chat -> {
-                    Long senderId = chat.getSenderId();
-                    User senderUser = cacheUserMap.computeIfAbsent(senderId, id -> userService.findUser(id));  // 만약 캐시에 senderId키의 데이터가 없다면, DB조회하고 캐시에 추가.
-                    return new ChatDto.Response(chat, senderUser.getNickname(), senderUser.getImageUrl());
-                })
-                .collect(Collectors.toList()), pageable, chatSlice.hasNext());
     }
 }
