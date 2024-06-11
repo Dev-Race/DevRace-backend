@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserDto.SolvedCountResponse checkUserSolvedCount() {
+    public UserDto.SolvedCountResponse findUserSolvedCount() {
         User user = findLoginUser();
         UserDto.SolvedCountResponse solvedCountResponseDto = getSolvedCount(user.getBojId());
 
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserDto.CheckRoomResponse checkCurrentRoom() {
+    public UserDto.CheckRoomResponse checkRoom() {
 
         // 'User.userRoomList' Eager 로딩 (N+1 문제 해결)
         User user = userRepository.findByIdWithEagerUserRoomList(SecurityUtil.getCurrentMemberId()).orElseThrow(

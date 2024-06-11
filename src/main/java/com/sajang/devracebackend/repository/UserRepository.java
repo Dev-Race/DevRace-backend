@@ -21,6 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // ===================== //
 
     Optional<User> findBySocialTypeAndSocialId(SocialType socialType, String socialId);  // '소셜 타입, 식별자'로 해당 회원을 찾기 위한 메소드 (차후 추가정보 입력 회원가입 가능)
-    boolean existsByBojId(String bojId);
     List<User> findByIdIn(List<Long> userIdList);
+    boolean existsByBojId(String bojId);
 }

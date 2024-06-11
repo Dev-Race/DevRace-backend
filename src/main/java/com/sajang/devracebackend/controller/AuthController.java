@@ -37,17 +37,17 @@ public class AuthController {
         return ResponseData.toResponseEntity(ResponseCode.CREATED_USER, signupResponseDto);  // 이 reponseDto 내에 새로운 JWT Access 토큰이 들어있음. 이후 앞으로는 이걸로 헤더에 장착해야함.
     }
 
-    @PostMapping("/reissue")
-    @Operation(summary = "JWT Access Token 재발급 [JWT X]")
-    public ResponseEntity<ResponseData<AuthDto.TokenResponse>> reissue(@RequestBody AuthDto.ReissueRequest reissueRequestDto) {
-        AuthDto.TokenResponse tokenResponseDto = authService.reissue(reissueRequestDto);
-        return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenResponseDto);
-    }
-
     @DeleteMapping("/users")
     @Operation(summary = "마이 Page - 회원탈퇴 [JWT O]")
     public ResponseEntity<ResponseData> withdrawal() {
         authService.withdrawal();
         return ResponseData.toResponseEntity(ResponseCode.DELETE_USER);
+    }
+
+    @PostMapping("/reissue")
+    @Operation(summary = "로그인 유지 - JWT Access Token 재발급 [JWT X]")
+    public ResponseEntity<ResponseData<AuthDto.TokenResponse>> reissue(@RequestBody AuthDto.ReissueRequest reissueRequestDto) {
+        AuthDto.TokenResponse tokenResponseDto = authService.reissue(reissueRequestDto);
+        return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenResponseDto);
     }
 }

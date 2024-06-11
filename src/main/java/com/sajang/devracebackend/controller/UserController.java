@@ -51,6 +51,13 @@ public class UserController {
         return ResponseData.toResponseEntity(ResponseCode.UPDATE_USER);
     }
 
+    @GetMapping("/users/solved-count")
+    @Operation(summary = "문제풀이 Page - 사용자 백준 solvedCount값 조회 [JWT O]")
+    public ResponseEntity<ResponseData<UserDto.SolvedCountResponse>> findUserSolvedCount() {
+        UserDto.SolvedCountResponse solvedCountResponseDto = userService.findUserSolvedCount();
+        return ResponseData.toResponseEntity(ResponseCode.READ_SOLVEDCOUNT, solvedCountResponseDto);
+    }
+
     @GetMapping("/users/rooms")
     @Operation(summary = "내 코드 Page - 코드방 목록 조회/정렬/검색 [JWT O]",
             description = """
@@ -69,15 +76,8 @@ public class UserController {
 
     @GetMapping("/users/rooms-check")
     @Operation(summary = "메인 Page - 참여중인 방 여부 검사 [JWT O]", description = "roomId == Long or null")
-    public ResponseEntity<ResponseData<UserDto.CheckRoomResponse>> checkCurrentRoom() {
-        UserDto.CheckRoomResponse checkRoomResponseDto = userService.checkCurrentRoom();
+    public ResponseEntity<ResponseData<UserDto.CheckRoomResponse>> checkRoom() {
+        UserDto.CheckRoomResponse checkRoomResponseDto = userService.checkRoom();
         return ResponseData.toResponseEntity(ResponseCode.READ_ROOM, checkRoomResponseDto);
-    }
-
-    @GetMapping("/users/solved-count")
-    @Operation(summary = "사용자 백준 solvedCount값 조회 [JWT O]")
-    public ResponseEntity<ResponseData<UserDto.SolvedCountResponse>> checkUserSolvedCount() {
-        UserDto.SolvedCountResponse solvedCountResponseDto = userService.checkUserSolvedCount();
-        return ResponseData.toResponseEntity(ResponseCode.READ_SOLVEDCOUNT, solvedCountResponseDto);
     }
 }

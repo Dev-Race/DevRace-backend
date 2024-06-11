@@ -11,14 +11,6 @@ public class AuthDto {
 
     @Getter
     @NoArgsConstructor
-    public static class ReissueRequest {
-
-        private String accessToken;
-        private String refreshToken;
-    }
-
-    @Getter
-    @NoArgsConstructor
     public static class SignupRequest {
 
         private String nickname;
@@ -26,8 +18,26 @@ public class AuthDto {
         private Integer isImageChange;
     }
 
+    @Getter
+    @NoArgsConstructor
+    public static class ReissueRequest {
+
+        private String accessToken;
+        private String refreshToken;
+    }
+
 
     // ======== < Response DTO > ======== //
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SignupResponse {
+
+        private UserDto.Response userResponseDto;
+        private AuthDto.TokenResponse tokenResponseDto;
+    }
 
     @Builder
     @Getter
@@ -39,15 +49,5 @@ public class AuthDto {
         private String accessToken;
         private Long accessTokenExpiresIn;
         private String refreshToken;
-    }
-
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class SignupResponse {
-
-        private UserDto.Response userResponseDto;
-        private AuthDto.TokenResponse tokenResponseDto;
     }
 }

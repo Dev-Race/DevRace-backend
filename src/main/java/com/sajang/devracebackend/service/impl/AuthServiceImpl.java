@@ -7,7 +7,6 @@ import com.sajang.devracebackend.dto.AuthDto;
 import com.sajang.devracebackend.dto.UserDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.repository.UserRoomBatchRepository;
-import com.sajang.devracebackend.repository.UserRoomRepository;
 import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.service.AuthService;
@@ -30,7 +29,6 @@ public class AuthServiceImpl implements AuthService {
     private final AwsS3Service awsS3Service;
     private final UserService userService;
     private final UserRepository userRepository;
-    private final UserRoomRepository userRoomRepository;
     private final UserRoomBatchRepository userRoomBatchRepository;
     private final TokenProvider tokenProvider;
 
@@ -88,6 +86,23 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
+    public void withdrawal() {
+        User user = userService.findLoginUser();
+        List<UserRoom> userRoomList = user.getUserRoomList();
+
+        // 자식 UserRoom 삭제 - hard delete
+        // userRoomRepository.deleteAll(userRoomList);  // JPA의 deleteAll()은 SQL 쿼리가 UserRoom 개수만큼 날아가는 문제가 있음.
+        // userRoomRepository.deleteAllInBatch(userRoomList);  // JPA의 deleteAllInBatch()은 10000개 이상의 데이터 처리시 stackoverflow 에러가 발생함.
+        userRoomBatchRepository.batchDelete(userRoomList);  // JDBC의 batch delete를 활용하여, 대용량 Batch 삭제 처리가 가능함. -> DB 여러번 접근 방지 & 성능 향상
+
+        // 부모 User 삭제 - soft delete
+        user.deleteAccount();
+        awsS3Service.deleteImage(user.getImageUrl());  // 이전의 사진은 AWS S3에서 삭제.
+        user.updateImage(null);  // 탈퇴했기에 기본사진임을 명시하고자 null값으로 imageUrl 업데이트.
+    }
+
+    @Transactional
+    @Override
     public AuthDto.TokenResponse reissue(AuthDto.ReissueRequest reissueRequestDto) {  // Refresh Token으로 Access Token 재발급 메소드
 
         // RequestDto로 전달받은 Token값들
@@ -114,22 +129,5 @@ public class AuthServiceImpl implements AuthService {
 
         AuthDto.TokenResponse tokenResponseDto = tokenProvider.generateAccessTokenByRefreshToken(userId, role, refreshToken);
         return tokenResponseDto;
-    }
-
-    @Transactional
-    @Override
-    public void withdrawal() {
-        User user = userService.findLoginUser();
-        List<UserRoom> userRoomList = user.getUserRoomList();
-
-        // 자식 UserRoom 삭제 - hard delete
-        // userRoomRepository.deleteAll(userRoomList);  // JPA의 deleteAll()은 SQL 쿼리가 UserRoom 개수만큼 날아가는 문제가 있음.
-        // userRoomRepository.deleteAllInBatch(userRoomList);  // JPA의 deleteAllInBatch()은 10000개 이상의 데이터 처리시 stackoverflow 에러가 발생함.
-        userRoomBatchRepository.batchDelete(userRoomList);  // JDBC의 batch delete를 활용하여, 대용량 Batch 삭제 처리가 가능함. -> DB 여러번 접근 방지 & 성능 향상
-
-        // 부모 User 삭제 - soft delete
-        user.deleteAccount();
-        awsS3Service.deleteImage(user.getImageUrl());  // 이전의 사진은 AWS S3에서 삭제.
-        user.updateImage(null);  // 탈퇴했기에 기본사진임을 명시하고자 null값으로 imageUrl 업데이트.
     }
 }
