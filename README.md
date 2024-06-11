@@ -56,8 +56,9 @@
   - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/222b7599-69ba-41aa-9ef5-613fd7837c54" /></details>
 
 - #### To Do List
+  - - [x] DTO inner class 리팩토링
+  - - [ ] URI Security 접근제한 적용
   - - [ ] Demo 사진 및 영상 첨부
-  - - [ ] DTO inner class 리팩토링
 <br>
 
 
@@ -308,9 +309,12 @@ ex) [#32] Feat: 소셜 로그인 및 회원가입 기능
 │   │   │               │   └── mapping
 │   │   │               │       └── UserRoom.java
 │   │   │               ├── dto
-
-                        !!! DTO 리팩토링 예정 !!!
-
+│   │   │               │   ├── AuthDto.java
+│   │   │               │   ├── ChatDto.java
+│   │   │               │   ├── ProblemDto.java
+│   │   │               │   ├── RoomDto.java
+│   │   │               │   ├── UserDto.java
+│   │   │               │   └── UserRoomDto.java
 │   │   │               ├── repository
 │   │   │               │   ├── ChatRepository.java
 │   │   │               │   ├── ProblemRepository.java
