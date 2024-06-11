@@ -1,6 +1,6 @@
 package com.sajang.devracebackend.controller;
 
-import com.sajang.devracebackend.dto.auth.*;
+import com.sajang.devracebackend.dto.AuthDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.AuthService;

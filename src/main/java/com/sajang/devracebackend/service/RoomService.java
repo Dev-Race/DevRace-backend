@@ -1,8 +1,8 @@
 package com.sajang.devracebackend.service;
 
 import com.sajang.devracebackend.domain.Room;
-import com.sajang.devracebackend.dto.problem.ProblemDto;
-import com.sajang.devracebackend.dto.room.RoomDto;
+import com.sajang.devracebackend.dto.ProblemDto;
+import com.sajang.devracebackend.dto.RoomDto;
 
 import java.io.IOException;
 

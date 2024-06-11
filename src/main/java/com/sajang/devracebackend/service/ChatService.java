@@ -1,6 +1,6 @@
 package com.sajang.devracebackend.service;
 
-import com.sajang.devracebackend.dto.chat.ChatDto;
+import com.sajang.devracebackend.dto.ChatDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 

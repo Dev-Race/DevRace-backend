@@ -2,7 +2,7 @@ package com.sajang.devracebackend.security.oauth2.handler;
 
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
-import com.sajang.devracebackend.dto.auth.AuthDto;
+import com.sajang.devracebackend.dto.AuthDto;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.security.oauth2.CustomOAuth2User;
 import com.sajang.devracebackend.service.UserService;

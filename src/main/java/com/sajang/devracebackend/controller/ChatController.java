@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.controller;
 
 import com.sajang.devracebackend.config.RabbitConfig;
-import com.sajang.devracebackend.dto.chat.ChatDto;
+import com.sajang.devracebackend.dto.ChatDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.ChatService;

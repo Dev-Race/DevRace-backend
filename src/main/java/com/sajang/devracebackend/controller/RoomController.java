@@ -1,9 +1,9 @@
 package com.sajang.devracebackend.controller;
 
 import com.sajang.devracebackend.config.RabbitConfig;
-import com.sajang.devracebackend.dto.problem.ProblemDto;
-import com.sajang.devracebackend.dto.room.*;
-import com.sajang.devracebackend.dto.userroom.UserRoomDto;
+import com.sajang.devracebackend.dto.ProblemDto;
+import com.sajang.devracebackend.dto.RoomDto;
+import com.sajang.devracebackend.dto.UserRoomDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.RoomService;

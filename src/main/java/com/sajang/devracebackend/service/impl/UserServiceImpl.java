@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.User;
-import com.sajang.devracebackend.dto.user.*;
+import com.sajang.devracebackend.dto.UserDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.response.exception.Exception404;
 import com.sajang.devracebackend.service.AwsS3Service;

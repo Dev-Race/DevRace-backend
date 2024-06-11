@@ -1,8 +1,8 @@
 package com.sajang.devracebackend.service;
 
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.room.RoomDto;
-import com.sajang.devracebackend.dto.userroom.*;
+import com.sajang.devracebackend.dto.RoomDto;
+import com.sajang.devracebackend.dto.UserRoomDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

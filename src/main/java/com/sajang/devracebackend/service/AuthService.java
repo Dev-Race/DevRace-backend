@@ -1,6 +1,6 @@
 package com.sajang.devracebackend.service;
 
-import com.sajang.devracebackend.dto.auth.*;
+import com.sajang.devracebackend.dto.AuthDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

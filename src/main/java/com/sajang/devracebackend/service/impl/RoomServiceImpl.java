@@ -2,9 +2,9 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.domain.Room;
-import com.sajang.devracebackend.dto.problem.ProblemDto;
-import com.sajang.devracebackend.dto.room.RoomDto;
-import com.sajang.devracebackend.dto.user.UserDto;
+import com.sajang.devracebackend.dto.ProblemDto;
+import com.sajang.devracebackend.dto.RoomDto;
+import com.sajang.devracebackend.dto.UserDto;
 import com.sajang.devracebackend.repository.*;
 import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.response.exception.Exception404;

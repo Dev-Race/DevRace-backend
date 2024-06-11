@@ -3,8 +3,8 @@ package com.sajang.devracebackend.service.impl;
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.auth.*;
-import com.sajang.devracebackend.dto.user.UserDto;
+import com.sajang.devracebackend.dto.AuthDto;
+import com.sajang.devracebackend.dto.UserDto;
 import com.sajang.devracebackend.repository.UserRepository;
 import com.sajang.devracebackend.repository.UserRoomBatchRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
@@ -79,8 +79,8 @@ public class AuthServiceImpl implements AuthService {
         AuthDto.TokenResponse tokenResponseDto = tokenProvider.generateAccessTokenByRefreshToken(user.getId(), Role.ROLE_USER, user.getRefreshToken());
 
         AuthDto.SignupResponse signupResponseDto = AuthDto.SignupResponse.builder()
-                .userDto(userResponseDto)
-                .tokenDto(tokenResponseDto)
+                .userResponseDto(userResponseDto)
+                .tokenResponseDto(tokenResponseDto)
                 .build();
 
         return signupResponseDto;

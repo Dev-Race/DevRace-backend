@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.controller;
 
-import com.sajang.devracebackend.dto.user.*;
-import com.sajang.devracebackend.dto.userroom.UserRoomDto;
+import com.sajang.devracebackend.dto.UserDto;
+import com.sajang.devracebackend.dto.UserRoomDto;
 import com.sajang.devracebackend.response.ResponseCode;
 import com.sajang.devracebackend.response.ResponseData;
 import com.sajang.devracebackend.service.UserRoomService;

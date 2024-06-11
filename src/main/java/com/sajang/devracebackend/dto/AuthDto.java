@@ -1,6 +1,5 @@
-package com.sajang.devracebackend.dto.auth;
+package com.sajang.devracebackend.dto;
 
-import com.sajang.devracebackend.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,7 +47,7 @@ public class AuthDto {
     @AllArgsConstructor
     public static class SignupResponse {
 
-        private UserDto.Response userDto;
-        private AuthDto.TokenResponse tokenDto;
+        private UserDto.Response userResponseDto;
+        private AuthDto.TokenResponse tokenResponseDto;
     }
 }

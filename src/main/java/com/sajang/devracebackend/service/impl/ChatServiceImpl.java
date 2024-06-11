@@ -5,7 +5,7 @@ import com.sajang.devracebackend.domain.Room;
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.MessageType;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.chat.ChatDto;
+import com.sajang.devracebackend.dto.ChatDto;
 import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
 import com.sajang.devracebackend.response.exception.Exception400;

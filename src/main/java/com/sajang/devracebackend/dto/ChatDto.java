@@ -1,4 +1,4 @@
-package com.sajang.devracebackend.dto.chat;
+package com.sajang.devracebackend.dto;
 
 import com.sajang.devracebackend.domain.Chat;
 import com.sajang.devracebackend.domain.enums.MessageType;

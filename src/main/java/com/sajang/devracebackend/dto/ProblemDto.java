@@ -1,4 +1,4 @@
-package com.sajang.devracebackend.dto.problem;
+package com.sajang.devracebackend.dto;
 
 import com.sajang.devracebackend.domain.Problem;
 import lombok.Getter;

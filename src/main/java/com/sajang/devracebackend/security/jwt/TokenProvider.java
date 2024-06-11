@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.security.jwt;
 
 import com.sajang.devracebackend.domain.enums.Role;
-import com.sajang.devracebackend.dto.auth.AuthDto;
+import com.sajang.devracebackend.dto.AuthDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

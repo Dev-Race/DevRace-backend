@@ -1,10 +1,10 @@
-package com.sajang.devracebackend.dto.userroom;
+package com.sajang.devracebackend.dto;
 
 import com.sajang.devracebackend.domain.enums.Language;
 import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.problem.ProblemDto;
-import com.sajang.devracebackend.dto.user.UserDto;
+import com.sajang.devracebackend.dto.ProblemDto;
+import com.sajang.devracebackend.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

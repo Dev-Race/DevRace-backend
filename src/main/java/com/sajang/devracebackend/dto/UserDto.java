@@ -1,4 +1,4 @@
-package com.sajang.devracebackend.dto.user;
+package com.sajang.devracebackend.dto;
 
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.SocialType;
