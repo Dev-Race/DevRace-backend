@@ -37,10 +37,10 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             Long userId = oAuth2User.getUserId();
             Role role = oAuth2User.getRole();
 
-            AuthDto.TokenResponse tokenDto = tokenProvider.generateTokenDto(userId, role);  // Access & Refresh 토큰 발행.
-            String accessToken = tokenDto.getAccessToken();
+            AuthDto.TokenResponse tokenResponseDto = tokenProvider.generateTokenDto(userId, role);  // Access & Refresh 토큰 발행.
+            String accessToken = tokenResponseDto.getAccessToken();
             log.info("발급된 Access Token : {}", accessToken);
-            String refreshToken = tokenDto.getRefreshToken();
+            String refreshToken = tokenResponseDto.getRefreshToken();
             log.info("발급된 Refresh Token : {}", refreshToken);
 
             // 로그인에 성공했으므로, 사용자 DB에 Refresh Token 저장(있다면 업데이트).
@@ -51,12 +51,12 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             if(oAuth2User.getRole().equals(Role.ROLE_GUEST)) {  // User의 Role이 GUEST일 경우, 처음 요청한 회원이므로, 회원가입 페이지로 리다이렉트 시켜야함을 프론트에 전달.
                 log.info("신규 회원 입니다. JWT 헤더를 가진채로, 추가정보 입력을 위한 회원가입 페이지로 리다이렉트 시킵니다.");  // 리다이렉트(프론트엔드 url)는 백엔드에서 시키고, 헤더에 jwt 다는건 프론트엔드에서.
                 String frontendPath = "/info";
-                redirectUrl = makeRedirectUrl(tokenDto, frontendPath);
+                redirectUrl = makeRedirectUrl(tokenResponseDto, frontendPath);
             }
             else {  // 이미 한 번 이상 OAuth2 로그인했던 유저일 때 (즉, 이미 회원가입 추가정보를 입력해두었던 유저일때)
                 log.info("기존 회원 입니다. JWT 헤더를 가진채로, 메인 페이지로 리다이렉트 시킵니다.");  // 리다이렉트(프론트엔드 url)는 백엔드에서 시키고, 헤더에 jwt 다는건 프론트엔드에서.
                 String frontendPath = "/";
-                redirectUrl = makeRedirectUrl(tokenDto, frontendPath);
+                redirectUrl = makeRedirectUrl(tokenResponseDto, frontendPath);
             }
 
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);
@@ -66,14 +66,14 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }
     }
 
-    public String makeRedirectUrl(AuthDto.TokenResponse tokenDto, String frontendPath) {
+    public String makeRedirectUrl(AuthDto.TokenResponse tokenResponseDto, String frontendPath) {
         String frontendUrl = "https://www.devrace.site" + frontendPath;
 
         String redirectUrl = UriComponentsBuilder.fromUriString(frontendUrl)  // 프론트엔드 url
-                .queryParam("grantType", tokenDto.getGrantType())
-                .queryParam("accessToken", tokenDto.getAccessToken())
-                .queryParam("accessTokenExpiresIn", tokenDto.getAccessTokenExpiresIn())
-                .queryParam("refreshToken", tokenDto.getRefreshToken())
+                .queryParam("grantType", tokenResponseDto.getGrantType())
+                .queryParam("accessToken", tokenResponseDto.getAccessToken())
+                .queryParam("accessTokenExpiresIn", tokenResponseDto.getAccessTokenExpiresIn())
+                .queryParam("refreshToken", tokenResponseDto.getRefreshToken())
                 .build().toUriString();
         return redirectUrl;
     }

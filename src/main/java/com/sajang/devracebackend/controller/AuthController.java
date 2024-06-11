@@ -40,8 +40,8 @@ public class AuthController {
     @PostMapping("/reissue")
     @Operation(summary = "JWT Access Token 재발급 [JWT X]")
     public ResponseEntity<ResponseData<AuthDto.TokenResponse>> reissue(@RequestBody AuthDto.ReissueRequest reissueRequestDto) {
-        AuthDto.TokenResponse tokenDto = authService.reissue(reissueRequestDto);
-        return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenDto);
+        AuthDto.TokenResponse tokenResponseDto = authService.reissue(reissueRequestDto);
+        return ResponseData.toResponseEntity(ResponseCode.REISSUE_SUCCESS, tokenResponseDto);
     }
 
     @DeleteMapping("/users")

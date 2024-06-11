@@ -37,7 +37,7 @@ public class UserRoomDto {
     public static class SolvePageResponse {
 
         // Problem
-        private ProblemDto.Response problemDto;
+        private ProblemDto.Response ProblemproblemDto;
 
         // Room
         private List<UserDto.Response> rankUserDtoList;
@@ -48,7 +48,7 @@ public class UserRoomDto {
         private String code;
 
         public SolvePageResponse(UserRoom entity, List<UserDto.Response> rankUserDtoList) {
-            this.problemDto = new ProblemDto.Response(entity.getRoom().getProblem());
+            this.ProblemproblemDto = new ProblemDto.Response(entity.getRoom().getProblem());
             this.rankUserDtoList = rankUserDtoList;
             this.link = entity.getRoom().getLink();
             this.language = entity.getLanguage();

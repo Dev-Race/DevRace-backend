@@ -112,8 +112,8 @@ public class AuthServiceImpl implements AuthService {
             throw new Exception400.TokenBadRequest("Refresh Token = " + refreshToken);
         }
 
-        AuthDto.TokenResponse tokenDto = tokenProvider.generateAccessTokenByRefreshToken(userId, role, refreshToken);
-        return tokenDto;
+        AuthDto.TokenResponse tokenResponseDto = tokenProvider.generateAccessTokenByRefreshToken(userId, role, refreshToken);
+        return tokenResponseDto;
     }
 
     @Transactional
