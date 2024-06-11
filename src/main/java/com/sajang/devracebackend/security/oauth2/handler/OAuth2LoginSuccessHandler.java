@@ -2,7 +2,7 @@ package com.sajang.devracebackend.security.oauth2.handler;
 
 import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
-import com.sajang.devracebackend.dto.auth.TokenDto;
+import com.sajang.devracebackend.dto.auth.AuthDto;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.security.oauth2.CustomOAuth2User;
 import com.sajang.devracebackend.service.UserService;
@@ -37,7 +37,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             Long userId = oAuth2User.getUserId();
             Role role = oAuth2User.getRole();
 
-            TokenDto tokenDto = tokenProvider.generateTokenDto(userId, role);  // Access & Refresh 토큰 발행.
+            AuthDto.TokenResponse tokenDto = tokenProvider.generateTokenDto(userId, role);  // Access & Refresh 토큰 발행.
             String accessToken = tokenDto.getAccessToken();
             log.info("발급된 Access Token : {}", accessToken);
             String refreshToken = tokenDto.getRefreshToken();
@@ -66,7 +66,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }
     }
 
-    public String makeRedirectUrl(TokenDto tokenDto, String frontendPath) {
+    public String makeRedirectUrl(AuthDto.TokenResponse tokenDto, String frontendPath) {
         String frontendUrl = "https://www.devrace.site" + frontendPath;
 
         String redirectUrl = UriComponentsBuilder.fromUriString(frontendUrl)  // 프론트엔드 url

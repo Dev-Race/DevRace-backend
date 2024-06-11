@@ -1,7 +1,7 @@
 package com.sajang.devracebackend.security.jwt;
 
 import com.sajang.devracebackend.domain.enums.Role;
-import com.sajang.devracebackend.dto.auth.TokenDto;
+import com.sajang.devracebackend.dto.auth.AuthDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -38,11 +38,11 @@ public class TokenProvider {
 
 
     // 전체 토큰 새로 생성
-    public TokenDto generateTokenDto(Long userId, Role role) {
+    public AuthDto.TokenResponse generateTokenDto(Long userId, Role role) {
         String accessToken = generateAccessToken(userId, role);
         String refreshToken = generateRefreshToken();
 
-        return TokenDto.builder()
+        return AuthDto.TokenResponse.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(parseClaims(accessToken).getExpiration().getTime())
@@ -51,10 +51,10 @@ public class TokenProvider {
     }
 
     // Access 토큰이 만료된 경우, Refresh Token으로 Access Token 재발급하기 (또는 signup으로 인해 헤더의 jwt 토큰에 등록해둔 권한도 수정해야할때 활용할 것임.)
-    public TokenDto generateAccessTokenByRefreshToken(Long userId, Role role, String refreshToken) {
+    public AuthDto.TokenResponse generateAccessTokenByRefreshToken(Long userId, Role role, String refreshToken) {
         String accessToken = generateAccessToken(userId, role);
 
-        return TokenDto.builder()
+        return AuthDto.TokenResponse.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(parseClaims(accessToken).getExpiration().getTime())

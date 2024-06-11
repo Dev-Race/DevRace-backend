@@ -6,13 +6,9 @@ import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.MessageType;
 import com.sajang.devracebackend.domain.enums.RoomState;
 import com.sajang.devracebackend.domain.mapping.UserRoom;
-import com.sajang.devracebackend.dto.room.RoomWaitRequestDto;
-import com.sajang.devracebackend.dto.room.RoomWaitResponseDto;
-import com.sajang.devracebackend.dto.user.UserResponseDto;
-import com.sajang.devracebackend.dto.userroom.CodeRoomResponseDto;
-import com.sajang.devracebackend.dto.userroom.UserPassRequestDto;
-import com.sajang.devracebackend.dto.userroom.RoomCheckAccessResponseDto;
-import com.sajang.devracebackend.dto.userroom.SolvingPageResponseDto;
+import com.sajang.devracebackend.dto.room.RoomDto;
+import com.sajang.devracebackend.dto.user.UserDto;
+import com.sajang.devracebackend.dto.userroom.*;
 import com.sajang.devracebackend.repository.ChatRepository;
 import com.sajang.devracebackend.repository.UserRoomBatchRepository;
 import com.sajang.devracebackend.repository.UserRoomRepository;
@@ -70,28 +66,28 @@ public class UserRoomServiceImpl implements UserRoomService {
 
     @Transactional
     @Override
-    public RoomWaitResponseDto userWaitRoom(RoomWaitRequestDto roomWaitRequestDto) {
-        User user = userService.findUser(roomWaitRequestDto.getUserId());
-        Room room = roomService.findRoom(roomWaitRequestDto.getRoomId());
+    public RoomDto.WaitResponse userWaitRoom(RoomDto.WaitRequest waitRequestDto) {
+        User user = userService.findUser(waitRequestDto.getUserId());
+        Room room = roomService.findRoom(waitRequestDto.getRoomId());
 
         // 입장
-        if(roomWaitRequestDto.getIsManager() == true && roomWaitRequestDto.getIsEnter() == true) {  // 방 동시 입장 시작 (방장만 클릭 가능)
-            usersEnterRoom(roomWaitRequestDto.getRoomId());
+        if(waitRequestDto.getIsManager() == true && waitRequestDto.getIsEnter() == true) {  // 방 동시 입장 시작 (방장만 클릭 가능)
+            usersEnterRoom(waitRequestDto.getRoomId());
         }
 
         // 대기
-        room.addWaiting(roomWaitRequestDto.getUserId(), roomWaitRequestDto.getIsManager());
-        RoomWaitResponseDto roomWaitResponseDto = RoomWaitResponseDto.builder()
-                .roomId(roomWaitRequestDto.getRoomId())
-                .userId(roomWaitRequestDto.getUserId())
+        room.addWaiting(waitRequestDto.getUserId(), waitRequestDto.getIsManager());
+        RoomDto.WaitResponse waitResponseDto = RoomDto.WaitResponse.builder()
+                .roomId(waitRequestDto.getRoomId())
+                .userId(waitRequestDto.getUserId())
                 .nickname(user.getNickname())
                 .imageUrl(user.getImageUrl())
-                .isManager(roomWaitRequestDto.getIsManager())
-                .isEnter(roomWaitRequestDto.getIsEnter())
+                .isManager(waitRequestDto.getIsManager())
+                .isEnter(waitRequestDto.getIsEnter())
                 .createdTime(LocalDateTime.now())  // 시간을 수동으로 직접 넣어줌.
                 .build();
 
-        return roomWaitResponseDto;
+        return waitResponseDto;
     }
 
     @Transactional
@@ -144,20 +140,20 @@ public class UserRoomServiceImpl implements UserRoomService {
 
     @Transactional(readOnly = true)
     @Override
-    public SolvingPageResponseDto loadSolvingPage(Long roomId) {
+    public UserRoomDto.SolvePageResponse loadSolvingPage(Long roomId) {
 
         // 'UserRoom.room & UserRoom.room.problem' Eager 로딩 (N+1 문제 해결)
         UserRoom userRoom = findUserRoomWithEagerRoom(SecurityUtil.getCurrentMemberId(), roomId, false, true);  // 어차피 문제풀이 페이지는 입장 이후이기에, 부모 Room을 갖고있는 자식 UserRoom은 반드시 존재함.
 
         List<Long> rankUserIdList = userRoom.getRoom().getWaiting();
-        List<UserResponseDto> rankUserDtoList = userService.findUsersOriginal(rankUserIdList, true);
+        List<UserDto.Response> rankUserDtoList = userService.findUsersOriginal(rankUserIdList, true);
 
-        return new SolvingPageResponseDto(userRoom, rankUserDtoList);  // Fetch Join으로 UserRoom 내부의 UserRoom.room과 UserRoom.room.problem은 Eager 로딩 처리되어, N+1 문제가 발생하지 않음.
+        return new UserRoomDto.SolvePageResponse(userRoom, rankUserDtoList);  // Fetch Join으로 UserRoom 내부의 UserRoom.room과 UserRoom.room.problem은 Eager 로딩 처리되어, N+1 문제가 발생하지 않음.
     }
 
     @Transactional(readOnly = true)
     @Override
-    public RoomCheckAccessResponseDto checkAccess(Long roomId) {
+    public UserRoomDto.CheckAccessResponse checkAccess(Long roomId) {
 
         // 'UserRoom.room' Eager 로딩 (N+1 문제 해결)
         Optional<UserRoom> optionalUserRoom = userRoomRepository.findByUser_IdAndRoom_Id(SecurityUtil.getCurrentMemberId(), roomId);
@@ -170,30 +166,30 @@ public class UserRoomServiceImpl implements UserRoomService {
         Boolean isExistUserRoom = optionalUserRoom.isPresent();
         Integer isLeave = optionalUserRoom.map(UserRoom::getIsLeave).orElse(null);  // UserRoom이 없다면 isLeave는 null
 
-        RoomCheckAccessResponseDto roomCheckAccessResponseDto = RoomCheckAccessResponseDto.builder()
+        UserRoomDto.CheckAccessResponse checkAccessResponseDto = UserRoomDto.CheckAccessResponse.builder()
                 .isExistUserRoom(isExistUserRoom)
                 .roomState(room.getRoomState())  // @EntityGraph로 UserRoom 내부의 Room은 Eager 로딩 처리되어, N+1 문제가 발생하지 않음.
                 .isLeave(isLeave)
                 .build();
 
-        return roomCheckAccessResponseDto;
+        return checkAccessResponseDto;
     }
 
     @Transactional
     @Override
-    public void passSolvingProblem(Long roomId, UserPassRequestDto userPassRequestDto) {
+    public void passSolvingProblem(Long roomId, UserRoomDto.SolveRequest solveRequestDto) {
 
         // 'UserRoom.room & UserRoom.userRoomList' Eager 로딩 (N+1 문제 해결)
         UserRoom userRoom = findUserRoomWithEagerRoom(SecurityUtil.getCurrentMemberId(), roomId, true, false);  // 어차피 문제풀이 페이지는 입장 이후이기에, 부모 Room을 갖고있는 자식 UserRoom은 반드시 존재함.
         Room room = userRoom.getRoom();  // 이 시점에는 아직 Fetch Join의 영향을 받지않아, 아직 조회 쿼리가 1번으로 유지됨.
 
-        userRoom.updateCode(userPassRequestDto.getCode());
+        userRoom.updateCode(solveRequestDto.getCode());
         userRoom.updateIsLeave(1);  // 더티체킹으로 update가 DB에 바로 반영되지않지만, UserRoom은 동일 트랜잭션 내의 JPA 영속성 컨텍스트가 관리하는 상위 엔티티이므로, 이후 호출되는 하위 'UserRoom.getRoom().getUserRoomList()'에서도 update상태 확인이 가능함.
         userRoom.updateLeaveTime(LocalDateTime.now());
 
-        if(userPassRequestDto.getIsRetry() == 0 || (userPassRequestDto.getIsRetry() == 1 && userPassRequestDto.getIsPass() == 1)) {
+        if(solveRequestDto.getIsRetry() == 0 || (solveRequestDto.getIsRetry() == 1 && solveRequestDto.getIsPass() == 1)) {
             // 재풀이인 경우, 성공인 경우에만 성공여부를 업데이트함. (재풀이의 퇴장인 경우에는 성공여부를 업데이트 하지않음)
-            userRoom.updateIsPass(userPassRequestDto.getIsPass());
+            userRoom.updateIsPass(solveRequestDto.getIsPass());
         }
 
         List<UserRoom> userRoomList = room.getUserRoomList();  // Fetch Join으로 UserRoom 내부의 Room은 Eager 로딩 처리되어, N+1 문제가 발생하지 않음.
@@ -204,7 +200,7 @@ public class UserRoomServiceImpl implements UserRoomService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<CodeRoomResponseDto> findCodeRooms(Integer isPass, Integer number, Pageable pageable) {
+    public Page<UserRoomDto.CodePageResponse> findCodeRooms(Integer isPass, Integer number, Pageable pageable) {
         Long loginUserId = SecurityUtil.getCurrentMemberId();
         Page<UserRoom> userRoomPage;
 
@@ -222,7 +218,7 @@ public class UserRoomServiceImpl implements UserRoomService {
             throw new Exception400.UserRoomBadRequest("잘못된 쿼리파라미터로 API를 요청하였습니다.");
         }
 
-        return userRoomPage.map(userRoom -> new CodeRoomResponseDto(userRoom));
+        return userRoomPage.map(userRoom -> new UserRoomDto.CodePageResponse(userRoom));
     }
 
 

@@ -1,15 +1,12 @@
 package com.sajang.devracebackend.service;
 
-import com.sajang.devracebackend.dto.auth.ReissueRequestDto;
-import com.sajang.devracebackend.dto.auth.SignupRequestDto;
-import com.sajang.devracebackend.dto.auth.SignupResponseDto;
-import com.sajang.devracebackend.dto.auth.TokenDto;
+import com.sajang.devracebackend.dto.auth.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 public interface AuthService {
-    SignupResponseDto signup(MultipartFile imageFile, SignupRequestDto userSignupRequestDto) throws IOException;
-    TokenDto reissue(ReissueRequestDto reissueRequestDto);
+    AuthDto.SignupResponse signup(MultipartFile imageFile, AuthDto.SignupRequest SignupRequestDto) throws IOException;
+    AuthDto.TokenResponse reissue(AuthDto.ReissueRequest reissueRequestDto);
     void withdrawal();
 }

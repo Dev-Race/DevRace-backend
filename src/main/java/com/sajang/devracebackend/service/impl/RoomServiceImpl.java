@@ -2,10 +2,9 @@ package com.sajang.devracebackend.service.impl;
 
 import com.sajang.devracebackend.domain.Problem;
 import com.sajang.devracebackend.domain.Room;
-import com.sajang.devracebackend.dto.problem.ProblemSaveRequestDto;
-import com.sajang.devracebackend.dto.room.RoomCheckStateResponseDto;
-import com.sajang.devracebackend.dto.room.RoomResponseDto;
-import com.sajang.devracebackend.dto.user.UserResponseDto;
+import com.sajang.devracebackend.dto.problem.ProblemDto;
+import com.sajang.devracebackend.dto.room.RoomDto;
+import com.sajang.devracebackend.dto.user.UserDto;
 import com.sajang.devracebackend.repository.*;
 import com.sajang.devracebackend.response.exception.Exception400;
 import com.sajang.devracebackend.response.exception.Exception404;
@@ -40,13 +39,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Transactional(readOnly = true)
     @Override
-    public RoomResponseDto findRoomByLink(String link) {
+    public RoomDto.Response findRoomByLink(String link) {
         if(link == null) throw new Exception400.RoomBadRequest("방 조회 link==null 에러");
 
         Room room = roomRepository.findByLink(link).orElseThrow(
                 () -> new Exception404.NoSuchRoom("link = " + link));
 
-        return RoomResponseDto.builder()
+        return RoomDto.Response.builder()
                 .roomId(room.getId())
                 .roomState(room.getRoomState())
                 .build();
@@ -54,8 +53,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Transactional
     @Override
-    public RoomResponseDto createRoom(ProblemSaveRequestDto problemSaveRequestDto) throws IOException {
-        Integer problemNumber = problemSaveRequestDto.getProblemNumber();
+    public RoomDto.Response createRoom(ProblemDto.SaveRequest saveRequestDto) throws IOException {
+        Integer problemNumber = saveRequestDto.getProblemNumber();
 
         Problem problem = problemRepository.findByNumber(problemNumber)
                 .orElse(null);  // try~catch문 대신 null로 표현했음.
@@ -75,7 +74,7 @@ public class RoomServiceImpl implements RoomService {
                 .build();
         roomRepository.save(room);
 
-        return RoomResponseDto.builder()
+        return RoomDto.Response.builder()
                 .roomId(room.getId())
                 .roomState(room.getRoomState())
                 .build();
@@ -83,17 +82,17 @@ public class RoomServiceImpl implements RoomService {
 
     @Transactional(readOnly = true)
     @Override
-    public RoomCheckStateResponseDto checkState(Long roomId) {
+    public RoomDto.CheckStateResponse checkState(Long roomId) {
         Room room = findRoom(roomId);
         List<Long> waitUserIdList = room.getWaiting();
-        List<UserResponseDto> waitUserDtoList = userService.findUsersOriginal(waitUserIdList, true);
+        List<UserDto.Response> waitUserDtoList = userService.findUsersOriginal(waitUserIdList, true);
 
-        RoomCheckStateResponseDto roomCheckStateResponseDto = RoomCheckStateResponseDto.builder()
+        RoomDto.CheckStateResponse checkStateResponseDto = RoomDto.CheckStateResponse.builder()
                 .roomState(room.getRoomState())
                 .link(room.getLink())
                 .waitUserDtoList(waitUserDtoList)
                 .build();
 
-        return roomCheckStateResponseDto;
+        return checkStateResponseDto;
     }
 }
