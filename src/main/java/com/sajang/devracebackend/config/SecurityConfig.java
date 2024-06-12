@@ -92,7 +92,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // config.setAllowedOriginPatterns(Arrays.asList("*"));  // Test 용도
-        config.setAllowedOriginPatterns(Arrays.asList("https://www.devrace.site"));
+        config.setAllowedOriginPatterns(Arrays.asList("http://localhost:8080", "https://www.devrace.site"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowedMethods(Arrays.asList("*"));
         config.setAllowCredentials(true);
