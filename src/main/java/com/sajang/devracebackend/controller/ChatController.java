@@ -47,7 +47,7 @@ public class ChatController {
     }
 
 
-    // ========== STOMP Test 임시 용도 ========== //
+    // ========== STOMP Test 용도 ========== //
 //    @RabbitListener(queues = RabbitConfig.CHAT_QUEUE_NAME)  // 프로듀서(백엔드)->컨슈머(프론트엔드) 과정에서 큐에 도착할 때, 메소드 자동 호출됨.
 //    public void receive(ChatResponseDto chatResponseDto){
 //        System.out.println("Success Receive - Chat Message / nickname: " + chatResponseDto.getSenderName());
