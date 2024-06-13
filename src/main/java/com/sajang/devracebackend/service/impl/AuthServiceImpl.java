@@ -135,4 +135,11 @@ public class AuthServiceImpl implements AuthService {
         AuthDto.TokenResponse tokenResponseDto = tokenProvider.generateAccessTokenByRefreshToken(userId, role, refreshToken);
         return tokenResponseDto;
     }
+
+    @Transactional
+    @Override
+    public void updateRefreshToken(Long userId, String refreshToken) {
+        User user = userService.findUser(userId);
+        user.updateRefreshToken(refreshToken);
+    }
 }

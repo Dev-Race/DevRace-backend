@@ -9,4 +9,5 @@ public interface AuthService {
     AuthDto.SignupResponse signup(MultipartFile imageFile, AuthDto.SignupRequest SignupRequestDto) throws IOException;
     void withdrawal();
     AuthDto.TokenResponse reissue(AuthDto.ReissueRequest reissueRequestDto);
+    void updateRefreshToken(Long userId, String refreshToken);
 }

@@ -1,11 +1,10 @@
 package com.sajang.devracebackend.security.oauth2.handler;
 
-import com.sajang.devracebackend.domain.User;
 import com.sajang.devracebackend.domain.enums.Role;
 import com.sajang.devracebackend.dto.AuthDto;
 import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.security.oauth2.CustomOAuth2User;
-import com.sajang.devracebackend.service.UserService;
+import com.sajang.devracebackend.service.AuthService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +23,7 @@ import java.io.IOException;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final TokenProvider tokenProvider;
-    private final UserService userService;
+    private final AuthService authService;
 
 
     @Override
@@ -44,14 +43,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             log.info("발급된 Refresh Token : {}", refreshToken);
 
             // 로그인에 성공했으므로, 사용자 DB에 Refresh Token 저장(있다면 업데이트).
-            User user = userService.findUser(userId);
-            user.updateRefreshToken(refreshToken);
+            authService.updateRefreshToken(userId, refreshToken);
 
             String redirectUrl;
             if(oAuth2User.getRole().equals(Role.ROLE_GUEST)) {  // User의 Role이 GUEST일 경우, 처음 요청한 회원이므로, 회원가입 페이지로 리다이렉트 시켜야함을 프론트에 전달.
                 log.info("신규 회원 입니다. JWT 헤더를 가진채로, 추가정보 입력을 위한 회원가입 페이지로 리다이렉트 시킵니다.");  // 리다이렉트(프론트엔드 url)는 백엔드에서 시키고, 헤더에 jwt 다는건 프론트엔드에서.
                 String frontendPath = "/info";
-                redirectUrl = makeRedirectUrl(tokenResponseDto, frontendPath);
+                redirectUrl = "https://www.devrace.site" + frontendPath;
             }
             else {  // 이미 한 번 이상 OAuth2 로그인했던 유저일 때 (즉, 이미 회원가입 추가정보를 입력해두었던 유저일때)
                 log.info("기존 회원 입니다. JWT 헤더를 가진채로, 메인 페이지로 리다이렉트 시킵니다.");  // 리다이렉트(프론트엔드 url)는 백엔드에서 시키고, 헤더에 jwt 다는건 프론트엔드에서.
