@@ -15,11 +15,13 @@ import com.sajang.devracebackend.service.UserService;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,6 +43,9 @@ public class AuthServiceImpl implements AuthService {
         // - 사진 변경X : if 'imageFile == null && signupRequestDto.getIsImageChange() == 0' --> AWS S3 업로드X
         // - 사진 변경O : if 'imageFile != null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드O
         // - 기본사진으로 변경O : if 'imageFile == null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("==========================\n" + LocalDateTime.now() + "\n" + authentication.getAuthorities() + "\n==========================");
 
         if(signupRequestDto.getBojId() == null) {
             throw new Exception400.UserBadRequest("회원가입 bojId==null 에러");
