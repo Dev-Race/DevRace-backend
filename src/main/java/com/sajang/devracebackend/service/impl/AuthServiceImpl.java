@@ -12,16 +12,15 @@ import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.service.AuthService;
 import com.sajang.devracebackend.service.AwsS3Service;
 import com.sajang.devracebackend.service.UserService;
+import com.sajang.devracebackend.util.SecurityUtil;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -44,9 +43,16 @@ public class AuthServiceImpl implements AuthService {
         // - 사진 변경O : if 'imageFile != null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드O
         // - 기본사진으로 변경O : if 'imageFile == null && signupRequestDto.getIsImageChange() == 1' --> AWS S3 업로드X & User imageUrl값 null로 업데이트
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("==========================\n" + LocalDateTime.now() + "\n" + authentication.getAuthorities() + "\n==========================");
+        User user = userService.findLoginUser();
 
+        // 회원가입 권한 예외처리 (signup은 Role이 GUEST인 사용자만 이용가능한 API임.)
+        boolean isHasGuestRole = SecurityUtil.isHasRole(Role.ROLE_GUEST.name());
+        if(isHasGuestRole == false || !user.getRole().equals(Role.ROLE_GUEST) || user.getBojId() != null) {
+            // reissue로 인한 재발급 이후에도 이전 엑세스 토큰으로 '/signup' 경로에 다시 접근할 경우, 토큰 내의 권한은 GUEST가 맞겠지만 DB 내의 권한은 USER이기에 이러한 비정상적인 접근을 방지할 수 있기 때문임.
+            throw new Exception400.UserBadRequest("이미 가입완료 되어있는 사용자입니다.");
+        }
+
+        // 백준id 예외처리
         if(signupRequestDto.getBojId() == null) {
             throw new Exception400.UserBadRequest("회원가입 bojId==null 에러");
         }
@@ -54,15 +60,6 @@ public class AuthServiceImpl implements AuthService {
             throw new Exception400.BojIdDuplicate(signupRequestDto.getBojId());
         }
         UserServiceImpl.getSolvedCount(signupRequestDto.getBojId());  // solvedac 서버에 존재하지않는 백준id일경우 예외 처리.
-
-        User user = userService.findLoginUser();
-
-        // signup은 Role이 GUEST인 사용자만 이용가능한 API임.
-        if(!user.getRole().equals(Role.ROLE_GUEST) || user.getBojId() != null) {
-            // 이 로직을 SecurityConfig의 hasAuthority("ROLE_GUEST") 외에도 여기 또 써줘야하는 이유는,
-            // reissue로 인한 재발급 이후에도 이전 엑세스 토큰으로 '/signup' 경로에 다시 접근할 경우, 토큰 내의 권한은 GUEST가 맞겠지만 DB 내의 권한은 USER이기에 이러한 비정상적인 접근을 방지할 수 있기 때문임.
-            throw new Exception400.UserBadRequest("이미 가입완료 되어있는 사용자입니다.");
-        }
 
         // 새 프로필 사진을 AWS S3에 업로드 후, 이미지 url 반환.
         if(imageFile != null && signupRequestDto.getIsImageChange() == 1) {  // 사진 변경O 경우
