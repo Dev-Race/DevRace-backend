@@ -57,9 +57,9 @@ public class SecurityConfig {
                     authorizeRequests
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                            .requestMatchers("/", "/error", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger/**", "/health").permitAll()
-                            .requestMatchers("/ws/**", "/oauth2/**", "/reissue", "/signup").permitAll();
-                            // .requestMatchers("/**").permitAll()  // Test 용도
+//                            .requestMatchers("/", "/error", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger/**", "/health").permitAll()
+//                            .requestMatchers("/ws/**", "/oauth2/**", "/reissue", "/signup").permitAll();
+                            .requestMatchers("/**").permitAll();  // Test 용도
                 })
 
                 .exceptionHandling(exceptionHandling -> {
