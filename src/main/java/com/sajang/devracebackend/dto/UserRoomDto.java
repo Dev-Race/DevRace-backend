@@ -23,6 +23,7 @@ public class UserRoomDto {
 
         private Integer isRetry;  // 문제 재풀이 여부
 
+        private Language language;
         private String code;
         private Integer isPass;
     }
