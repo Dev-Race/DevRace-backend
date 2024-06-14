@@ -22,8 +22,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final TokenProvider tokenProvider;
     private final AuthService authService;
+    private final TokenProvider tokenProvider;
 
 
     @Override
