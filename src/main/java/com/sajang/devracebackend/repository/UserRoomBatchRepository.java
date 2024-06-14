@@ -11,13 +11,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
 public class UserRoomBatchRepository {  // 대용량 데이터의 batch 처리를 위한 JDBC Repository
 
     private final JdbcTemplate jdbcTemplate;
-    private static final int BATCH_SIZE = 1000;  // 배치 크기 설정 (메모리 오버헤드 방지)
+    private static final int BATCH_SIZE = 1000;  // 배치 크기 설정
 
 
     public void batchInsert(List<UserRoom> userRoomList) {
@@ -52,24 +53,19 @@ public class UserRoomBatchRepository {  // 대용량 데이터의 batch 처리�
     }
 
     public void batchDelete(List<UserRoom> userRoomList) {
-        String sql = "DELETE FROM user_room WHERE user_room_id = ?";
 
         for (int i=0; i<userRoomList.size(); i+=BATCH_SIZE) {
-            List<UserRoom> batchList = userRoomList.subList(i, Math.min(i+BATCH_SIZE, userRoomList.size()));
+            List<Long> batchList = userRoomList.subList(i, Math.min(i+BATCH_SIZE, userRoomList.size()))
+                    .stream()
+                    .map(UserRoom::getId)
+                    .collect(Collectors.toList());
 
-            jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            String sql = String.format("DELETE FROM user_room WHERE user_room_id IN (%s)",
+                    batchList.stream()
+                            .map(String::valueOf)
+                            .collect(Collectors.joining(",")));
 
-                @Override
-                public void setValues(PreparedStatement ps, int i) throws SQLException {
-                    UserRoom userRoom = batchList.get(i);
-                    ps.setLong(1, userRoom.getId());
-                }
-
-                @Override
-                public int getBatchSize() {
-                    return batchList.size();
-                }
-            });
+            jdbcTemplate.update(sql);
         }
     }
 }
