@@ -46,11 +46,11 @@ public class AuthServiceTest {
 
     // @Test
     @Transactional
-    @DisplayName("회원탈퇴 - JDBC Batch Delete Test")  // UserRooms Batch Delete 시간 측정
+    @DisplayName("회원탈퇴 - JDBC Batch Delete IN절 Test")  // UserRooms Batch Delete 시간 측정
     void withdrawal_Test() {
 
         // 기초 데이터 관리
-        Integer inputUserRoomsCount = 10000;  // 10000개의 UserRooms 더미데이터 생성
+        Integer inputUserRoomsCount = 1000000;  // 1000000개의 UserRooms 더미데이터 생성
         Long userId = 1L;  // user_id=1인 User 엔티티 활용 예정
         Long roomId = 1L;  // room_id=1인 Room 엔티티 활용 예정
 
@@ -72,7 +72,7 @@ public class AuthServiceTest {
 
         // 실행시간 출력
         String printTime = getPrintTime(startTime, endTime);
-        System.out.println("\n< JDBC Batch Delete 사용 (JPA deleteAll X, JPA deleteAllInBatch X) >");
+        System.out.println("\n< JDBC Batch Delete IN절 사용 (JPA deleteAll X, JPA deleteAllInBatch X) >");
         System.out.println(String.format("- %d개 방의 회원탈퇴 실행시간:", inputUserRoomsCount) + printTime);  // 출력
 
         // DB 롤백 검증
