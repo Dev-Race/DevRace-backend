@@ -12,7 +12,6 @@ import com.sajang.devracebackend.security.jwt.TokenProvider;
 import com.sajang.devracebackend.service.AuthService;
 import com.sajang.devracebackend.service.AwsS3Service;
 import com.sajang.devracebackend.service.UserService;
-import com.sajang.devracebackend.util.SecurityUtil;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -46,8 +45,8 @@ public class AuthServiceImpl implements AuthService {
         User user = userService.findLoginUser();
 
         // 회원가입 권한 예외처리 (signup은 Role이 GUEST인 사용자만 이용가능한 API임.)
-        boolean isHasGuestRole = SecurityUtil.isHasRole(Role.ROLE_GUEST.name());
-        if(isHasGuestRole == false || !user.getRole().equals(Role.ROLE_GUEST) || user.getBojId() != null) {
+        if(!user.getRole().equals(Role.ROLE_GUEST)) {
+            // 이 로직을 SecurityConfig의 hasAuthority("ROLE_GUEST") 외에도 여기 또 써줘야하는 이유는,
             // reissue로 인한 재발급 이후에도 이전 엑세스 토큰으로 '/signup' 경로에 다시 접근할 경우, 토큰 내의 권한은 GUEST가 맞겠지만 DB 내의 권한은 USER이기에 이러한 비정상적인 접근을 방지할 수 있기 때문임.
             throw new Exception400.UserBadRequest("이미 가입완료 되어있는 사용자입니다.");
         }

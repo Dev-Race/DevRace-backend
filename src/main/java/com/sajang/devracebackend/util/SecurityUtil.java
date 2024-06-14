@@ -2,7 +2,6 @@ package com.sajang.devracebackend.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Slf4j
@@ -17,14 +16,5 @@ public class SecurityUtil {
             throw new RuntimeException("Security Context에 인증 정보가 없습니다.");  // @ExceptionHandler(Exception.class)에서 조건문으로 잡히도록 구성해두었음.
         }
         return Long.parseLong(authentication.getName());
-    }
-
-    public static boolean isHasRole(String roleName) {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null) {
-            throw new RuntimeException("Security Context에 인증 정보가 없습니다.");
-        }
-        return authentication.getAuthorities().contains(new SimpleGrantedAuthority(roleName));
     }
 }

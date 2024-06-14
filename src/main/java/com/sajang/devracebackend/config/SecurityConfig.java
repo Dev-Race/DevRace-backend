@@ -56,10 +56,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                            .requestMatchers(HttpMethod.PUT, "/signup").hasAuthority("ROLE_GUEST")  // '/signup' api는 ROLE_GUEST 권한 로그인 사용자만 사용 가능. 이는 DB 속성값 & 헤더의 jwt 토큰에 등록해둔 권한도 바꾸어 재발급 받아야 한다.
 
-//                            .requestMatchers("/", "/error", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger/**", "/health").permitAll()
-//                            .requestMatchers("/ws/**", "/oauth2/**", "/reissue", "/signup").permitAll();
-                            .requestMatchers("/**").permitAll();  // Test 용도
+                            // .requestMatchers("/**").permitAll()  // Test 용도
+                            .requestMatchers("/", "/error", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**", "/swagger/**", "/health").permitAll()
+                            .requestMatchers("/ws/**", "/oauth2/**", "/reissue").permitAll()
+
+                            .anyRequest().hasAnyAuthority("ROLE_USER", "ROLE_ADMIN");  // permit 지정한 경로들 외에는 전부 USER나 ADMIN 권한이 있어야지 url을 이용 가능하다. (GUEST 불가능)
                 })
 
                 .exceptionHandling(exceptionHandling -> {
