@@ -57,7 +57,7 @@
 
 - #### To Do List
   - - [x] DTO inner class 리팩토링
-  - - [ ] URI Security 접근제한 적용
+  - - [x] URI Security 접근제한 적용
   - - [ ] Demo 사진 및 영상 첨부
 <br>
 
