@@ -146,6 +146,7 @@ public class UserRoomServiceImpl implements UserRoomService {
         UserRoom userRoom = findUserRoomWithEagerRoom(SecurityUtil.getCurrentMemberId(), roomId, true, false);  // 어차피 문제풀이 페이지는 입장 이후이기에, 부모 Room을 갖고있는 자식 UserRoom은 반드시 존재함.
         Room room = userRoom.getRoom();  // 이 시점에는 아직 Fetch Join의 영향을 받지않아, 아직 조회 쿼리가 1번으로 유지됨.
 
+        userRoom.updateLanguage(solveRequestDto.getLanguage());
         userRoom.updateCode(solveRequestDto.getCode());
         userRoom.updateIsLeave(1);  // 더티체킹으로 update가 DB에 바로 반영되지않지만, UserRoom은 동일 트랜잭션 내의 JPA 영속성 컨텍스트가 관리하는 상위 엔티티이므로, 이후 호출되는 하위 'UserRoom.getRoom().getUserRoomList()'에서도 update상태 확인이 가능함.
         userRoom.updateLeaveTime(LocalDateTime.now());

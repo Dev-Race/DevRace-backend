@@ -62,6 +62,10 @@ public class UserRoom extends BaseEntity implements Serializable {
     }
 
 
+    public void updateLanguage(Language language) {
+        this.language = language;
+    }
+
     public void updateCode(String code) {
         this.code = code;
     }
