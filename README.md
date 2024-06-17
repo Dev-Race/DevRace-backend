@@ -79,11 +79,6 @@
   - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/6eb6125b-ece3-4853-a96d-b2255856ee16" /></details>
   - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/c165ed3c-d3f6-48f7-a28f-72a63b388db6" /></details>
   - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/16b548eb-c21b-4d4f-bb71-47d1ea0d5e01" /></details>
-
-- #### To Do List
-  - - [x] DTO inner class 리팩토링
-  - - [x] URI Security 접근제한 적용
-  - - [x] Demo 사진 및 영상 첨부
 <br>
 
 
