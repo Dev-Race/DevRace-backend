@@ -28,9 +28,7 @@ public class AwsS3ServiceImpl implements AwsS3Service {
     @Transactional
     @Override
     public String uploadImage(MultipartFile file) throws IOException {
-        if(file == null) {
-            return null;
-        }
+        if(file == null) return null;
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
@@ -47,6 +45,7 @@ public class AwsS3ServiceImpl implements AwsS3Service {
     @Transactional
     @Override
     public void deleteImage(String fileUrl) {  // 사진 업로드를 위해 이전 사진을 제거하는 용도 및 차후 기본이미지로 변경시 사용 예정 메소드
+        if(fileUrl == null) return;  // 기본 이미지로 설정되어있는 경우, 이미지 삭제처리 X.
         String fileName = fileUrl.split(".com/")[1];
 
         try {
