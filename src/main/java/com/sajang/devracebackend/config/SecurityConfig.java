@@ -56,7 +56,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                            .requestMatchers(HttpMethod.PUT, "/signup").hasAuthority("ROLE_GUEST")  // '/signup' api는 ROLE_GUEST 권한 로그인 사용자만 사용 가능. 이는 DB 속성값 & 헤더의 jwt 토큰에 등록해둔 권한도 바꾸어 재발급 받아야 한다.
+                            .requestMatchers(HttpMethod.PUT, "/signup").hasAuthority("ROLE_GUEST")  // 회원가입 api는 ROLE_GUEST 권한 로그인 사용자만 사용 가능. 이는 DB 속성값 & 헤더의 jwt 토큰에 등록해둔 권한도 바꾸어 재발급 받아야 한다.
+                            .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("ROLE_GUEST", "ROLE_USER", "ROLE_ADMIN")  // 사용자 프로필 조회 api는 ROLE_GUEST 권한 로그인 사용자도 사용 가능. 이는 회원가입시, 변경전 기존 OAuth2 소셜 사용자 정보를 조회해야하기 때문임.
 
                             // .requestMatchers("/**").permitAll()  // Test 용도
                             .requestMatchers("/", "/error", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**", "/swagger/**", "/health").permitAll()
