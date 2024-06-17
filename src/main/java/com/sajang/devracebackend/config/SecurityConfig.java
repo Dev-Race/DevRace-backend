@@ -60,7 +60,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET, "/users").hasAnyAuthority("ROLE_GUEST", "ROLE_USER", "ROLE_ADMIN")  // 사용자 프로필 조회 api는 ROLE_GUEST 권한 로그인 사용자도 사용 가능. 이는 회원가입시, 변경전 기존 OAuth2 소셜 사용자 정보를 조회해야하기 때문임.
 
                             // .requestMatchers("/**").permitAll()  // Test 용도
-                            .requestMatchers("/", "/error", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**", "/swagger/**", "/health").permitAll()
+                            .requestMatchers("/", "/error", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger/**", "/health").permitAll()
                             .requestMatchers("/ws/**", "/oauth2/**", "/reissue").permitAll()
 
                             .anyRequest().hasAnyAuthority("ROLE_USER", "ROLE_ADMIN");  // permit 지정한 경로들 외에는 전부 USER나 ADMIN 권한이 있어야지 url을 이용 가능하다. (GUEST 불가능)
