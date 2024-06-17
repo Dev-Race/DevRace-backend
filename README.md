@@ -45,7 +45,7 @@
 
 
 ## 📹 Demo
-<strong>📀&nbsp;&nbsp;Demo Video</strong>&nbsp;:&nbsp;&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend">Play!</a><br>
+<strong>📀&nbsp;&nbsp;Demo Video</strong>&nbsp;:&nbsp;&nbsp;<a href="https://youtu.be/f9BmJG7zTxA">Play!</a><br>
 
 - #### 로그인 페이지&nbsp;&nbsp;-&nbsp;&nbsp;소셜 로그인 / 회원가입
 ![login_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/2bcd5e7e-a6a6-4fc1-9432-c850b4780e4f)
@@ -83,7 +83,7 @@
 - #### To Do List
   - - [x] DTO inner class 리팩토링
   - - [x] URI Security 접근제한 적용
-  - - [ ] Demo 사진 및 영상 첨부
+  - - [x] Demo 사진 및 영상 첨부
 <br>
 
 
