@@ -47,13 +47,13 @@
 - <strong>기간</strong>&nbsp;:&nbsp;&nbsp;2024.04.29 ~ 06.16
 
 - #### [PM] 기획 명세서
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/38c36139-1d4a-4075-bdf7-6ca33f222466" /></details>
-  - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/b82c38a7-6e32-4038-b92f-7ded9b2ca113" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/339fd77b-e3ed-447d-a04b-a9c4c753780f" /></details>
+  - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/f2951c3d-f396-479c-a14f-4d418f9f7894" /></details>
 
 - #### [BE] API 명세서
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/863cd935-c292-4318-97e2-03b357528a27" /></details>
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a5e52b5a-c3af-405c-89a7-43c24e5f1182" /></details>
-  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/222b7599-69ba-41aa-9ef5-613fd7837c54" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/6eb6125b-ece3-4853-a96d-b2255856ee16" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/c165ed3c-d3f6-48f7-a28f-72a63b388db6" /></details>
+  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/16b548eb-c21b-4d4f-bb71-47d1ea0d5e01" /></details>
 
 - #### To Do List
   - - [x] DTO inner class 리팩토링
