@@ -13,13 +13,14 @@
   <summary><strong>&nbsp;📖&nbsp;목차</strong></summary>
 
 1. &nbsp;&nbsp;[🔍 Introduction](#-introduction)
-2. &nbsp;&nbsp;[📄 Documents](#-documents)
-3. &nbsp;&nbsp;[💻 Architecture](#-architecture)
-4. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
-5. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
-6. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
-7. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
-8. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
+2. &nbsp;&nbsp;[📹 Demo](#-demo)
+3. &nbsp;&nbsp;[📄 Documents](#-documents)
+4. &nbsp;&nbsp;[💻 Architecture](#-architecture)
+5. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
+6. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
+7. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
+8. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
+9. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
 </details>
 <br>
 
@@ -40,6 +41,30 @@
 - 실시간 채팅&nbsp;:&nbsp;&nbsp;문제 풀이 중 힌트 주고받기 및 의견 교환 가능
 - 코드 보관&nbsp;:&nbsp;&nbsp;소스코드 및 채팅 내역 저장을 통한 복습 및 재풀이 지원
 <br>
+
+
+
+## 📹 Demo
+<strong>📀&nbsp;&nbsp;Demo Video</strong>&nbsp;:&nbsp;&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend">Play!</a><br>
+
+- #### 로그인 페이지&nbsp;&nbsp;-&nbsp;&nbsp;소셜 로그인 / 회원가입
+![login_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/2bcd5e7e-a6a6-4fc1-9432-c850b4780e4f)
+
+- #### 입장 페이지&nbsp;&nbsp;-&nbsp;&nbsp;초대링크 접속 & 실시간 입장 대기열 참가
+![waiting_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/d36d2c39-e47c-46fb-b42a-a14d6669bea2)
+
+- #### 문제풀이 페이지&nbsp;&nbsp;-&nbsp;&nbsp;코드 컴파일 & 예제 채점
+![marking_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/f14fb221-7197-435d-b01b-7ab8e59eda59)
+
+- #### 문제풀이 페이지&nbsp;&nbsp;-&nbsp;&nbsp;실시간 채팅
+![chatting_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/39e2cda4-c445-4e10-af2e-79faa0b55430)
+
+- #### 문제풀이 페이지&nbsp;&nbsp;-&nbsp;&nbsp;문제풀이 성공 & 실시간 랭킹 반영
+![ranking_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/c1b2e613-704e-4c64-b470-686c663ea62d)
+
+- #### 내 코드 페이지&nbsp;&nbsp;-&nbsp;&nbsp;코드 정렬 / 검색
+![mycode_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/f3118109-d860-4353-a24e-cbe65d4e445b)
+<br><br>
 
 
 
