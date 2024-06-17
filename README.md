@@ -13,13 +13,14 @@
   <summary><strong>&nbsp;📖&nbsp;목차</strong></summary>
 
 1. &nbsp;&nbsp;[🔍 Introduction](#-introduction)
-2. &nbsp;&nbsp;[📄 Documents](#-documents)
-3. &nbsp;&nbsp;[💻 Architecture](#-architecture)
-4. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
-5. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
-6. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
-7. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
-8. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
+2. &nbsp;&nbsp;[📹 Demo](#-demo)
+3. &nbsp;&nbsp;[📄 Documents](#-documents)
+4. &nbsp;&nbsp;[💻 Architecture](#-architecture)
+5. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
+6. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
+7. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
+8. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
+9. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
 </details>
 <br>
 
@@ -38,8 +39,32 @@
 - 입장 대기열&nbsp;:&nbsp;&nbsp;초대 링크로 스터디원들을 초대하고 동시에 문제 풀이 시작
 - 실시간 랭킹&nbsp;:&nbsp;&nbsp;문제 풀이 중 실시간 순위 확인을 통한 경쟁 유도
 - 실시간 채팅&nbsp;:&nbsp;&nbsp;문제 풀이 중 힌트 주고받기 및 의견 교환 가능
-- 기록 보관&nbsp;:&nbsp;&nbsp;소스코드 및 채팅 내역 저장을 통한 복습 및 재풀이 지원
+- 코드 보관&nbsp;:&nbsp;&nbsp;소스코드 및 채팅 내역 저장을 통한 복습 및 재풀이 지원
 <br>
+
+
+
+## 📹 Demo
+<strong>📀&nbsp;&nbsp;Demo Video</strong>&nbsp;:&nbsp;&nbsp;<a href="https://youtu.be/f9BmJG7zTxA">Play!</a><br>
+
+- #### 로그인 페이지&nbsp;&nbsp;-&nbsp;&nbsp;소셜 로그인 / 회원가입
+![login_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/2bcd5e7e-a6a6-4fc1-9432-c850b4780e4f)
+
+- #### 입장 페이지&nbsp;&nbsp;-&nbsp;&nbsp;초대링크 접속 & 실시간 입장 대기열 참가
+![waiting_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/d36d2c39-e47c-46fb-b42a-a14d6669bea2)
+
+- #### 문제풀이 페이지&nbsp;&nbsp;-&nbsp;&nbsp;코드 컴파일 & 예제 채점
+![marking_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/f14fb221-7197-435d-b01b-7ab8e59eda59)
+
+- #### 문제풀이 페이지&nbsp;&nbsp;-&nbsp;&nbsp;실시간 채팅
+![chatting_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/39e2cda4-c445-4e10-af2e-79faa0b55430)
+
+- #### 문제풀이 페이지&nbsp;&nbsp;-&nbsp;&nbsp;문제풀이 성공 & 실시간 랭킹 반영
+![ranking_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/c1b2e613-704e-4c64-b470-686c663ea62d)
+
+- #### 내 코드 페이지&nbsp;&nbsp;-&nbsp;&nbsp;코드 정렬 / 검색
+![mycode_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/f3118109-d860-4353-a24e-cbe65d4e445b)
+<br><br>
 
 
 
@@ -47,18 +72,13 @@
 - <strong>기간</strong>&nbsp;:&nbsp;&nbsp;2024.04.29 ~ 06.16
 
 - #### [PM] 기획 명세서
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/38c36139-1d4a-4075-bdf7-6ca33f222466" /></details>
-  - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/b82c38a7-6e32-4038-b92f-7ded9b2ca113" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/339fd77b-e3ed-447d-a04b-a9c4c753780f" /></details>
+  - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/f2951c3d-f396-479c-a14f-4d418f9f7894" /></details>
 
 - #### [BE] API 명세서
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/863cd935-c292-4318-97e2-03b357528a27" /></details>
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/a5e52b5a-c3af-405c-89a7-43c24e5f1182" /></details>
-  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/tkguswls1106/DevRace-Readme/assets/56509933/222b7599-69ba-41aa-9ef5-613fd7837c54" /></details>
-
-- #### To Do List
-  - - [x] DTO inner class 리팩토링
-  - - [x] URI Security 접근제한 적용
-  - - [ ] Demo 사진 및 영상 첨부
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/6eb6125b-ece3-4853-a96d-b2255856ee16" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/c165ed3c-d3f6-48f7-a28f-72a63b388db6" /></details>
+  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/16b548eb-c21b-4d4f-bb71-47d1ea0d5e01" /></details>
 <br>
 
 
