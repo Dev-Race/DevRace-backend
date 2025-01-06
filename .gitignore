@@ -36,6 +36,12 @@ out/
 ### VS Code ###
 .vscode/
 
+# Ignore '.DS_Store' files
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+
 # application.properties 파일은 gitignore에 적용시키지 않음.
 !src/main/resources/application.properties
 # application- 으로 시작하는 모든 properties 파일은 gitignore에 적용시켜 무시함.

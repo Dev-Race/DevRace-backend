@@ -92,7 +92,7 @@
 ![devrace_network_architecture drawio](https://github.com/Dev-Race/DevRace-backend/assets/56509933/a43dae33-515c-4cd0-b8fe-39bfe56d7ab7)
 
 ### Detail
-<details>
+<details open>
   <summary>&nbsp;<strong>CI/CD flow</strong>&nbsp;:&nbsp;Open!</summary>
 
 #### [ Github ]<br>
@@ -137,7 +137,7 @@
 <br>
 </details>
 
-<details>
+<details open>
   <summary>&nbsp;<strong>Notification</strong>&nbsp;:&nbsp;Open!</summary>
   <br>
 
@@ -176,7 +176,7 @@ Backend|Security|Database|Deployment|Other|
 ## 🤝 Git Convention
 
 ### Branch
-- Git-Flow 전략
+- Github-Flow 전략
 - 반드시 "develop"에서 뻗어나와 develop으로 "merge" 되어야한다.
 - `main` : 출시 배포 CI/CD용 branch (미사용)
 - `develop` : 개발 개포 CI/CD용 branch
