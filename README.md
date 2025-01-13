@@ -201,7 +201,7 @@ Backend|Security|Database|Deployment|Other|
 ```
 < Issue Title >
 [Issue_종류] 구현_주요내용
-ex) Feat: 소셜 로그인 및 회원가입 기능
+ex) [Feat] 소셜 로그인 및 회원가입 기능
 ```
 
 ### Commit
