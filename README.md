@@ -13,11 +13,11 @@
   <summary><strong>&nbsp;📖&nbsp;목차</strong></summary>
 
 1. &nbsp;&nbsp;[🔍 Introduction](#-introduction)
-2. &nbsp;&nbsp;[📹 Demo](#-demo)
-3. &nbsp;&nbsp;[📄 Documents](#-documents)
-4. &nbsp;&nbsp;[💻 Architecture](#-architecture)
-5. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
-6. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
+2. &nbsp;&nbsp;[📄 Documents](#-documents)
+3. &nbsp;&nbsp;[📹 Demo](#-demo)
+4. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
+5. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
+6. &nbsp;&nbsp;[💻 Architecture](#-architecture)
 7. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
 8. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
 9. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
@@ -40,6 +40,21 @@
 - 실시간 랭킹&nbsp;:&nbsp;&nbsp;문제 풀이 중 실시간 순위 확인을 통한 경쟁 유도
 - 실시간 채팅&nbsp;:&nbsp;&nbsp;문제 풀이 중 힌트 주고받기 및 의견 교환 가능
 - 코드 보관&nbsp;:&nbsp;&nbsp;소스코드 및 채팅 내역 저장을 통한 복습 및 재풀이 지원
+<br>
+
+
+
+## 📄 Documents
+- <strong>기간</strong>&nbsp;:&nbsp;&nbsp;2024.04.29 ~ 06.16
+
+- #### [PM] 기획 명세서
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/339fd77b-e3ed-447d-a04b-a9c4c753780f" /></details>
+  - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/f2951c3d-f396-479c-a14f-4d418f9f7894" /></details>
+
+- #### [BE] API 명세서
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/6eb6125b-ece3-4853-a96d-b2255856ee16" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/c165ed3c-d3f6-48f7-a28f-72a63b388db6" /></details>
+  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/16b548eb-c21b-4d4f-bb71-47d1ea0d5e01" /></details>
 <br>
 
 
@@ -68,18 +83,26 @@
 
 
 
-## 📄 Documents
-- <strong>기간</strong>&nbsp;:&nbsp;&nbsp;2024.04.29 ~ 06.16
+## 💡 Tech Stack
+Backend|Security|Database|Deployment|Other|
+|:------:|:------:|:------:|:------:|:------:|
+|<img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_SpringBoot.svg" alt="[ Spring Boot ]"/><br><img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=coffeeScript&logoColor=white"/><br><img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_STOMP.svg" alt="[ STOMP ]"/><br><img src="https://img.shields.io/badge/RabbitMQ-FF6600?style=flat-square&logo=RabbitMQ&logoColor=white"/>|<img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_SpringSecurity.svg" alt="[ Spring Security ]"/><br><img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_JSONWebToken.svg" alt="[ JSON Web Token ]"/><br><img src="https://img.shields.io/badge/OAuth2-3423A6?style=flat-square&logo=Authelia&logoColor=white"/>|<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/><br><img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/>|<img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_AmazonAWS.svg" alt="[ Amazon AWS ]"/><br><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/><br><img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_GithubActions.svg" alt="[ Github Actions ]"/>|<img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=Notion&logoColor=white"/><br><img src="https://img.shields.io/badge/Swagger-85EA2E?style=flat-square&logo=Swagger&logoColor=black"/><br><img src="https://img.shields.io/badge/Slack-4A154B?style=flat-square&logo=Slack&logoColor=white"/>
+```
+- Frontend : React, JavaScript, Redux
+- Backend : Spring Boot, Java | Security, JWT, OAuth2 | STOMP, RabbitMQ
+- Database : MySQL, MongoDB
+- Deployment : AWS Amplify, AWS Elastic Beanstalk, Docker, Github Actions
+- Documentation : Notion, Swagger
+- Notification : Slack
+```
+&#8594;&nbsp;&nbsp;***BE Version***&nbsp;:&nbsp;&nbsp;Java 17 · Spring Boot 3.1.11
+<br><br>
 
-- #### [PM] 기획 명세서
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/339fd77b-e3ed-447d-a04b-a9c4c753780f" /></details>
-  - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/f2951c3d-f396-479c-a14f-4d418f9f7894" /></details>
 
-- #### [BE] API 명세서
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/6eb6125b-ece3-4853-a96d-b2255856ee16" /></details>
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/c165ed3c-d3f6-48f7-a28f-72a63b388db6" /></details>
-  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/16b548eb-c21b-4d4f-bb71-47d1ea0d5e01" /></details>
-<br>
+
+## 🗂️ Database
+![devrace DB ERD](https://github.com/Dev-Race/DevRace-backend/assets/56509933/cc34957c-5429-4fd0-b95d-8c9d9024f77e)
+<br><br>
 
 
 
@@ -91,9 +114,10 @@
 ### Network
 ![devrace_network_architecture drawio](https://github.com/Dev-Race/DevRace-backend/assets/56509933/a43dae33-515c-4cd0-b8fe-39bfe56d7ab7)
 
-### Detail
+<br>
+
 <details open>
-  <summary>&nbsp;<strong>CI/CD flow</strong>&nbsp;:&nbsp;Open!</summary>
+  <summary>&nbsp;<strong>&nbsp;&nbsp;<&nbsp;&nbsp;CI/CD flow&nbsp;&nbsp;></strong></summary>
 
 #### [ Github ]<br>
 - &nbsp;trigger CI/CD
@@ -138,7 +162,7 @@
 </details>
 
 <details open>
-  <summary>&nbsp;<strong>Notification</strong>&nbsp;:&nbsp;Open!</summary>
+  <summary>&nbsp;<strong>&nbsp;&nbsp;<&nbsp;&nbsp;Notification&nbsp;&nbsp;></strong></summary>
   <br>
 
 ![slack collaboration_alarm](https://github.com/Dev-Race/DevRace-backend/assets/56509933/888fd684-76bf-4c77-a25b-d4a2ca3daf16)
@@ -147,29 +171,6 @@
 <a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/slack-pr-open.yml">`💡 PR Open`</a>&nbsp;&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/slack-pr-review.yml">`💬 PR Review`<a>&nbsp;&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/deploy.yml#L114">`❌ CI/CD Fail`</a>&nbsp;&nbsp;<a href="https://github.com/Dev-Race/DevRace-backend/blob/develop/.github/workflows/deploy.yml#L80">`✅ CI/CD Success`</a>
 </details>
 <br>
-
-
-
-## 💡 Tech Stack
-Backend|Security|Database|Deployment|Other|
-|:------:|:------:|:------:|:------:|:------:|
-|<img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_SpringBoot.svg" alt="[ Spring Boot ]"/><br><img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=coffeeScript&logoColor=white"/><br><img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_STOMP.svg" alt="[ STOMP ]"/><br><img src="https://img.shields.io/badge/RabbitMQ-FF6600?style=flat-square&logo=RabbitMQ&logoColor=white"/>|<img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_SpringSecurity.svg" alt="[ Spring Security ]"/><br><img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_JSONWebToken.svg" alt="[ JSON Web Token ]"/><br><img src="https://img.shields.io/badge/OAuth2-3423A6?style=flat-square&logo=Authelia&logoColor=white"/>|<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/><br><img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/>|<img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_AmazonAWS.svg" alt="[ Amazon AWS ]"/><br><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/><br><img src="https://smartcart-s3-bucket.s3.ap-northeast-2.amazonaws.com/badge_GithubActions.svg" alt="[ Github Actions ]"/>|<img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=Notion&logoColor=white"/><br><img src="https://img.shields.io/badge/Swagger-85EA2E?style=flat-square&logo=Swagger&logoColor=black"/><br><img src="https://img.shields.io/badge/Slack-4A154B?style=flat-square&logo=Slack&logoColor=white"/>
-```
-- Frontend : React, JavaScript, Redux
-- Backend : Spring Boot, Java | Security, JWT, OAuth2 | STOMP, RabbitMQ
-- Database : MySQL, MongoDB
-- Deployment : AWS Amplify, AWS Elastic Beanstalk, Docker, Github Actions
-- Documentation : Notion, Swagger
-- Notification : Slack
-```
-&#8594;&nbsp;&nbsp;***BE Version***&nbsp;:&nbsp;&nbsp;Java 17 · Spring Boot 3.1.11
-<br><br>
-
-
-
-## 🗂️ Database
-![devrace DB ERD](https://github.com/Dev-Race/DevRace-backend/assets/56509933/cc34957c-5429-4fd0-b95d-8c9d9024f77e)
-<br><br>
 
 
 
