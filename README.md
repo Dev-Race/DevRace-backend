@@ -18,6 +18,10 @@
 4. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
 5. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
 6. &nbsp;&nbsp;[💻 Architecture](#-architecture)
+  - &nbsp;[System](#system)
+  - &nbsp;[Network](#network)
+  - &nbsp;CI/CD flow
+  - &nbsp;Slack Notification
 7. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
 8. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
 9. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
