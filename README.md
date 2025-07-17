@@ -18,10 +18,10 @@
 4. &nbsp;&nbsp;[💡 Tech Stack](#-tech-stack)
 5. &nbsp;&nbsp;[🗂️ Database](#%EF%B8%8F-database)
 6. &nbsp;&nbsp;[💻 Architecture](#-architecture)
-  - &nbsp;[System](#system)
-  - &nbsp;[Network](#network)
-  - &nbsp;CI/CD flow
-  - &nbsp;Slack Notification
+   - &nbsp;[System](#system)
+   - &nbsp;[Network](#network)
+   - &nbsp;CI/CD flow
+   - &nbsp;Slack Notification
 7. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
 8. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
 9. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
@@ -171,7 +171,7 @@ Backend|Security|Database|Deployment|Other|
 </details>
 
 <details open>
-  <summary>&nbsp;<strong>&nbsp;&nbsp;<&nbsp;&nbsp;Notification&nbsp;&nbsp;></strong></summary>
+  <summary>&nbsp;<strong>&nbsp;&nbsp;<&nbsp;&nbsp;Slack Notification&nbsp;&nbsp;></strong></summary>
   <br>
 
 ![slack collaboration_alarm](https://github.com/Dev-Race/DevRace-backend/assets/56509933/888fd684-76bf-4c77-a25b-d4a2ca3daf16)
