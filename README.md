@@ -69,7 +69,10 @@
 
 
 ## 📹 Demo
-<strong>📀&nbsp;&nbsp;Demo Video</strong>&nbsp;:&nbsp;&nbsp;<a href="https://youtu.be/f9BmJG7zTxA">Play!</a><br>
+<strong>📀&nbsp;&nbsp;Demo Video</strong>&nbsp;:&nbsp;&nbsp;<a href="https://youtu.be/f9BmJG7zTxA">Play</a><br>
+
+<details>
+  <summary>&nbsp;<strong>🌠&nbsp;&nbsp;Demo Images</strong>&nbsp;:&nbsp;&nbsp;Open!</summary>
 
 - #### 로그인 페이지&nbsp;&nbsp;-&nbsp;&nbsp;소셜 로그인 / 회원가입
 ![login_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/2bcd5e7e-a6a6-4fc1-9432-c850b4780e4f)
@@ -88,7 +91,8 @@
 
 - #### 내 코드 페이지&nbsp;&nbsp;-&nbsp;&nbsp;코드 정렬 / 검색
 ![mycode_gif](https://github.com/Dev-Race/DevRace-backend/assets/56509933/f3118109-d860-4353-a24e-cbe65d4e445b)
-<br><br>
+</details>
+<br>
 
 
 
