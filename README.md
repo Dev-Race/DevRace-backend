@@ -52,13 +52,13 @@
 - <strong>기간</strong>&nbsp;:&nbsp;&nbsp;2024.04.29 ~ 06.16
 
 - #### [PM] 기획 명세서
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/339fd77b-e3ed-447d-a04b-a9c4c753780f" /></details>
-  - <details><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 일정 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/f2951c3d-f396-479c-a14f-4d418f9f7894" /></details>
+  - <details open><summary>&nbsp;<a href="https://docs.google.com/spreadsheets/d/18bLgLlZGMPsulnnqDtMa3JtHX4kLwSqaXHfTSW5EAvw/edit?usp=sharing">WBS 일정 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/f2951c3d-f396-479c-a14f-4d418f9f7894" width="84%" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/7384e0322e8d480c8f639ae1a84915fa?v=eda603b2a8844e6fa244492f502ba129&pvs=4">기능 상세 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/339fd77b-e3ed-447d-a04b-a9c4c753780f" width="84%" /></details>
 
 - #### [BE] API 명세서
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/6eb6125b-ece3-4853-a96d-b2255856ee16" /></details>
-  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/c165ed3c-d3f6-48f7-a28f-72a63b388db6" /></details>
-  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/16b548eb-c21b-4d4f-bb71-47d1ea0d5e01" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2071d1695b254b78a1367ef555d6b820?v=336213c0a3b345f28fdb4ef181044d31&pvs=4">Rest API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/6eb6125b-ece3-4853-a96d-b2255856ee16" width="84%" /></details>
+  - <details><summary>&nbsp;<a href="https://sahyunjin.notion.site/2e577f50c85648cdaae86aeeae66be5a?v=a717219fcb494da39e765bea246b6cfd&pvs=4">WebSocket API 명세서</a></summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/c165ed3c-d3f6-48f7-a28f-72a63b388db6" width="84%" /></details>
+  - <details><summary>&nbsp;Swagger API 명세서</summary><br><img src="https://github.com/Dev-Race/DevRace-backend/assets/56509933/16b548eb-c21b-4d4f-bb71-47d1ea0d5e01" width="84%" /></details>
 
 - #### [BE] 성능 개선기 📝
   - [블로그]&nbsp;&nbsp;<a href="https://velog.io/@tkguswls1106/JPA-N1-%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0-Fetch-Join-Inner-Left-vs-EntityGraph-%EB%B9%84%EA%B5%90%EB%B6%84%EC%84%9D">N+1 문제 해결 - Fetch Join (Inner, Left) vs @EntityGraph 비교 분석</a>
