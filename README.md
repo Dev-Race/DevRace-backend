@@ -24,7 +24,7 @@
    - &nbsp;Slack Notification
 7. &nbsp;&nbsp;[🤝 Git Convention](#-git-convention)
 8. &nbsp;&nbsp;[📂 Package Convention](#-package-convention)
-9. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#-team)
+9. &nbsp;&nbsp;[👨‍👩‍👧‍👧 Team](#%E2%80%8D%E2%80%8D%E2%80%8D-team)
 </details>
 <br>
 
